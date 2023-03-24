@@ -15,6 +15,9 @@ You can compile code with `sbt compile`, run it with `sbt run`, and `sbt console
 #### [Marcel](https://github.com/ma161ric)
 ![image](https://github-readme-streak-stats.herokuapp.com/?user=ma161ric)
 
+#### [Sarah](https://github.com/sxrxhxmxsxrxs)
+![image](https://github-readme-streak-stats.herokuapp.com/?user=sxrxhxmxsxrxs)
+
 ## JOTD - Joke of the Day
 ![Jokes Card](https://readme-jokes.vercel.app/api)
 
