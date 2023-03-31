@@ -1,5 +1,5 @@
 @main def gamefinal: Unit =
-  println("Welcome to my game!")
+  println("Welcome to my game!!")
   println(mesh(3, 8))
 
 val eol = sys.props("line.separator")
