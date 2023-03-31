@@ -1,6 +1,11 @@
 *.class
 *.log
+.scalafmt.conf
 .vscode/
 .metals/
+.bloop/
+.bsp/
 /target/
 /project/target/
+/project/project/
+/project/.bloop/

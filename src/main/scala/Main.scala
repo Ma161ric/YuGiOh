@@ -1,5 +1,14 @@
-@main def hello: Unit = 
-  println("Hello world!")
-  println(msg)
+@main def gamefinal: Unit =
+  println("Welcome to my game!")
+  println(mesh(3, 8))
 
-def msg = "I was compiled by Scala 3. :)"
+val eol = sys.props("line.separator")
+def bar(cellWidth: Int = 3, cellNum: Int = 3) =
+  ("+" + "-" * cellWidth) * cellNum + "+" + eol
+def cells(cellWidth: Int = 3, cellNum: Int = 3) =
+  ("|" + " " * cellWidth) * cellNum + "|" + eol
+def mesh(cellWidth: Int = 8, cellNum: Int = 8) =
+  (bar(cellWidth, cellNum) + cells(cellWidth, cellNum)) * cellNum + bar(
+    cellWidth,
+    cellNum
+  )
