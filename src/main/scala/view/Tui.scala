@@ -1,5 +1,7 @@
 package view
 
-class Tui {
+import model.Field
 
+class Tui {
+  //def processInputLine(size: Int, field: Field): Field = {}
 }
