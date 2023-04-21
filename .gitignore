@@ -1,5 +1,12 @@
 *.class
 *.log
+*.iml
+*.ipr
+*.iws
+.idea
+.history
+.scala_dependencies
+.cache-main
 .scalafmt.conf
 .vscode/
 .metals/
@@ -9,3 +16,4 @@
 /project/target/
 /project/project/
 /project/.bloop/
+null/

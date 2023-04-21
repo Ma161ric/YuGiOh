@@ -26,15 +26,18 @@ import view.Tui
   //..
   print("Size of game: ")
   val size = readLine().toInt // muss integer sein, sollte wert 6 haben
-
   val field = Field(size)
-  //val field = tui.processInputLine(size, field)
+
+  print("Who starts first? ") // input 1 or 2 or q
+  val input = readLine()
+  val tuiField: Unit = tui.processInputLine(input, field)
 
   println(field.toString)
-  println(field.mesh(size,size))
-  println(field.innerBar(1,1))
-  println(field.innerBar(1,2))
-  println(field.innerBar(1,1))
+  println(field.mesh(size,size, input))
+
+
+
+
 
 
 

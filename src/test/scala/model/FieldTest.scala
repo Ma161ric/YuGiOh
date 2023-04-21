@@ -41,16 +41,37 @@ class FieldTest extends AnyWordSpec:
       field1.LPStatsCell(1,1) should be("| |" + eol)
       field1.LPStatsCell(1,2) should be("|  |" + eol)
       field1.LPStatsCell(2,1) should be("|   |" + eol)
-
+    }
+    "have LPStatsCellsPlayer as String of form '| Player 1      |'" in {
+      field.LPStatsCellPlayer() should be("| Player 1      |" + eol)
+    }
+    "have scalable LPStatsCellsPlayer" in {
+      field1.LPStatsCellPlayer(1, 1, "1") should be("| Player 1|" + eol)
+      field1.LPStatsCellPlayer(1, 2, "1") should be("| Player 1 |" + eol)
+      field1.LPStatsCellPlayer(2, 1, "1") should be("| Player 1|" + eol)
+      field1.LPStatsCellPlayer(1, 1, "2") should be("| Player 2|" + eol)
+      field1.LPStatsCellPlayer(1, 2, "2") should be("| Player 2 |" + eol)
+      field1.LPStatsCellPlayer(2, 1, "2") should be("| Player 2|" + eol)
+    }
+    "have LPStatsCellsOtherPlayer as String of form '| Player 2      |'" in {
+      field.LPStatsCellOtherPlayer() should be("| Player 2      |" + eol)
+    }
+    "have scalable LPStatsCellsOtherPlayer" in {
+      field1.LPStatsCellOtherPlayer(1, 1, "1") should be("| Player 2|" + eol)
+      field1.LPStatsCellOtherPlayer(1, 2, "1") should be("| Player 2 |" + eol)
+      field1.LPStatsCellOtherPlayer(2, 1, "1") should be("| Player 2|" + eol)
+      field1.LPStatsCellOtherPlayer(1, 1, "2") should be("| Player 1|" + eol)
+      field1.LPStatsCellOtherPlayer(1, 2, "2") should be("| Player 1 |" + eol)
+      field1.LPStatsCellOtherPlayer(2, 1, "2") should be("| Player 1|" + eol)
     }
     "have default mesh" in {
       field.mesh() should be(
-        ("+---+---+---+" + eol + "|           |" + eol + "+---+---+---+" + eol) + ("|   |   |   |" + eol) * 2 + ("+   +---+---+" + eol)*2
-        + ("|   |   |   |" + eol) *2 + "+   +---+---+" + eol + ("|   |   |   |" + eol) *2  + ("+---+---+---+" + eol + "|           |" + eol + "+---+---+---+" + eol)
+        ("+---+---+---+" + eol + "| Player 2      |" + eol + "+---+---+---+" + eol) + ("|   |   |   |" + eol) * 2 + ("+   +---+---+" + eol)*2
+        + ("|   |   |   |" + eol) *2 + "+   +---+---+" + eol + ("|   |   |   |" + eol) *2  + ("+---+---+---+" + eol + "| Player 1      |" + eol + "+---+---+---+" + eol)
       )
     }
 
     "have a mesh in the form +-+  | |+-+" in {
-      field1.mesh() should be("+-+" + eol + "| |" + eol + "+-+" + eol + "| |" + eol + ("+ +" + eol)*2 + "| |" + eol + "+ +" + eol + "| |" + eol + "+-+" + eol + "| |" + eol + "+-+" + eol)
+      field1.mesh() should be("+-+" + eol + "| Player 2|" + eol + "+-+" + eol + "| |" + eol + ("+ +" + eol)*2 + "| |" + eol + "+ +" + eol + "| |" + eol + "+-+" + eol + "| Player 1|" + eol + "+-+" + eol)
     }
   }
