@@ -23,6 +23,7 @@ import view.Tui
   }
   println()
 
+  //..
   print("Size of game: ")
   val size = readLine().toInt // muss integer sein, sollte wert 6 haben
 
