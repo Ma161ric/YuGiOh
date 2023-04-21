@@ -1,5 +1,6 @@
 *.class
 *.log
+.idea/
 .scalafmt.conf
 .vscode/
 .metals/
@@ -9,3 +10,7 @@
 /project/target/
 /project/project/
 /project/.bloop/
+projects/metals.sbt
+.metals
+.tasty
+
