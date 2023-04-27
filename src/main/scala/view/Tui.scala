@@ -15,14 +15,14 @@ class Tui (controller: Controller) extends Observer:
 
   def setInitialHand(): Unit =
     //ziehe die ersten drei karten vom deck
-    val hand = Hand(fillList(Card.emptyCard, 6))
+    val hand = Hand(fillList(Card.empty, 6))
 
   def emptyHand(size: Int): Unit =
-    val emptyHand = Hand(fillList(Card.emptyCard, size))
+    val emptyHand = Hand(fillList(Card.empty, size))
     controller.setHandPlayer(emptyHand)
 
   def emptyFightField(size: Int): Unit =
-    val emptyFightField = FightField(fillList(Card.emptyCard, size))
+    val emptyFightField = FightField(fillList(Card.empty, size))
     controller.setFightFieldPlayer1(emptyFightField)
     controller.setFightFieldPlayer2(emptyFightField)
 

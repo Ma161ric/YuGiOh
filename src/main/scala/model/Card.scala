@@ -9,7 +9,7 @@ enum CardName(firstName: String):
   case weisser extends CardName("Weisser")
   case boeser extends CardName("Böser")
   case guter extends CardName("Guter")
-  case empty extends CardName("No")
+  case emptyName extends CardName("No")
 
 enum CardLastName(lastName: String):
   override def toString:String = lastName
@@ -20,7 +20,7 @@ enum CardLastName(lastName: String):
   case Gnom extends CardLastName("Gnom")
   case Reiter extends CardLastName("Reiter")
   case Krieger extends CardLastName("Krieger")
-  case empty extends CardLastName("Card")
+  case emptyLastName extends CardLastName("Card")
 
 
 enum Card(firstName: CardName, lastName: CardLastName, atk: Int, defe: Int, position: String):
@@ -34,19 +34,21 @@ enum Card(firstName: CardName, lastName: CardLastName, atk: Int, defe: Int, posi
   def getDefe = defe;
   def getPosition = position;
 
-  val cardNames = List(CardName.roter, CardName.schwarzer, CardName.blauer, CardName.weisser, CardName.boeser, CardName.guter, CardName.empty)
-  val cardLastNames = List(CardLastName.Drache, CardLastName.Magier, CardLastName.Hexer, CardLastName.Gnom, CardLastName.Krieger, CardLastName.Reiter, CardLastName.empty)
 
-  val deckNamesList: List[(CardName, CardLastName)] = 
+  def generateDeckCards(): List[Card] = {
+    val cardNames = List(CardName.roter, CardName.schwarzer, CardName.blauer, CardName.weisser, CardName.boeser, CardName.guter, CardName.emptyName)
+    val cardLastNames = List(CardLastName.Drache, CardLastName.Magier, CardLastName.Hexer, CardLastName.Gnom, CardLastName.Krieger, CardLastName.Reiter, CardLastName.emptyLastName)
+    val deckAtkList = (200 to 1000 by 20).take(36).toList
+    val deckDefList = (300 to 1000 by 20).take(36).toList
+    val deckPositionList = List.fill(36)("hand")
+    
     for {
       cardName <- cardNames
       cardLastName <- cardLastNames
-    } yield {
-      (cardName, cardLastName)
-    }
-
-  case roterDrache extends Card(CardName.roter,CardLastName.d, 500, 200, "hand")
-  case schwarzerDrache extends Card(CardName.schwarzer,"Drache", 450, 200, "hand")
-  case blauerDrache extends Card(CardName.blauer,"Drache", 400, 200, "hand")
-  case weisserDrache extends Card(CardName.weisser,"Drache", 500, 300, "hand")
-  case emptyCard extends Card("No","Card",0,0, "hand")
+      atk <- deckAtkList
+      defe <- deckDefList
+      position <- deckPositionList
+    } yield Card(cardName, cardLastName, atk, defe, position)
+  }
+  
+  case empty extends Card(CardName.emptyName, CardLastName.emptyLastName, 0, 0, "hand")
