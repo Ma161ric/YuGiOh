@@ -1,17 +1,18 @@
+import controller.Controller
+
 import scala.io.StdIn.readLine
-import model.{Card, Field, Hand, FightField, Player}
+import model.{Card, Field, FightField, Hand, Player}
 import view.Tui
 
 @main def run: Unit =
-  val tui = new Tui
+
 
   println("Welcome to my game!")
 
   print("Size of game (min 4): ")
   val size = readLine().toInt // muss integer sein, sollte wert 6 haben
-  val emptyHand = Hand(size, List.fill(size)(Card.emptyCard))
-  val emptyFightField = FightField(size, List.fill(size)(Card.emptyCard))
-  val field = Field(size, 1, 40, emptyHand, emptyFightField)
+  val emptyHand = Hand(List.fill(size)(Card.emptyCard))
+  val emptyFightField = FightField(List.fill(size)(Card.emptyCard))
 
   println("Please enter your names: ")
   print("Player 1 Name: ")
@@ -30,6 +31,9 @@ import view.Tui
     println()
   }
 
+  val field = Field(size, 1, 40, emptyHand, emptyFightField, firstPlayer, secondPlayer)
+  val controller = Controller(field)
+  val tui = new Tui(controller)
 
 
   print("Who starts first (1 or 2)? ") // input 1 or 2 or q

@@ -10,9 +10,9 @@ class CardTest extends AnyWordSpec{
       val defe = 400
       val card = Card.emptyCard
       "have a name" in {
-        card.name should be("Card Name")
-        card.atk should be(300)
-        card.dev should be(400)
+        card.getFirstName should be("No")
+        card.getAtk should be(0)
+        card.getDefe should be(0)
       }
       "have a nice String representation" in {
         card.toString should be("Card Name")
