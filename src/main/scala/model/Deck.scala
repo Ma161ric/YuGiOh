@@ -1,3 +1,4 @@
 package model
 
-case class Deck()
+case class Deck(deck: List[Card]):
+  def getDeck = deck

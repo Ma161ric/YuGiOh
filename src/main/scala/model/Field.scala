@@ -8,8 +8,8 @@ case class Field(size: Int, round: Int = 1, deck: Int = 40, hand: Hand, fightFie
     ("+" + "-" * cellWidth) * (cellNum + 1) + "+" + eol
   def outerOuterBar(cellWidth: Int = 3, cellNum: Int = 3) =
     ("+") + ("-" * cellWidth) * (cellNum + 1) + "-" * cellNum + "+" + eol
-  def otherPlayerRow(cellWidth: Int = 3, cellNum: Int = size, fightField: FightField) =
-    fightField.otherPlayerRow(cellWidth, cellNum, fightField.getCards)
+  def otherPlayerRow(cellWidth: Int = 3, cellNum: Int = size, fightField: FightField, round: Int = 1) =
+    fightField.otherPlayerRow(cellWidth, cellNum, fightField.getCards, round)
   def playerHandRow(cellWidth: Int = 3, cellNum: Int = size, hand: Hand) =
     hand.playerHandRow(cellWidth, cellNum, hand.getCards)
   def playerRow(cellWidth: Int = 3, cellNum: Int = size, fightField: FightField, deck: Int = deck) =
@@ -27,7 +27,7 @@ case class Field(size: Int, round: Int = 1, deck: Int = 40, hand: Hand, fightFie
       outerOuterBar(cellWidth,cellNum)
       + playerStatsRow(cellWidth, cellNum, player2)
       + outerBar(cellWidth, cellNum)
-      + otherPlayerRow(cellWidth, cellNum, player2.getFightField)
+      + otherPlayerRow(cellWidth, cellNum, player2.getFightField, round)
       + playerRow(cellWidth, cellNum, player1.getFightField)
       + playerHandRow(cellWidth, cellNum, player1.getHand)
       + outerBar(cellWidth, cellNum)

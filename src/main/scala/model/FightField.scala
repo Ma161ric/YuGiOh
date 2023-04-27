@@ -7,6 +7,16 @@ case class FightField(fightField: List[Card]):
 
   def getSize = fightField.size
 
+  def addCard(card: Card): FightField =
+    val (left, right) = fightField.zipWithIndex.partition{ case (noCard, _) => noCard.toString != "No Card" }
+    val firstZeroIndex = right.headOption.map(_._2)
+    val updatedFightFieldList = firstZeroIndex match {
+      case Some(index) => left.map { case (c, _) => c } ++ Seq(card) ++ right.tail.map { case (c, _) => c }
+      case None => fightField :+ card
+    }
+    val updatedFightField = FightField(updatedFightFieldList)
+    updatedFightField
+
   def roundCounterCell(cellWidth: Int = 3, round: Int = 1) =
     "|" + "Round: " + round + (" " * (cellWidth - (round.toString.length + 8))) + " "
 

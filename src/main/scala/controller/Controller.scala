@@ -23,10 +23,14 @@ case class Controller(var field: Field) extends Observable {
     notifyObservers
 
   def setHandPlayer(hand: Hand) =
-    field.playerHandRow(10, hand.getSize, hand)
-    //hand.playerHandRow(10, hand.getSize, hand.getCards)
+    hand.playerHandRow(10, hand.getSize, hand.getCards)
     notifyObservers
 
+  def countRound(fightField: FightField, round: Int) =
+    val newRound = round + 1
+    fightField.innerRoundBar(10, fightField.getSize, newRound)
+    notifyObservers
+    
   def setFightFieldPlayer1(fightField: FightField) =
     fightField.playerRow(10, fightField.getSize, fightField.getCards, 40)
     notifyObservers

@@ -19,6 +19,7 @@ import scala.util.Random
     input = readLine()
   }
   val size = input.toInt
+  //size später vllt auf 6 hardcoden
   // muss integer sein, sollte wert 6 haben
   val emptyHand = Hand(List.fill(size)(Card.emptyCard))
   val emptyFightField = FightField(List.fill(size)(Card.emptyCard))

@@ -5,6 +5,8 @@ case class Hand(hand: List[Card]):
 
   def getCards: List[Card] = hand
 
+  def getCard(i: Int): Card = hand(i-1)
+
   def getSize: Int = hand.size
 
   def emptyCell(cellWidth: Int = 3): String = "|" + " " * cellWidth
