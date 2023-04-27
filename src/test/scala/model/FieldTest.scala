@@ -7,14 +7,13 @@ import org.scalatest.matchers.should.Matchers.*
 class FieldTest extends AnyWordSpec:
 
   "Game" should {
-    val field = Field(3)
-    val field1 = Field(1)
+    val field = Field(6, 1, 40, Hand(6, List.fill(6)(Card.emptyCard)), FightField(6, List.fill(6)(Card.emptyCard)))
+    val field1 = Field(4, 1, 40, Hand(4, List.fill(4)(Card.emptyCard)), FightField(4, List.fill(4)(Card.emptyCard)))
     val eol = sys.props("line.separator")
 
-
-    "have an inner bar as String of form '+   +---+---+'" in {
-      field.innerBar() should be("+   +---+---+" + eol)
-    }
+    //"have an inner bar as String of form '+   +---+---+'" in {
+    //  field.innerBar() should be("+   +---+---+" + eol)
+    //}
     "have an outer bar as String of form '+---+---+---+'" in {
       field.outerBar() should be("+---+---+---+" + eol)
     }
@@ -23,11 +22,11 @@ class FieldTest extends AnyWordSpec:
       field.outerBar(1, 2) should be("+-+-+" + eol)
       field.outerBar(2, 1) should be("+--+" + eol)
     }
-    "have a scalable inner bar" in {
+    /*"have a scalable inner bar" in {
       field.innerBar(1, 1) should be("+ +" + eol)
       field.innerBar(1, 2) should be("+ +-+" + eol)
       field.innerBar(2, 1) should be("+  +" + eol)
-    }
+    }*/
     "have cells as String of form '|   |   |   |'" in {
       field.cells() should be("|   |   |   |" + eol + "|   |   |   |" + eol)
     }

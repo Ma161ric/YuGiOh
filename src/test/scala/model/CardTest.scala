@@ -7,8 +7,8 @@ class CardTest extends AnyWordSpec{
   "A Card" when {
     "new" should {
       val atk = 300
-      val dev = 400
-      val card = Card("Card Name", atk, dev)
+      val defe = 400
+      val card = Card.emptyCard
       "have a name" in {
         card.name should be("Card Name")
         card.atk should be(300)
