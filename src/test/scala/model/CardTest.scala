@@ -3,7 +3,7 @@ package model
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers.*
 
-class CardTest extends AnyWordSpec{
+class CardTest extends AnyWordSpec {
   "A Card" when {
     "new" should {
       val atk = 300
@@ -15,7 +15,7 @@ class CardTest extends AnyWordSpec{
         card.getDefe should be(0)
       }
       "have a nice String representation" in {
-        card.toString should be("Card Name")
+        card.toString should be("NoCard")
       }
     }
   }

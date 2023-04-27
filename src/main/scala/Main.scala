@@ -19,10 +19,9 @@ import scala.util.Random
     input = readLine()
   }
   val size = input.toInt
-  //size später vllt auf 6 hardcoden
   // muss integer sein, sollte wert 6 haben
-  val emptyHand = Hand(List.fill(size)(Card.empty))
-  val emptyFightField = FightField(List.fill(size)(Card.empty))
+  val emptyHand = Hand(List.fill(size)(Card.emptyCard))
+  val emptyFightField = FightField(List.fill(size)(Card.emptyCard))
 
   println("Please enter your names: ")
   print("Player 1 Name: ")
@@ -35,7 +34,6 @@ import scala.util.Random
     println("Player 1 and Player 2 cannot have the same name!")
     print("Player 2 Name: ")
     input = readLine()
-    println()
   }
   val secondName = input
   val firstPlayer = Player(firstName, false, emptyHand, emptyFightField)
@@ -45,23 +43,19 @@ import scala.util.Random
     Field(size, 1, 40, emptyHand, emptyFightField, firstPlayer, secondPlayer)
   val controller = Controller(field)
   val tui = new Tui(controller)
+  tui.run(size, firstPlayer, secondPlayer)
 
   // print("Who starts first (1 or 2)? ") // input 1 or 2 or q
   // input = readLine()
-  val goFirst = rnd.nextInt(2) + 1
-  if (goFirst == 1) {
-    println(firstPlayer.name + " starts first !") // input 1 or 2 or q
-  } else {
-    println(secondPlayer.name + " starts first !")
-  }
-  val tuiField: Unit =
-    tui.processInputLine(
-      size,
-      goFirst.toString(),
-      field,
-      firstPlayer,
-      secondPlayer
-    )
+  // val goFirst = rnd.nextInt(2) + 1
+  // val tuiField: Unit =
+  //   tui.processInputLine(
+  //     size,
+  //     goFirst.toString(),
+  //     field,
+  //     firstPlayer,
+  //     secondPlayer
+  //   )
 
   // println(field.toString)
   // println(field.mesh(size,size, input, Card.roterDrache))
