@@ -1,4 +1,4 @@
-package aview
+package de.htwg.se.yuGiOh.aview
 
 import controller.Controller
 import util.Observer
