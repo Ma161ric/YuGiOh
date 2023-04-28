@@ -40,10 +40,17 @@ import scala.util.Random
   val secondPlayer = Player(secondName, false, emptyHand, emptyFightField)
 
   val field =
-    Field(size, 1, 40, emptyHand, emptyFightField, firstPlayer, secondPlayer)
+    Field(size, 1, 40, firstPlayer, secondPlayer)
   val controller = Controller(field)
   val tui = new Tui(controller)
-  tui.run(size, firstPlayer, secondPlayer)
+
+  while (input != "q" || input != "exit") {
+    tui.printhelp()
+    input = readLine()
+    tui.processInputLine(input)
+  }
+
+  //tui.run(size, firstPlayer, secondPlayer)
 
   // print("Who starts first (1 or 2)? ") // input 1 or 2 or q
   // input = readLine()

@@ -5,13 +5,13 @@ import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers.*
 
 class FieldTest extends AnyWordSpec:
-  val player1 = Player(
+  val player1: Player = Player(
     "Your Name",
     false,
     Hand(List.fill(5)(Card.emptyCard)),
     FightField(List.fill(5)(Card.emptyCard))
   )
-  val player2 = Player(
+  val player2: Player = Player(
     "Your Name",
     false,
     Hand(List.fill(5)(Card.emptyCard)),
@@ -23,8 +23,6 @@ class FieldTest extends AnyWordSpec:
       6,
       1,
       40,
-      Hand(List.fill(6)(Card.emptyCard)),
-      FightField(List.fill(6)(Card.emptyCard)),
       player1,
       player2
     )
@@ -32,8 +30,6 @@ class FieldTest extends AnyWordSpec:
       4,
       1,
       40,
-      Hand(List.fill(4)(Card.emptyCard)),
-      FightField(List.fill(4)(Card.emptyCard)),
       player1,
       player2
     )

@@ -8,18 +8,17 @@ import scala.io.StdIn.readLine
 
 class Tui(controller: Controller) extends Observer:
   controller.add(this)
-  def run(size: Int, player1: Player, player2: Player) =
+  /*def run(size: Int, player1: Player, player2: Player) =
     // setPlayerStats(player1, player2)
     // emptyFightField(size)
     // emptyHand(size)
     println(controller.field.toString)
     printhelp()
-    processInputLine()
+    //processInputLine()*/
 
-  override def update = println(controller.field.toString)
+  override def update: Unit = println(controller.field.toString)
 
-  def processInputLine(): Unit = {
-    val input = readLine()
+  def processInputLine(input: String): Unit = {
     input match
       case "exit" | "q" =>
         println("End Game!")
@@ -28,6 +27,7 @@ class Tui(controller: Controller) extends Observer:
         printhelp()
       case "new" | "n" =>
         println("new game")
+        println(controller.field.toString)
       case "draw" | "d" =>
         println("draw card")
       case "play" | "p" =>
@@ -36,22 +36,21 @@ class Tui(controller: Controller) extends Observer:
         println("attack")
       case _ =>
         printhelp()
-    processInputLine()
   }
 
-  def fillList[A](element: A, n: Int): List[A] =
-    List.fill(n)(element)
+  /*def fillList[A](element: A, n: Int): List[A] =
+    List.fill(n)(element)*/
 
-  def setInitialHand(): Unit =
+  /*def setInitialHand(size: Int): Unit =
     // ziehe die ersten drei karten vom deck
-    val hand = Hand(fillList(Card.emptyCard, 6))
+    val hand = Hand(List.fill(6)(Card.emptyCard))*/
 
-  def emptyHand(size: Int): Unit =
-    val emptyHand = Hand(fillList(Card.emptyCard, size))
+  /*def emptyHand(size: Int): Unit =
+    val emptyHand = Hand(List.fill(size)(Card.emptyCard))
     controller.setHandPlayer(emptyHand)
 
   def emptyFightField(size: Int): Unit =
-    val emptyFightField = FightField(fillList(Card.emptyCard, size))
+    val emptyFightField = FightField(List.fill(size)(Card.emptyCard))
     controller.setFightFieldPlayer1(emptyFightField)
     controller.setFightFieldPlayer2(emptyFightField)
 
@@ -142,10 +141,11 @@ class Tui(controller: Controller) extends Observer:
     controller.setNamePlayer1(player1.toString)
     controller.setLpPlayer1(player1.getLp)
     controller.setNamePlayer2(player2.toString)
-    controller.setLpPlayer2(player2.getLp)
+    controller.setLpPlayer2(player2.getLp)*/
 
-  def printhelp() =
-    print("""
+  def printhelp(): Unit =
+    print(
+      """
       Befehlsuebersicht:
       - help | h                  : this help comment
       - exit | q                  : leaves the game
