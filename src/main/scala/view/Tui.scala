@@ -8,13 +8,11 @@ import scala.io.StdIn.readLine
 
 class Tui(controller: Controller) extends Observer:
   controller.add(this)
-  /*def run(size: Int, player1: Player, player2: Player) =
-    // setPlayerStats(player1, player2)
-    // emptyFightField(size)
-    // emptyHand(size)
+  def run() =
     println(controller.field.toString)
     printhelp()
-    //processInputLine()*/
+    val input = readLine()
+    processInputLine(input)
 
   override def update: Unit = println(controller.field.toString)
 
@@ -27,7 +25,7 @@ class Tui(controller: Controller) extends Observer:
         printhelp()
       case "new" | "n" =>
         println("new game")
-        println(controller.field.toString)
+        run()
       case "draw" | "d" =>
         println("draw card")
       case "play" | "p" =>
@@ -149,8 +147,8 @@ class Tui(controller: Controller) extends Observer:
       Befehlsuebersicht:
       - help | h                  : this help comment
       - exit | q                  : leaves the game
-      - new  |                    : creates new game
-      - attack | "a"              : attack with card from player
+      - new  | n                  : creates new game
+      - attack | a                : attack with card from player
       - draw | d                  : draw one card from deck to hand 
       - play | p                  : places card from player hand to fight field
       """ + "\n")

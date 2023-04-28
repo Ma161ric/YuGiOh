@@ -75,4 +75,4 @@ enum Card(
   case weisserDrache
       extends Card(CardName.weisser, CardLastName.Drache, 500, 300, "hand")
   case emptyCard
-      extends Card(CardName.emptyName, CardLastName.emptyLastName, 0, 0, "hand")
+      extends Card(CardName.emptyName, CardLastName.emptyLastName, 0, 0, " ")
