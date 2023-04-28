@@ -3,10 +3,10 @@ package util
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers.*
 
-class ObserverTest extends AnyWordSpec {
+class ObservableTest extends AnyWordSpec {
     "An Observable" when {
         "new" should {
-            val observable = new Observable
+            val observable = new Observable {}
             val observer = new Observer {
                 var updated:Boolean = false
                 def isUpdated:Boolean = updated

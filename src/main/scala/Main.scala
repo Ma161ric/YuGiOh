@@ -2,7 +2,7 @@ import controller.Controller
 
 import scala.io.StdIn.readLine
 import model.{Card, Field, FightField, Hand, Player}
-import view.Tui
+import aview.Tui
 import scala.util.Random
 
 @main def run: Unit =

@@ -1,4 +1,4 @@
-package view
+package aview
 
 import model.*
 import controller.Controller
