@@ -50,7 +50,7 @@ import scala.util.Random
     tui.processInputLine(input)
   }
 
-  //tui.run(size, firstPlayer, secondPlayer)
+  // tui.run(size, firstPlayer, secondPlayer)
 
   // print("Who starts first (1 or 2)? ") // input 1 or 2 or q
   // input = readLine()

@@ -12,7 +12,7 @@ class CardTest extends AnyWordSpec {
         card.getLastName should be("Card")
         card.getAtk should be(0)
         card.getDefe should be(0)
-        card.getPosition should be(" ")
+        card.getPosition should be("hand")
       }
       "have a nice String representation" in {
         card.toString should be("NoCard")
