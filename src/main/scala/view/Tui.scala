@@ -19,7 +19,7 @@ class Tui(controller: Controller) extends Observer:
   def processInputLine(input: String): Unit = {
     input match
       case "exit" | "q" =>
-        println("End Game!")
+        println("end game!")
         System.exit(0)
       case "help" | "h" =>
         printhelp()

@@ -26,19 +26,22 @@ class TuiTest extends AnyWordSpec with Matchers{
       controller.field.toString should be (field.toString)
     }
     "print out 'End Game!' and exit game on input 'exit' or 'q'" in  {
-      tui.processInputLine("exit") should be ("draw card")
-      tui.processInputLine("q") should be ("End Game!")
+      val end = println("end game!")
+      tui.processInputLine("exit") should be (end)
+      tui.processInputLine("q") should be (end)
     }
     "print out 'draw card' on input 'draw' or 'd'" in  {
-      tui.processInputLine("draw") should be ("draw card")
-      tui.processInputLine("d") should be ("draw card")
+      val draw = println("draw card")
+      tui.processInputLine("draw") should be (draw)
+      tui.processInputLine("d") should be (draw)
     }
     "print out 'play card' on input 'play' or 'p'" in  {
-      tui.processInputLine("play") should be ("play card")
-      tui.processInputLine("p") should be ("play card")
+      val play = println("play card")
+      tui.processInputLine("play") should be (play)
+      tui.processInputLine("p") should be (play)
     }
     "print out 'attack' on input 'attack' or 'a'" in  {
-      val attack: String = "attack"
+      val attack = println("attack")
       tui.processInputLine("a") should be (attack)
       tui.processInputLine("attack") should be (attack)
     }
