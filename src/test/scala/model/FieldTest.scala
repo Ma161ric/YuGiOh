@@ -7,13 +7,11 @@ import org.scalatest.matchers.should.Matchers.*
 class FieldTest extends AnyWordSpec:
   val player1: Player = Player(
     "Your Name",
-    false,
     Hand(List.fill(5)(Card.emptyCard)),
     FightField(List.fill(5)(Card.emptyCard))
   )
   val player2: Player = Player(
     "Your Name",
-    false,
     Hand(List.fill(5)(Card.emptyCard)),
     FightField(List.fill(5)(Card.emptyCard))
   )

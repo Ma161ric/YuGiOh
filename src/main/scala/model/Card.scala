@@ -39,7 +39,7 @@ enum Card(
   def getDefe = defe;
   def getPosition = position;
 
-  val cardNames = List(
+  /*val cardNames = List(
     CardName.roter,
     CardName.schwarzer,
     CardName.blauer,
@@ -64,7 +64,7 @@ enum Card(
       cardLastName <- cardLastNames
     } yield {
       (cardName, cardLastName)
-    }
+    }*/
 
   case roterDrache
       extends Card(CardName.roter, CardLastName.Drache, 500, 200, "hand")

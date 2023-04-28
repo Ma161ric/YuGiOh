@@ -36,8 +36,8 @@ import scala.util.Random
     input = readLine()
   }
   val secondName = input
-  val firstPlayer = Player(firstName, false, emptyHand, emptyFightField)
-  val secondPlayer = Player(secondName, false, emptyHand, emptyFightField)
+  val firstPlayer = Player(firstName, emptyHand, emptyFightField)
+  val secondPlayer = Player(secondName, emptyHand, emptyFightField)
 
   val field =
     Field(size, 1, 40, firstPlayer, secondPlayer)

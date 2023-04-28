@@ -29,51 +29,49 @@ class HandTest extends AnyWordSpec {
       "have a emptyCell" in {
         hand.emptyCell(6) should be("|      ")
       }
-      //   "have a innerBar" in {
-      //     hand.innerBar(4, 4) should be("|    +----+----+----+----+")
-      //   }
-      //   "have cardsFirstName" in {
-      //     hand.cardsFirstName(6, 6, list) should be(
-      //       "|    " + hand.foldLeft("") { (acc, card) =>
-      //         acc + ("|" + "atk: " + card.atkToString + (" " * (cellWidth - (card.atkToString.length + 5))))
-      //       } + "|"
-      //     )
-      //   }
-      //   "have cardsLastName" in {
-      //     hand.cardsLastName(6, 6, list) should be(
-      //       "|          |Card      |Card      |Card      |Card      |"
-      //     )
-      //   }
-      //   "have cardsAtk" in {
-      //     hand.cardsAtk(6, 6, list) should be(
-      //       "|          |atk: 0    |atk: 0    |atk: 0    |atk: 0    |"
-      //     )
-      //   }
-      //   "have cardsDefe" in {
-      //     hand.cardsDefe(6, 6, list) should be(
-      //       "|          |def: 0    |def: 0    |def: 0    |def: 0    |"
-      //     )
-      //   }
-      //   "have cardsPosition" in {
-      //     hand.cardsPosition(6, 6, list) should be(
-      //       "|          |pos: hand |pos: hand |pos: hand |pos: hand |"
-      //     )
-      //   }
-      //   "have PlayerHandRow" in {
-      //     hand.playerHandRow(6, 6, list) should be(
-      //       "|      +----+----+----+----+----+" + sys.props("line.separator") +
-      //         "|      |No        |No        |No        |No        |No        |" + sys
-      //           .props("line.separator") +
-      //         "|      |Card      |Card      |Card      |Card      |Card      |" + sys
-      //           .props("line.separator") +
-      //         "|      |atk: 0    |atk: 0    |atk: 0    |atk: 0    |atk: 0    |" + sys
-      //           .props("line.separator") +
-      //         "|      |def: 0    |def: 0    |def: 0    |def: 0    |def: 0    |" + sys
-      //           .props("line.separator") +
-      //         "|      |pos: hand |pos: hand |pos: hand |pos: hand |pos: hand |" + sys
-      //           .props("line.separator")
-      //     )
-      //   }
+       "have a innerBar" in {
+         hand.innerBar(4, 4) should be("|    +----+----+----+----+")
+       }
+       "have cardsFirstName" in {
+         hand.cardsFirstName(6, 6, list) should be(
+           hand.emptyCell(6) + "|No        |No        |No        |No        |"
+         )
+       }
+       "have cardsLastName" in {
+         hand.cardsLastName(6, 6, list) should be(
+           hand.emptyCell(6) + "|Card      |Card      |Card      |Card      |"
+         )
+       }
+       "have cardsAtk" in {
+         hand.cardsAtk(6, 6, list) should be(
+           "|          |atk: 0    |atk: 0    |atk: 0    |atk: 0    |"
+         )
+       }
+       "have cardsDefe" in {
+         hand.cardsDefe(6, 6, list) should be(
+           "|          |def: 0    |def: 0    |def: 0    |def: 0    |"
+         )
+       }
+       "have cardsPosition" in {
+        hand.cardsPosition(6, 6, list) should be(
+           "|          |pos: hand |pos: hand |pos: hand |pos: hand |"
+         )
+       }
+       "have PlayerHandRow" in {
+         hand.playerHandRow(6, hand.getSize, list) should be(
+           "|      +----+----+----+----+----+" + sys.props("line.separator") +
+            "|      |No        |No        |No        |No        |No        |" + sys
+               .props("line.separator") +
+             "|      |Card      |Card      |Card      |Card      |Card      |" + sys
+               .props("line.separator") +
+             "|      |atk: 0    |atk: 0    |atk: 0    |atk: 0    |atk: 0    |" + sys
+               .props("line.separator") +
+             "|      |def: 0    |def: 0    |def: 0    |def: 0    |def: 0    |" + sys
+               .props("line.separator") +
+             "|      |pos: hand |pos: hand |pos: hand |pos: hand |pos: hand |" + sys
+               .props("line.separator")
+         )
+       }
     }
   }
 }

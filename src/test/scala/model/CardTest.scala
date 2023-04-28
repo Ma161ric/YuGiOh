@@ -7,6 +7,39 @@ class CardTest extends AnyWordSpec {
   "A Card" when {
     "new" should {
       val card = Card.emptyCard
+      val cardNames = List(CardName.roter, CardName.schwarzer,
+        CardName.blauer
+      ,
+      CardName
+      .weisser
+      ,
+      CardName
+      .boeser
+      ,
+      CardName
+      .guter
+      ,
+      CardName
+      .emptyName)
+      val cardLastNames = List(
+         CardLastName.Drache , CardLastName.Magier
+      ,
+       CardLastName
+      .Hexer
+      ,
+       CardLastName
+      .Gnom
+      ,
+       CardLastName
+      .Krieger
+      ,
+       CardLastName
+      .Reiter
+      ,
+       CardLastName
+      .emptyLastName
+
+      )
       "have a name" in {
         card.getFirstName should be("No")
         card.getLastName should be("Card")

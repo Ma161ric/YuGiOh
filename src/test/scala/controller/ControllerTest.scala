@@ -9,13 +9,11 @@ class ControllerTest extends AnyWordSpec {
   "A Controller" should {
     val player1 = Player(
       "Player1",
-      false,
       Hand(List.fill(5)(Card.emptyCard)),
       FightField(List.fill(5)(Card.emptyCard))
     )
     val player2 = Player(
       "Player2",
-      false,
       Hand(List.fill(5)(Card.emptyCard)),
       FightField(List.fill(5)(Card.emptyCard))
     )
