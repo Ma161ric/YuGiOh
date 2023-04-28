@@ -1,7 +1,6 @@
 package view
 
 import controller.Controller
-import model.{Card, Field, FightField, Hand, Player}
 import util.Observer
 
 import scala.io.StdIn.readLine
@@ -11,30 +10,51 @@ class Tui(controller: Controller) extends Observer:
   def run() =
     println(controller.field.toString)
     printhelp()
-    val input = readLine()
-    processInputLine(input)
+    inputLoop()
 
-  override def update: Unit = println(controller.field.toString)
+  val ERROR = -1
+  val EXIT = 0
+  val SUCCESS = 1
 
-  def processInputLine(input: String): Unit = {
-    input match
+  def inputLoop(): Unit =
+    processInputLine(readLine) match {
+      case ERROR => printhelp()
+      case EXIT =>
+        print("bye\n")
+        System.exit(0)
+      case SUCCESS => print("\n\n")
+    }
+    inputLoop()
+
+  def processInputLine(input: String): Int =
+    if (input.size == 0)
+      print("no input!\n")
+      return ERROR
+    val in = input.split(" ")
+    in(0) match
       case "exit" | "q" =>
         println("end game!")
-        System.exit(0)
+        return EXIT
       case "help" | "h" =>
         printhelp()
-      case "new" | "n" =>
-        println("new game")
-        run()
+        return ERROR
+      // case "new" | "n" =>
+      //   println("new game")
+      //   run()
       case "draw" | "d" =>
         println("draw card")
+        return SUCCESS
       case "play" | "p" =>
         println("play card")
+        return SUCCESS
       case "attack" | "a" =>
         println("attack")
+        return SUCCESS
       case _ =>
         printhelp()
-  }
+        return ERROR
+
+  override def update: Unit = println(controller.field.toString)
 
   /*def fillList[A](element: A, n: Int): List[A] =
     List.fill(n)(element)*/
@@ -142,8 +162,7 @@ class Tui(controller: Controller) extends Observer:
     controller.setLpPlayer2(player2.getLp)*/
 
   def printhelp(): Unit =
-    print(
-      """
+    print("""
       Befehlsuebersicht:
       - help | h                  : this help comment
       - exit | q                  : leaves the game

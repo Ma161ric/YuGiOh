@@ -44,11 +44,7 @@ import scala.util.Random
   val controller = Controller(field)
   val tui = new Tui(controller)
 
-  while (input != "q" || input != "exit") {
-    tui.printhelp()
-    input = readLine()
-    tui.processInputLine(input)
-  }
+  tui.run()
 
   // tui.run(size, firstPlayer, secondPlayer)
 

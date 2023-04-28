@@ -13,10 +13,10 @@ class PlayerTest extends AnyWordSpec {
         player.name should be("Your Name")
       }
       "have a hand" in {
-        player.getHand should be (hand)
+        player.getHand should be(hand)
       }
       "have a fightField" in {
-        player.getHand should be(fightField)
+        player.getFightField should be(fightField)
       }
       "have a nice String representation" in {
         player.toString should be("Your Name")
