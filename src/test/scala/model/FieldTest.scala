@@ -50,6 +50,14 @@ class FieldTest extends AnyWordSpec:
       field.outerBar(1, 2) should be("+-+-+-+" + eol)
       field.outerBar(2, 1) should be("+--+--+" + eol)
     }
+    "have a scalable outerOuter bar" in {
+      field.outerOuterBar(1, 1) should be("+---+" + eol)
+      field.outerOuterBar(1, 2) should be("+-----+" + eol)
+      field.outerOuterBar(2, 1) should be("+-----+" + eol)
+    }
+    // "have a otherPlayerRow" in {
+    //   field.otherPlayerRow(1, 1, field1.fightField, 1) should be}
+
     /*"have a scalable inner bar" in {
       field.innerBar(1, 1) should be("+ +" + eol)
       field.innerBar(1, 2) should be("+ +-+" + eol)
