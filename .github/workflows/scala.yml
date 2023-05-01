@@ -16,13 +16,7 @@ jobs:
         distribution: 'adopt'
     - name: Run tests
       run: sbt clean coverage test
-    - name: Download Codecov
-      run: curl -Os https://uploader.codecov.io/latest/linux/codecov
-    - name: Add x Flag
-      run: chmod +x codecov
-    - name: Run Codecov
-      run: ./codecov -t ${{ secrets.CODECOV_TOKEN }}
-    - name: Run tests
+    - name: Run report
       run: sbt coverageReport
     - name: Use Node.js 16.x
       uses: actions/setup-node@v3
