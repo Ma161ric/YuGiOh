@@ -1,4 +1,5 @@
-package de.htwg.se.yuGiOh.aview
+package main.scala.de.htwg.se.yuGiOh
+package aview
 
 import controller.Controller
 import util.Observer

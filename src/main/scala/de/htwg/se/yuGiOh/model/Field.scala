@@ -1,3 +1,4 @@
+package main.scala.de.htwg.se.yuGiOh
 package model
 
 case class Field(
@@ -20,7 +21,11 @@ case class Field(
       round: Int = 1
   ): String =
     fightField.otherPlayerRow(cellWidth, cellNum, fightField.getCards, round)
-  def playerHandRow(cellWidth: Int = 3, cellNum: Int = size, hand: Hand): String =
+  def playerHandRow(
+      cellWidth: Int = 3,
+      cellNum: Int = size,
+      hand: Hand
+  ): String =
     hand.playerHandRow(cellWidth, cellNum, hand.getCards)
   def playerRow(
       cellWidth: Int = 3,
@@ -34,7 +39,11 @@ case class Field(
     "LP: " + playerLp + (" " * (cellWidth * 2 - (playerLp.length + 4)) + "  ")
   def playerName(cellWidth: Int = 3, playerName: String): String =
     "Player: " + playerName + (" " * (cellWidth * 3 - (playerName.length + 10)) + "   ")
-  def playerStatsRow(cellWidth: Int = 3, cellNum: Int = 3, player: Player): String =
+  def playerStatsRow(
+      cellWidth: Int = 3,
+      cellNum: Int = 3,
+      player: Player
+  ): String =
     "| " + playerName(cellWidth, player.toString) + playerLp(
       cellWidth,
       player.getLp

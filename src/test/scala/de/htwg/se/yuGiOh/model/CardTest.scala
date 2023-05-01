@@ -1,3 +1,4 @@
+package main.scala.de.htwg.se.yuGiOh
 package model
 
 import org.scalatest.wordspec.AnyWordSpec
@@ -7,38 +8,23 @@ class CardTest extends AnyWordSpec {
   "A Card" when {
     "new" should {
       val card = Card.emptyCard
-      val cardNames = List(CardName.roter, CardName.schwarzer,
-        CardName.blauer
-      ,
-      CardName
-      .weisser
-      ,
-      CardName
-      .boeser
-      ,
-      CardName
-      .guter
-      ,
-      CardName
-      .emptyName)
+      val cardNames = List(
+        CardName.roter,
+        CardName.schwarzer,
+        CardName.blauer,
+        CardName.weisser,
+        CardName.boeser,
+        CardName.guter,
+        CardName.emptyName
+      )
       val cardLastNames = List(
-         CardLastName.Drache , CardLastName.Magier
-      ,
-       CardLastName
-      .Hexer
-      ,
-       CardLastName
-      .Gnom
-      ,
-       CardLastName
-      .Krieger
-      ,
-       CardLastName
-      .Reiter
-      ,
-       CardLastName
-      .emptyLastName
-
+        CardLastName.Drache,
+        CardLastName.Magier,
+        CardLastName.Hexer,
+        CardLastName.Gnom,
+        CardLastName.Krieger,
+        CardLastName.Reiter,
+        CardLastName.emptyLastName
       )
       "have a name" in {
         card.getFirstName should be("No")

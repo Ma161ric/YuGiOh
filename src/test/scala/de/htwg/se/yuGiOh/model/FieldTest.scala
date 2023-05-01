@@ -1,3 +1,4 @@
+package main.scala.de.htwg.se.yuGiOh
 package model
 
 import model.Field
