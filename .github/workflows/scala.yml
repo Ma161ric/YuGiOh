@@ -22,6 +22,8 @@ jobs:
       run: chmod +x codecov
     - name: Run Codecov
       run: ./codecov -t ${{ secrets.CODECOV_TOKEN }}
+    - name: Run tests
+      run: sbt coverageReport
     - name: Use Node.js 16.x
       uses: actions/setup-node@v3
       with:
