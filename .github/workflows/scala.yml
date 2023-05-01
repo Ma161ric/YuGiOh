@@ -42,4 +42,4 @@ jobs:
         node-version: 16.x
 
     - name: Coveralls
-        uses: coverallsapp/github-action@v2
+      uses: coverallsapp/github-action@v2
