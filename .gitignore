@@ -1,6 +1,12 @@
 *.class
 *.log
+*.iml
+*.ipr
+*.iws
 .idea/
+.history
+.scala_dependencies
+.cache-main
 .scalafmt.conf
 .vscode/
 .metals/
@@ -13,4 +19,4 @@
 projects/metals.sbt
 .metals
 .tasty
-
+null/

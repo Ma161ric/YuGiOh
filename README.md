@@ -1,3 +1,5 @@
+![Scala CI](https://github.com/ma161ric/YuGiOh/actions/workflows/scala.yml/badge.svg)
+[![Coverage Status](https://coveralls.io/repos/github/Ma161ric/YuGiOh/badge.svg)](https://coveralls.io/github/Ma161ric/YuGiOh?branch=SE05-architectureCorrect)
 ![GitHub contributors](https://img.shields.io/github/contributors/ma161ric/YuGiOh?color=green)
 [![GitHub repo size](https://img.shields.io/github/repo-size/ma161ric/YuGiOh)](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
 
