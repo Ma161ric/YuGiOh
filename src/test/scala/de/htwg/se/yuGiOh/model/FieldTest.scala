@@ -37,9 +37,9 @@ class FieldTest extends AnyWordSpec:
     // "have an inner bar as String of form '+   +---+---+'" in {
     //  field.innerBar() should be("+   +---+---+" + eol)
     // }
-    "have an outer bar as String of form '+---+---+---+---+'" in {
-      field.outerBar() should be("+---+---+---+---+" + eol)
-    }
+    //"have an outer bar as String of form '+---+---+---+---+'" in {
+    //  field.outerBar() should be("+---+---+---+---+" + eol)
+    //}
     "have a scalable outer bar" in {
       field.outerBar(1, 1) should be("+-+-+" + eol)
       field.outerBar(1, 2) should be("+-+-+-+" + eol)

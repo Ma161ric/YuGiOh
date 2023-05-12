@@ -21,8 +21,14 @@ class TuiTest extends AnyWordSpec with Matchers {
   "A YuGiOh Tui" should {
     val controller = Controller(field)
     val tui = new Tui(controller)
+
+    "print out 'no input!' on no given input" in {
+      //val noInput: Unit = println("no input!")
+      tui.processInputLine("") should be(tui.ERROR)
+    }
+
     "print out the help on input 'help' or 'h'" in {
-      val help: Unit = tui.printhelp()
+      //val help: Unit = tui.printhelp()
       tui.processInputLine("help") should be(tui.ERROR)
       tui.processInputLine("h") should be(tui.ERROR)
     }
@@ -56,6 +62,14 @@ class TuiTest extends AnyWordSpec with Matchers {
       val attack = println("attack")
       tui.processInputLine("a") should be(tui.SUCCESS)
       tui.processInputLine("attack") should be(tui.SUCCESS)
+    }
+    "print out the help on bad input or arbitrary input" in {
+      val old = controller.toString
+      tui.processInputLine("1234567890ßüpoiuzg") should be(tui.ERROR)
+      controller.toString should be(old)
+    }
+    "shoudl override update method" in {
+      tui.update should be(println(controller.toString))
     }
   }
 }

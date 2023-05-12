@@ -17,7 +17,7 @@ class Tui(controller: Controller) extends Observer:
   val EXIT = 0
   val SUCCESS = 1
 
-  def inputLoop(): Unit =
+  private def inputLoop(): Unit =
     processInputLine(readLine) match {
       case ERROR => printhelp()
       case EXIT =>
@@ -28,7 +28,7 @@ class Tui(controller: Controller) extends Observer:
     inputLoop()
 
   def processInputLine(input: String): Int =
-    if (input.size == 0)
+    if (input.isEmpty)
       print("no input!\n")
       return ERROR
     val in = input.split(" ")
@@ -55,7 +55,7 @@ class Tui(controller: Controller) extends Observer:
         printhelp()
         return ERROR
 
-  override def update: Unit = println(controller.field.toString)
+  override def update: Unit =  println(controller.field.toString)
 
   /*def fillList[A](element: A, n: Int): List[A] =
     List.fill(n)(element)*/

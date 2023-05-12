@@ -8,7 +8,7 @@ case class FightField(fightField: List[Card]):
 
   def getSize = fightField.size
 
-  def addCard(card: Card): FightField =
+  /*def addCard(card: Card): FightField =
     val (left, right) = fightField.zipWithIndex.partition { case (noCard, _) =>
       noCard.toString != "No Card"
     }
@@ -21,31 +21,30 @@ case class FightField(fightField: List[Card]):
       case None => fightField :+ card
     }
     val updatedFightField = FightField(updatedFightFieldList)
-    updatedFightField
+    updatedFightField*/
 
-  def roundCounterCell(cellWidth: Int = 3, round: Int = 1) =
+  def roundCounterCell(cellWidth: Int, round: Int) =
     "|" + "Round: " + round + (" " * (cellWidth - (round.toString.length + 8))) + " "
 
-  def deckCounterCell(cellWidth: Int = 3, deck: Int = 40) =
+  def deckCounterCell(cellWidth: Int, deck: Int) =
     "|" + "Deck: " + deck + (" " * (cellWidth - (deck.toString.length + 7))) + " "
 
-  def innerRoundBar(cellWidth: Int = 3, cellNum: Int = 3, round: Int = 1) =
+  def innerRoundBar(cellWidth: Int, cellNum: Int, round: Int) =
     roundCounterCell(
       cellWidth,
       round
     ) + ("+" + "-" * cellWidth) * (cellNum) + "+" + eol
 
-  def innerDeckBar(cellWidth: Int = 3, cellNum: Int = 3, deck: Int = 40) =
+  def innerDeckBar(cellWidth: Int, cellNum: Int, deck: Int) =
     deckCounterCell(
       cellWidth,
       deck
     ) + ("+" + "-" * cellWidth) * (cellNum) + "+" + eol
 
-  def emptyCell(cellWidth: Int = 3): String = "|" + " " * cellWidth
+  def emptyCell(cellWidth: Int): String = "|" + " " * cellWidth
 
   def cardsFirstName(
-      cellWidth: Int = 3,
-      cellNum: Int = 3,
+      cellWidth: Int,
       fightFieldCards: List[Card]
   ) =
     emptyCell(cellWidth) +
@@ -55,8 +54,7 @@ case class FightField(fightField: List[Card]):
       } + "|" + eol
 
   def cardsLastName(
-      cellWidth: Int = 3,
-      cellNum: Int = 3,
+      cellWidth: Int,
       fightFieldCards: List[Card]
   ) =
     emptyCell(cellWidth) +
@@ -66,8 +64,7 @@ case class FightField(fightField: List[Card]):
       } + "|" + eol
 
   def cardsAtk(
-      cellWidth: Int = 3,
-      cellNum: Int = 3,
+      cellWidth: Int,
       fightFieldCards: List[Card]
   ) =
     emptyCell(cellWidth) +
@@ -77,8 +74,7 @@ case class FightField(fightField: List[Card]):
       } + "|" + eol
 
   def cardsDefe(
-      cellWidth: Int = 3,
-      cellNum: Int = 3,
+      cellWidth: Int,
       fightFieldCards: List[Card]
   ) =
     emptyCell(cellWidth) +
@@ -88,8 +84,7 @@ case class FightField(fightField: List[Card]):
       } + "|" + eol
 
   def cardsPosition(
-      cellWidth: Int = 3,
-      cellNum: Int = 3,
+      cellWidth: Int,
       fightFieldCards: List[Card]
   ) =
     emptyCell(cellWidth) +
@@ -99,27 +94,27 @@ case class FightField(fightField: List[Card]):
       } + "|" + eol
 
   def otherPlayerRow(
-      cellWidth: Int = 3,
-      cellNum: Int = fightField.size,
+      cellWidth: Int,
+      cellNum: Int,
       fightFieldCards: List[Card],
-      round: Int = 1
+      round: Int
   ) =
-    cardsFirstName(cellWidth, cellNum, fightFieldCards) +
-      cardsLastName(cellWidth, cellNum, fightFieldCards) +
-      cardsAtk(cellWidth, cellNum, fightFieldCards) +
-      cardsDefe(cellWidth, cellNum, fightFieldCards) +
-      cardsPosition(cellWidth, cellNum, fightFieldCards) +
+    cardsFirstName(cellWidth, fightFieldCards) +
+      cardsLastName(cellWidth, fightFieldCards) +
+      cardsAtk(cellWidth, fightFieldCards) +
+      cardsDefe(cellWidth, fightFieldCards) +
+      cardsPosition(cellWidth, fightFieldCards) +
       innerRoundBar(cellWidth, cellNum, round)
 
   def playerRow(
-      cellWidth: Int = 3,
-      cellNum: Int = fightField.size,
+      cellWidth: Int,
+      cellNum: Int,
       fightFieldCards: List[Card],
-      deck: Int = 40
+      deck: Int
   ) =
     innerDeckBar(cellWidth, cellNum, deck) +
-      cardsFirstName(cellWidth, cellNum, fightFieldCards) +
-      cardsLastName(cellWidth, cellNum, fightFieldCards) +
-      cardsAtk(cellWidth, cellNum, fightFieldCards) +
-      cardsDefe(cellWidth, cellNum, fightFieldCards) +
-      cardsPosition(cellWidth, cellNum, fightFieldCards)
+      cardsFirstName(cellWidth, fightFieldCards) +
+      cardsLastName(cellWidth, fightFieldCards) +
+      cardsAtk(cellWidth, fightFieldCards) +
+      cardsDefe(cellWidth, fightFieldCards) +
+      cardsPosition(cellWidth, fightFieldCards)

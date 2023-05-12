@@ -18,5 +18,5 @@
 /project/.bloop/
 projects/metals.sbt
 .metals
-.tasty
+.tastyv
 null/

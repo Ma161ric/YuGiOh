@@ -10,14 +10,13 @@ case class Hand(hand: List[Card]):
 
   def getSize: Int = hand.size
 
-  def emptyCell(cellWidth: Int = 3): String = "|" + " " * cellWidth
+  def emptyCell(cellWidth: Int): String = "|" + " " * cellWidth
 
-  def innerBar(cellWidth: Int = 3, cellNum: Int = 3): String =
+  def innerBar(cellWidth: Int, cellNum: Int): String =
     emptyCell(cellWidth) + ("+" + "-" * cellWidth) * (cellNum) + "+" + eol
 
   def cardsFirstName(
-      cellWidth: Int = 3,
-      cellNum: Int = 3,
+      cellWidth: Int,
       hand: List[Card]
   ): String =
     emptyCell(cellWidth) +
@@ -26,8 +25,7 @@ case class Hand(hand: List[Card]):
           ("|" + card.getFirstName + (" " * (cellWidth - card.getFirstName.length)))
       } + "|" + eol
   def cardsLastName(
-      cellWidth: Int = 3,
-      cellNum: Int = 3,
+      cellWidth: Int,
       hand: List[Card]
   ): String =
     emptyCell(cellWidth) +
@@ -36,7 +34,7 @@ case class Hand(hand: List[Card]):
           ("|" + card.getLastName + (" " * (cellWidth - card.getLastName.length)))
       } + "|" + eol
 
-  def cardsAtk(cellWidth: Int = 3, cellNum: Int = 3, hand: List[Card]): String =
+  def cardsAtk(cellWidth: Int, hand: List[Card]): String =
     emptyCell(cellWidth) +
       hand.foldLeft("") { (acc, card) =>
         acc +
@@ -44,8 +42,7 @@ case class Hand(hand: List[Card]):
       } + "|" + eol
 
   def cardsDefe(
-      cellWidth: Int = 3,
-      cellNum: Int = 3,
+      cellWidth: Int,
       hand: List[Card]
   ): String =
     emptyCell(cellWidth) +
@@ -55,8 +52,7 @@ case class Hand(hand: List[Card]):
       } + "|" + eol
 
   def cardsPosition(
-      cellWidth: Int = 3,
-      cellNum: Int = 3,
+      cellWidth: Int,
       hand: List[Card]
   ): String =
     emptyCell(cellWidth) +
@@ -66,13 +62,13 @@ case class Hand(hand: List[Card]):
       } + "|" + eol
 
   def playerHandRow(
-      cellWidth: Int = 3,
-      cellNum: Int = hand.size,
+      cellWidth: Int,
+      cellNum: Int,
       hand: List[Card]
   ): String =
     innerBar(cellWidth, cellNum) +
-      cardsFirstName(cellWidth, cellNum, hand) +
-      cardsLastName(cellWidth, cellNum, hand) +
-      cardsAtk(cellWidth, cellNum, hand) +
-      cardsDefe(cellWidth, cellNum, hand) +
-      cardsPosition(cellWidth, cellNum, hand)
+      cardsFirstName(cellWidth, hand) +
+      cardsLastName(cellWidth, hand) +
+      cardsAtk(cellWidth, hand) +
+      cardsDefe(cellWidth, hand) +
+      cardsPosition(cellWidth, hand)
