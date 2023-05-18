@@ -1,21 +1,20 @@
-package main.scala.de.htwg.se.yuGiOh
-package aview
+package de.htwg.se.yuGiOh.aview
 
-import controller.Controller
-import util.Observer
+import de.htwg.se.yuGiOh.controller.Controller
+import de.htwg.se.yuGiOh.util.Observer
 
 import scala.io.StdIn.readLine
 
 class Tui(controller: Controller) extends Observer:
   controller.add(this)
-  def run() =
+  def run(): Unit =
     println(controller.field.toString)
     printhelp()
     inputLoop()
 
-  val ERROR = -1
-  val EXIT = 0
-  val SUCCESS = 1
+  val ERROR: Int = -1
+  val EXIT: Int = 0
+  val SUCCESS: Int = 1
 
   private def inputLoop(): Unit =
     processInputLine(readLine) match {
@@ -39,11 +38,13 @@ class Tui(controller: Controller) extends Observer:
       case "help" | "h" =>
         printhelp()
         return ERROR
-      // case "new" | "n" =>
-      //   println("new game")
-      //   run()
+      case "new" | "n" =>
+        println("new game")
+        run()
+        return SUCCESS
       case "draw" | "d" =>
         println("draw card")
+        //controller.drawCard()
         return SUCCESS
       case "play" | "p" =>
         println("play card")
@@ -55,14 +56,10 @@ class Tui(controller: Controller) extends Observer:
         printhelp()
         return ERROR
 
-  override def update: Unit =  println(controller.field.toString)
+  override def update(): Unit =  println(controller.field.toString)
 
   /*def fillList[A](element: A, n: Int): List[A] =
     List.fill(n)(element)*/
-
-  /*def setInitialHand(size: Int): Unit =
-    // ziehe die ersten drei karten vom deck
-    val hand = Hand(List.fill(6)(Card.emptyCard))*/
 
   /*def emptyHand(size: Int): Unit =
     val emptyHand = Hand(List.fill(size)(Card.emptyCard))
@@ -162,7 +159,7 @@ class Tui(controller: Controller) extends Observer:
     controller.setNamePlayer2(player2.toString)
     controller.setLpPlayer2(player2.getLp)*/
 
-  def printhelp(): Unit =
+  private def printhelp(): Unit =
     print("""
       Befehlsuebersicht:
       - help | h                  : this help comment

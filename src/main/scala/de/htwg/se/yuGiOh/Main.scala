@@ -1,10 +1,11 @@
-package main.scala.de.htwg.se.yuGiOh
+package de.htwg.se.yuGiOh
 
-import controller.Controller
+import de.htwg.se.yuGiOh.controller.Controller
 
 import scala.io.StdIn.readLine
-import model.{Card, Field, FightField, Hand, Player}
-import aview.Tui
+import de.htwg.se.yuGiOh.model.{Card, CardLastName, CardName, Deck, Field, FightField, Hand, Player}
+import de.htwg.se.yuGiOh.aview.Tui
+
 import scala.util.Random
 
 @main def run: Unit =
@@ -21,9 +22,12 @@ import scala.util.Random
     input = readLine()
   }
   val size = input.toInt
-  // muss integer sein, sollte wert 6 haben
-  val emptyHand = Hand(List.fill(size)(Card.emptyCard))
-  val emptyFightField = FightField(List.fill(size)(Card.emptyCard))
+  // size muss integer sein, sollte wert 6 haben
+  val emptyCard: Card = Card(CardName.emptyName, CardLastName.emptyLastName,0,0,"")
+  val deck: Deck = Deck(emptyCard.deck)
+  val startingHandPlayer1 = deck.startingHand(size)
+  val startingHandPlayer2 = deck.startingHand(size)
+  val emptyFightField = FightField(List.fill(size)(Card(CardName.emptyName, CardLastName.emptyLastName,0,0,"")))
 
   println("Please enter your names: ")
   print("Player 1 Name: ")
@@ -38,8 +42,8 @@ import scala.util.Random
     input = readLine()
   }
   val secondName = input
-  val firstPlayer = Player(firstName, emptyHand, emptyFightField)
-  val secondPlayer = Player(secondName, emptyHand, emptyFightField)
+  val firstPlayer = Player(firstName, startingHandPlayer1, emptyFightField)
+  val secondPlayer = Player(secondName, startingHandPlayer2, emptyFightField)
 
   val field =
     Field(size, 1, 40, firstPlayer, secondPlayer)

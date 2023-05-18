@@ -1,11 +1,16 @@
-package main.scala.de.htwg.se.yuGiOh
-package controller
+package de.htwg.se.yuGiOh.controller
 
-import model.{Field, FightField, Hand}
-import util.Observable
+import de.htwg.se.yuGiOh.model.{Field, FightField, Hand, Card}
+import de.htwg.se.yuGiOh.util.Observable
 
 case class Controller(var field: Field) extends Observable {
-  override def toString = field.toString;
+  override def toString: String = field.toString
+
+  //def drawCard(): Unit =
+    
+  /*def drawStartingHand(): Unit =
+    // ziehe die ersten drei karten vom deck
+    val hand = Hand(List.fill(6)(Card.emptyCard))*/
 
   // def setNamePlayer1(name: String) =
   //   field.playerName(10, name)
@@ -23,10 +28,10 @@ case class Controller(var field: Field) extends Observable {
   //   field.playerLp(10, lp)
   //   notifyObservers
 
-  def setHandPlayer(hand: Hand) =
+  /*def setHandPlayer(hand: Hand) =
     hand.playerHandRow(10, hand.getSize, hand.getCards)
     notifyObservers
-
+*/
   // def countRound(fightField: FightField, round: Int) =
   //   val newRound = round + 1
   //   fightField.innerRoundBar(10, fightField.getSize, newRound)

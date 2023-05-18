@@ -1,5 +1,6 @@
-package main.scala.de.htwg.se.yuGiOh
-package model
+package de.htwg.se.yuGiOh.model
+
+import de.htwg.se.yuGiOh.model.Player
 
 case class Field(
     size: Int,
@@ -14,7 +15,7 @@ case class Field(
     ("+" + "-" * cellWidth) * (cellNum + 1) + "+" + eol
   def outerOuterBar(cellWidth: Int, cellNum: Int): String =
     "+" + "-" * cellWidth * (cellNum + 1) + "-" * cellNum + "+" + eol
-  def otherPlayerRow(
+  private def otherPlayerRow(
       cellWidth: Int,
       cellNum: Int,
       fightField: FightField,
@@ -27,7 +28,7 @@ case class Field(
       hand: Hand
   ): String =
     hand.playerHandRow(cellWidth, cellNum, hand.getCards)
-  def playerRow(
+  private def playerRow(
       cellWidth: Int,
       cellNum: Int,
       fightField: FightField,
@@ -35,11 +36,11 @@ case class Field(
   ): String =
     fightField.playerRow(cellWidth, cellNum, fightField.getCards, deck)
 
-  def playerLp(cellWidth: Int, playerLp: String): String =
+  private def playerLp(cellWidth: Int, playerLp: String): String =
     "LP: " + playerLp + (" " * (cellWidth * 2 - (playerLp.length + 4)) + "  ")
-  def playerName(cellWidth: Int, playerName: String): String =
+  private def playerName(cellWidth: Int, playerName: String): String =
     "Player: " + playerName + (" " * (cellWidth * 3 - (playerName.length + 10)) + "   ")
-  def playerStatsRow(
+  private def playerStatsRow(
       cellWidth: Int,
       cellNum: Int,
       player: Player
@@ -49,7 +50,7 @@ case class Field(
       player.getLp
     ) + (" " * cellWidth) * (cellNum - 4) + " " * (cellNum - 4) + "|" + eol
 
-  def mesh(
+  private def mesh(
       cellWidth: Int,
       cellNum: Int,
       player1: Player,

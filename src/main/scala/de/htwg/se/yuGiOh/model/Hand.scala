@@ -1,5 +1,4 @@
-package main.scala.de.htwg.se.yuGiOh
-package model
+package de.htwg.se.yuGiOh.model
 
 case class Hand(hand: List[Card]):
   val eol: String = sys.props("line.separator")
@@ -13,7 +12,7 @@ case class Hand(hand: List[Card]):
   def emptyCell(cellWidth: Int): String = "|" + " " * cellWidth
 
   def innerBar(cellWidth: Int, cellNum: Int): String =
-    emptyCell(cellWidth) + ("+" + "-" * cellWidth) * (cellNum) + "+" + eol
+    emptyCell(cellWidth) + ("+" + "-" * cellWidth) * cellNum + "+" + eol
 
   def cardsFirstName(
       cellWidth: Int,

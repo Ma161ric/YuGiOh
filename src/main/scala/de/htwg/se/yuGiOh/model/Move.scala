@@ -1,4 +1,3 @@
-package main.scala.de.htwg.se.yuGiOh
-package model
+//package de.htwg.se.yuGiOh.model
 
-case class Move(name: String = "", Card: Card = Card.emptyCard)
+//case class Move(name: String = "", Card: Card = Card.emptyCard)

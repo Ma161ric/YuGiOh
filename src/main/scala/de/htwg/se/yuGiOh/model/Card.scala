@@ -1,5 +1,7 @@
-package main.scala.de.htwg.se.yuGiOh
-package model
+package de.htwg.se.yuGiOh.model
+
+import scala.util.Random
+import scala.collection.mutable.ListBuffer
 
 enum CardName(firstName: String):
   override def toString: String = firstName
@@ -23,7 +25,7 @@ enum CardLastName(lastName: String):
   case Krieger extends CardLastName("Krieger")
   case emptyLastName extends CardLastName("Card")
 
-enum Card(
+case class Card(
     firstName: CardName,
     lastName: CardLastName,
     atk: Int,
@@ -32,15 +34,15 @@ enum Card(
 ):
   override def toString: String = firstName.toString + lastName.toString
 
-  def atkToString = atk.toString
-  def defeToString = defe.toString
-  def getFirstName = firstName.toString;
-  def getLastName = lastName.toString;
-  def getAtk = atk;
-  def getDefe = defe;
-  def getPosition = position;
+  def atkToString: String = atk.toString
+  def defeToString: String = defe.toString
+  def getFirstName: String = firstName.toString
+  def getLastName: String = lastName.toString
+  def getAtk: Int = atk
+  def getDefe: Int = defe
+  def getPosition: String = position
 
-  /*val cardNames = List(
+  private val cardNames = List(
     CardName.roter,
     CardName.schwarzer,
     CardName.blauer,
@@ -49,7 +51,7 @@ enum Card(
     CardName.guter,
     CardName.emptyName
   )
-  val cardLastNames = List(
+  private val cardLastNames = List(
     CardLastName.Drache,
     CardLastName.Magier,
     CardLastName.Hexer,
@@ -59,21 +61,28 @@ enum Card(
     CardLastName.emptyLastName
   )
 
-  val deckNamesList: List[(CardName, CardLastName)] =
-    for {
-      cardName <- cardNames
-      cardLastName <- cardLastNames
-    } yield {
-      (cardName, cardLastName)
-    }*/
+  /*private def deckNamesList(): List[(CardName, CardLastName)] =
+    cardNames.flatMap { cardName =>
+      cardLastNames.map(cardLastName => (cardName, cardLastName))
+    }
 
-  case roterDrache
-      extends Card(CardName.roter, CardLastName.Drache, 500, 200, "hand")
-  case schwarzerDrache
-      extends Card(CardName.schwarzer, CardLastName.Drache, 450, 200, "hand")
-  case blauerDrache
-      extends Card(CardName.blauer, CardLastName.Drache, 400, 200, "hand")
-  case weisserDrache
-      extends Card(CardName.weisser, CardLastName.Drache, 500, 300, "hand")
-  case emptyCard
-      extends Card(CardName.emptyName, CardLastName.emptyLastName, 0, 0, " ")
+  val deck: List[Card] = deckNamesList().map { case (firstName, lastName) =>
+    val atk = Random.nextInt(2701) + 300 // Generates a random number between 300 and 3000
+    val defe = Random.nextInt(2701) + 300 // Generates a random number between 300 and 3000
+    Card(firstName, lastName, atk, defe, "deck")
+  }*/
+
+  val deck: List[Card] = generateDeck()
+
+  private def generateDeck(): List[Card] = {
+    val deckBuffer = ListBuffer[Card]()
+    for {
+      firstName <- cardNames
+      lastName <- cardLastNames
+    } {
+      val atk = Random.nextInt(2701) + 300
+      val defe = Random.nextInt(2701) + 300
+      deckBuffer += Card(firstName, lastName, atk, defe, "deck")
+    }
+    deckBuffer.toList
+  }
