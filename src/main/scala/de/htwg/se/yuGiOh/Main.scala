@@ -1,10 +1,11 @@
 package de.htwg.se.yuGiOh
 
-import de.htwg.se.yuGiOh.controller.Controller
-
 import scala.io.StdIn.readLine
-import de.htwg.se.yuGiOh.model.{Card, CardLastName, CardName, Deck, Field, FightField, Hand, Player}
+import scala.collection.mutable.ListBuffer
+
 import de.htwg.se.yuGiOh.aview.Tui
+import de.htwg.se.yuGiOh.controller.Controller
+import de.htwg.se.yuGiOh.model.{Card, CardLastName, CardName, Deck, Field, FightField, Hand, Player}
 
 import scala.util.Random
 
@@ -21,13 +22,50 @@ import scala.util.Random
     print("Size of game (min 4): ")
     input = readLine()
   }
+
+  def generateDeck(): List[Card] = {
+    val cardNames = List(
+      CardName.roter,
+      CardName.schwarzer,
+      CardName.blauer,
+      CardName.weisser,
+      CardName.boeser,
+      CardName.guter,
+      CardName.emptyName
+    )
+    val cardLastNames = List(
+      CardLastName.Drache,
+      CardLastName.Magier,
+      CardLastName.Hexer,
+      CardLastName.Gnom,
+      CardLastName.Krieger,
+      CardLastName.Reiter,
+      CardLastName.emptyLastName
+    )
+
+    val deckBuffer = ListBuffer[Card]()
+    for {
+      firstName <- cardNames
+      lastName <- cardLastNames
+    } {
+      val atk = Random.nextInt(2701) + 300
+      val defe = Random.nextInt(2701) + 300
+      deckBuffer += Card(firstName, lastName, atk, defe, "deck")
+    }
+    deckBuffer.toList
+  }
+
+
   val size = input.toInt
   // size muss integer sein, sollte wert 6 haben
   val emptyCard: Card = Card(CardName.emptyName, CardLastName.emptyLastName,0,0,"")
-  val deck: Deck = Deck(emptyCard.deck)
+  val deck: Deck = Deck(generateDeck())
   val startingHandPlayer1 = deck.startingHand(size)
   val startingHandPlayer2 = deck.startingHand(size)
+  val emptyHand = Hand(List.fill(size)(Card(CardName.emptyName, CardLastName.emptyLastName,0,0,"")))
   val emptyFightField = FightField(List.fill(size)(Card(CardName.emptyName, CardLastName.emptyLastName,0,0,"")))
+
+  println(startingHandPlayer1)
 
   println("Please enter your names: ")
   print("Player 1 Name: ")

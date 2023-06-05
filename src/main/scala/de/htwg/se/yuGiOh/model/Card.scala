@@ -49,7 +49,6 @@ case class Card(
     CardName.weisser,
     CardName.boeser,
     CardName.guter,
-    CardName.emptyName
   )
   private val cardLastNames = List(
     CardLastName.Drache,
@@ -58,23 +57,24 @@ case class Card(
     CardLastName.Gnom,
     CardLastName.Krieger,
     CardLastName.Reiter,
-    CardLastName.emptyLastName
   )
 
-  /*private def deckNamesList(): List[(CardName, CardLastName)] =
+  private def deckNamesList(): List[(CardName, CardLastName)] =
     cardNames.flatMap { cardName =>
       cardLastNames.map(cardLastName => (cardName, cardLastName))
     }
 
+  /**
   val deck: List[Card] = deckNamesList().map { case (firstName, lastName) =>
     val atk = Random.nextInt(2701) + 300 // Generates a random number between 300 and 3000
     val defe = Random.nextInt(2701) + 300 // Generates a random number between 300 and 3000
     Card(firstName, lastName, atk, defe, "deck")
-  }*/
+  }
 
   val deck: List[Card] = generateDeck()
 
-  private def generateDeck(): List[Card] = {
+
+  def generateDeck(): List[Card] = {
     val deckBuffer = ListBuffer[Card]()
     for {
       firstName <- cardNames
@@ -86,3 +86,4 @@ case class Card(
     }
     deckBuffer.toList
   }
+  **/
