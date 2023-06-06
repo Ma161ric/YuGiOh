@@ -1,13 +1,29 @@
 package de.htwg.se.yuGiOh.controller
 
-import de.htwg.se.yuGiOh.model.{Field, FightField, Hand, Card}
+import de.htwg.se.yuGiOh.model.{Card, Deck, Field, FightField, Hand}
 import de.htwg.se.yuGiOh.util.Observable
 
 case class Controller(var field: Field) extends Observable {
   override def toString: String = field.toString
 
-  //def drawCard(): Unit =
+  def attack(opponentsCard: String, playersCard: String): Unit =
+    1
+
+
+  def drawCard(hand: Hand, deck: Deck): (Card, Deck) =
+    val (firstCard, updatedDeck) = deck.deck match {
+      case Nil => throw new NoSuchElementException("Deck is empty")
+      case head :: tail => (head, Deck(tail))
+    }
+
+    val updatedHand = hand.copy(hand = hand.hand.map {
+      case card if card.getFirstName == "No" || card.getLastName == "Card" =>
+        firstCard
+      case otherCard => otherCard
+    })
     
+    (updatedDeck, updatedHand)
+
   /*def drawStartingHand(): Unit =
     // ziehe die ersten drei karten vom deck
     val hand = Hand(List.fill(6)(Card.emptyCard))*/

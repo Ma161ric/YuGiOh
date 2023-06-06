@@ -10,7 +10,7 @@ enum CardName(firstName: String):
   case schwarzer extends CardName("Schwarzer")
   case blauer extends CardName("Blauer")
   case weisser extends CardName("Weisser")
-  case boeser extends CardName("Böser")
+  case boeser extends CardName("Schlimmer")
   case guter extends CardName("Guter")
   case emptyName extends CardName("No")
 

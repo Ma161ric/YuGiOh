@@ -44,14 +44,22 @@ class Tui(controller: Controller) extends Observer:
         return SUCCESS
       case "draw" | "d" =>
         println("draw card")
-        //controller.drawCard()
+        controller.drawCard()
         return SUCCESS
       case "play" | "p" =>
         println("play card")
         return SUCCESS
       case "attack" | "a" =>
-        println("attack")
-        return SUCCESS
+        if (in.length >= 3) {
+          val opponentsCard = in(1)
+          val playersCard = in(2)
+          println(s"Attack with $playersCard on $opponentsCard")
+          controller.attack(opponentsCard, playersCard)
+          return SUCCESS
+        } else {
+          println("Invalid attack command. Provide both the card to attack and the card used to attack.")
+          return ERROR
+        }
       case _ =>
         printhelp()
         return ERROR

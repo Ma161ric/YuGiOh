@@ -31,7 +31,6 @@ import scala.util.Random
       CardName.weisser,
       CardName.boeser,
       CardName.guter,
-      CardName.emptyName
     )
     val cardLastNames = List(
       CardLastName.Drache,
@@ -40,7 +39,6 @@ import scala.util.Random
       CardLastName.Gnom,
       CardLastName.Krieger,
       CardLastName.Reiter,
-      CardLastName.emptyLastName
     )
 
     val deckBuffer = ListBuffer[Card]()
