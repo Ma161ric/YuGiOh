@@ -1,16 +1,26 @@
-package main.scala.de.htwg.se.yuGiOh
+package de.htwg.se.yuGiOh
 package aview
 
 import controller.Controller
-import util.Observer
+import util.{Observer, Event}
 
 import scala.io.StdIn.readLine
 
 class Tui(controller: Controller) extends Observer:
   controller.add(this)
+
+  override def update(e: Event): Unit = e match
+    case Event.Attack =>
+      println(controller.field.toString)
+    case Event.GameOver =>
+      println("Game over!")
+      //if (controller.player1Won) println("Spieler 1 hat das Spiel gewonnen!")
+      //else if (controller.player2Won) println("Spieler 1 hat das Spiel gewonnen!")
+    case Event.Quit => sys.exit
+
   def run() =
     println(controller.field.toString)
-    printhelp()
+    controller.printhelp()
     inputLoop()
 
   val ERROR = -1
@@ -19,7 +29,7 @@ class Tui(controller: Controller) extends Observer:
 
   private def inputLoop(): Unit =
     processInputLine(readLine) match {
-      case ERROR => printhelp()
+      case ERROR => controller.printhelp()
       case EXIT =>
         print("bye\n")
         System.exit(0)
@@ -35,27 +45,27 @@ class Tui(controller: Controller) extends Observer:
     in(0) match
       case "exit" | "q" =>
         println("end game!")
-        return EXIT
+        EXIT
       case "help" | "h" =>
-        printhelp()
-        return ERROR
+        controller.printhelp()
+        ERROR
       // case "new" | "n" =>
       //   println("new game")
       //   run()
       case "draw" | "d" =>
         println("draw card")
-        return SUCCESS
+        SUCCESS
       case "play" | "p" =>
         println("play card")
-        return SUCCESS
+        SUCCESS
       case "attack" | "a" =>
         println("attack")
-        return SUCCESS
+        SUCCESS
       case _ =>
-        printhelp()
-        return ERROR
+        controller.printhelp()
+        ERROR
 
-  override def update: Unit =  println(controller.field.toString)
+  //override def update(): Unit =  println(controller.field.toString)
 
   /*def fillList[A](element: A, n: Int): List[A] =
     List.fill(n)(element)*/
@@ -162,13 +172,4 @@ class Tui(controller: Controller) extends Observer:
     controller.setNamePlayer2(player2.toString)
     controller.setLpPlayer2(player2.getLp)*/
 
-  def printhelp(): Unit =
-    print("""
-      Befehlsuebersicht:
-      - help | h                  : this help comment
-      - exit | q                  : leaves the game
-      - new  | n                  : creates new game
-      - attack | a                : attack with card from player
-      - draw | d                  : draw one card from deck to hand 
-      - play | p                  : places card from player hand to fight field
-      """ + "\n")
+

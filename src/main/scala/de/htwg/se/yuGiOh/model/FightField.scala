@@ -1,4 +1,4 @@
-package main.scala.de.htwg.se.yuGiOh
+package de.htwg.se.yuGiOh
 package model
 
 case class FightField(fightField: List[Card]):

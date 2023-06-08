@@ -1,11 +1,12 @@
-package main.scala.de.htwg.se.yuGiOh
+package de.htwg.se.yuGiOh
 
-import controller.Controller
-
-import scala.io.StdIn.readLine
-import model.{Card, Field, FightField, Hand, Player}
-import aview.Tui
 import scala.util.Random
+import scala.io.StdIn.readLine
+
+import aview.Tui
+import aview.gui.Gui
+import controller.Controller
+import model.{Card, Field, FightField, Hand, Player}
 
 @main def run: Unit =
 
@@ -14,18 +15,19 @@ import scala.util.Random
 
   println("Welcome to my game!")
 
-  print("Size of game (min 4): ")
+  /*print("Size of game (min 4): ")
   input = readLine()
   while (input.toInt < 4 || input.toInt > 10) {
     print("Size of game (min 4): ")
     input = readLine()
   }
-  val size = input.toInt
+  val size = input.toInt*/
+  val size = 6
   // muss integer sein, sollte wert 6 haben
   val emptyHand = Hand(List.fill(size)(Card.emptyCard))
   val emptyFightField = FightField(List.fill(size)(Card.emptyCard))
 
-  println("Please enter your names: ")
+  /*println("Please enter your names: ")
   print("Player 1 Name: ")
   val firstName = readLine()
 
@@ -40,10 +42,18 @@ import scala.util.Random
   val secondName = input
   val firstPlayer = Player(firstName, emptyHand, emptyFightField)
   val secondPlayer = Player(secondName, emptyHand, emptyFightField)
+*/
+
+  val firstPlayer = Player("1", emptyHand, emptyFightField)
+  val secondPlayer = Player("2", emptyHand, emptyFightField)
 
   val field =
     Field(size, 1, 40, firstPlayer, secondPlayer)
   val controller = Controller(field)
+
+
+  val gui = Gui(controller)
+  //gui.open()
   val tui = new Tui(controller)
 
   tui.run()

@@ -1,4 +1,4 @@
-package main.scala.de.htwg.se.yuGiOh
+package de.htwg.se.yuGiOh
 package controller
 
 import model.{Field, FightField, Hand}
@@ -26,6 +26,22 @@ case class Controller(var field: Field) extends Observable {
   def setHandPlayer(hand: Hand) =
     hand.playerHandRow(10, hand.getSize, hand.getCards)
     notifyObservers
+
+  def printhelp(): Unit =
+    print(
+      """
+      Befehlsuebersicht:
+      - help | h                  : this help comment
+      - exit | q                  : leaves the game
+      - new  | n                  : creates new game
+      - attack | a                : attack with card from player
+      - draw | d                  : draw one card from deck to hand
+      - play | p                  : places card from player hand to fight field
+      """ + "\n")
+
+  def quit() =
+    System.exit(0)
+
 
   // def countRound(fightField: FightField, round: Int) =
   //   val newRound = round + 1
