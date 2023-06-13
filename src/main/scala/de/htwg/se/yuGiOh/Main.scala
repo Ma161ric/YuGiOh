@@ -7,7 +7,7 @@ import scala.util.Random
 import aview.Tui
 import aview.gui.Gui
 import controller.Controller
-import model.{Card, Field, FightField, Hand, Player}
+import model.{Card, CardLastName, CardName, Field, FightField, Hand, Player, Deck}
 
 @main def run: Unit =
 
@@ -24,8 +24,9 @@ import model.{Card, Field, FightField, Hand, Player}
   }
   val size = input.toInt*/
   val size = 6
-  val emptyHand = Hand(List.fill(size)(Card.emptyCard))
-  val emptyFightField = FightField(List.fill(size)(Card.emptyCard))
+  val emptyCard: Card = Card(CardName.emptyName, CardLastName.emptyLastName,0,0,"")
+  //val emptyHand = Hand(List.fill(size)(Card.emptyCard))
+  val emptyFightField = FightField(List.fill(size)(emptyCard))
 
   def generateDeck(): List[Card] = {
     val cardNames = List(
@@ -56,7 +57,6 @@ import model.{Card, Field, FightField, Hand, Player}
     }
     deckBuffer.toList
   }
-  val emptyCard: Card = Card(CardName.emptyName, CardLastName.emptyLastName,0,0,"")
   val deck: Deck = Deck(generateDeck())
   val startingHandPlayer1 = deck.startingHand(size)
   val startingHandPlayer2 = deck.startingHand(size)

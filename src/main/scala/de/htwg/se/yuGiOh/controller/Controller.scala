@@ -7,11 +7,11 @@ import util.Observable
 case class Controller(var field: Field) extends Observable {
   override def toString: String = field.toString
 
-  def attack(opponentsCard: String, playersCard: String): Unit =
-    1
+  /*def attack(opponentsCard: String, playersCard: String): Unit =
+    1*/
 
 
-  def drawCard(hand: Hand, deck: Deck): (Card, Deck) =
+  def drawCard(hand: Hand, deck: Deck): (Deck, Hand) =
     val (firstCard, updatedDeck) = deck.deck match {
       case Nil => throw new NoSuchElementException("Deck is empty")
       case head :: tail => (head, Deck(tail))

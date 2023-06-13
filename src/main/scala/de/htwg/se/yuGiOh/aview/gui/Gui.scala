@@ -58,7 +58,7 @@ class Gui(controller: Controller) extends Frame with Observer{
     //else if (controller.player2Won) println("Spieler 1 hat das Spiel gewonnen!")
     case Event.Quit => sys.exit
 
-  val emptyCard: Card = Card.emptyCard
+  //val emptyCard: Card = Card.emptyCard
   val nameLabel = new Label("Welcome to Yu-Gi-Oh!")
   val startButton = new Button("Start Game")
   val player1: Player = controller.field.getPlayer1
@@ -93,7 +93,7 @@ class Gui(controller: Controller) extends Frame with Observer{
       println("Game started!")
   }*/
 
-  val card: BoxPanel = new BoxPanel(Orientation.Vertical) {
+  /*val card: BoxPanel = new BoxPanel(Orientation.Vertical) {
     border = BorderFactory. createLineBorder(Color.black, 1)
     preferredSize = new Dimension(50, 100)
 
@@ -101,7 +101,7 @@ class Gui(controller: Controller) extends Frame with Observer{
     contents += new Label(s"Last Name ${emptyCard.getLastName}")
     contents += new Label(s"atk: ${emptyCard.getAtk}")
     contents += new Label(s"def: ${emptyCard.getDefe}")
-  }
+  }*/
 
   val handFields: BoxPanel = new BoxPanel(Orientation.Horizontal) {
     border = BorderFactory.createLineBorder(Color.black, 1)
@@ -160,7 +160,7 @@ class Gui(controller: Controller) extends Frame with Observer{
   val player2FightFields: BoxPanel = new BoxPanel(Orientation.Horizontal) {
     border = BorderFactory.createLineBorder(Color.black, 1)
     preferredSize = new Dimension(600, 100)
-    player1.getHand.getCards.foreach({ card =>
+    player2.getFightField.getCards.foreach({ card =>
       val cardPanel: BoxPanel = new BoxPanel(Orientation.Vertical) {
         contents += new Label(card.getFirstName) {
           xAlignment = Alignment.Center

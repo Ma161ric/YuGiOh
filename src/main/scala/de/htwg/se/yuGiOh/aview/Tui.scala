@@ -2,8 +2,9 @@ package de.htwg.se.yuGiOh
 package aview
 
 import controller.Controller
-import util.{Observer, Event}
+import util.{Event, Observer}
 
+import scala.annotation.tailrec
 import scala.io.StdIn.readLine
 
 class Tui(controller: Controller) extends Observer:
@@ -18,7 +19,7 @@ class Tui(controller: Controller) extends Observer:
       //else if (controller.player2Won) println("Spieler 1 hat das Spiel gewonnen!")
     case Event.Quit => sys.exit
 
-  def run() =
+  def run(): Unit =
     println(controller.field.toString)
     controller.printhelp()
     inputLoop()
@@ -27,6 +28,7 @@ class Tui(controller: Controller) extends Observer:
   val EXIT: Int = 0
   val SUCCESS: Int = 1
 
+  @tailrec
   private def inputLoop(): Unit =
     processInputLine(readLine) match {
       case ERROR => controller.printhelp()
@@ -55,7 +57,7 @@ class Tui(controller: Controller) extends Observer:
         SUCCESS
       case "draw" | "d" =>
         println("draw card")
-        controller.drawCard()
+        //controller.drawCard()
         SUCCESS
       case "play" | "p" =>
         println("play card")
@@ -65,7 +67,7 @@ class Tui(controller: Controller) extends Observer:
           val opponentsCard = in(1)
           val playersCard = in(2)
           println(s"Attack with $playersCard on $opponentsCard")
-          controller.attack(opponentsCard, playersCard)
+          //controller.attack(opponentsCard, playersCard)
           SUCCESS
         } else {
           println("Invalid attack command. Provide both the card to attack and the card used to attack.")
@@ -75,7 +77,7 @@ class Tui(controller: Controller) extends Observer:
         controller.printhelp()
         ERROR
 
-  override def update(): Unit =  println(controller.field.toString)
+  def update(): Unit =  println(controller.field.toString)
 
   /*def fillList[A](element: A, n: Int): List[A] =
     List.fill(n)(element)*/
