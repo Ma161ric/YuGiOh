@@ -1,12 +1,15 @@
 package de.htwg.se.yuGiOh
 package model
 
+//import de.htwg.se.yuGiOh.model.Card
+
+
 case class FightField(fightField: List[Card]):
   val eol: String = sys.props("line.separator")
 
-  def getCards = fightField
+  def getCards: List[Card] = fightField
 
-  def getSize = fightField.size
+  def getSize: Int = fightField.size
 
   /*def addCard(card: Card): FightField =
     val (left, right) = fightField.zipWithIndex.partition { case (noCard, _) =>
@@ -23,30 +26,30 @@ case class FightField(fightField: List[Card]):
     val updatedFightField = FightField(updatedFightFieldList)
     updatedFightField*/
 
-  def roundCounterCell(cellWidth: Int, round: Int) =
+  private def roundCounterCell(cellWidth: Int, round: Int) =
     "|" + "Round: " + round + (" " * (cellWidth - (round.toString.length + 8))) + " "
 
-  def deckCounterCell(cellWidth: Int, deck: Int) =
+  private def deckCounterCell(cellWidth: Int, deck: Int) =
     "|" + "Deck: " + deck + (" " * (cellWidth - (deck.toString.length + 7))) + " "
 
-  def innerRoundBar(cellWidth: Int, cellNum: Int, round: Int) =
+  private def innerRoundBar(cellWidth: Int, cellNum: Int, round: Int) =
     roundCounterCell(
       cellWidth,
       round
-    ) + ("+" + "-" * cellWidth) * (cellNum) + "+" + eol
+    ) + ("+" + "-" * cellWidth) * cellNum + "+" + eol
 
-  def innerDeckBar(cellWidth: Int, cellNum: Int, deck: Int) =
+  private def innerDeckBar(cellWidth: Int, cellNum: Int, deck: Int) =
     deckCounterCell(
       cellWidth,
       deck
-    ) + ("+" + "-" * cellWidth) * (cellNum) + "+" + eol
+    ) + ("+" + "-" * cellWidth) * cellNum + "+" + eol
 
   def emptyCell(cellWidth: Int): String = "|" + " " * cellWidth
 
   def cardsFirstName(
       cellWidth: Int,
       fightFieldCards: List[Card]
-  ) =
+  ): String =
     emptyCell(cellWidth) +
       fightFieldCards.foldLeft("") { (acc, card) =>
         acc +
@@ -56,7 +59,7 @@ case class FightField(fightField: List[Card]):
   def cardsLastName(
       cellWidth: Int,
       fightFieldCards: List[Card]
-  ) =
+  ): String =
     emptyCell(cellWidth) +
       fightFieldCards.foldLeft("") { (acc, card) =>
         acc +
@@ -66,7 +69,7 @@ case class FightField(fightField: List[Card]):
   def cardsAtk(
       cellWidth: Int,
       fightFieldCards: List[Card]
-  ) =
+  ): String =
     emptyCell(cellWidth) +
       fightFieldCards.foldLeft("") { (acc, card) =>
         acc +
@@ -76,7 +79,7 @@ case class FightField(fightField: List[Card]):
   def cardsDefe(
       cellWidth: Int,
       fightFieldCards: List[Card]
-  ) =
+  ): String =
     emptyCell(cellWidth) +
       fightFieldCards.foldLeft("") { (acc, card) =>
         acc +
@@ -86,7 +89,7 @@ case class FightField(fightField: List[Card]):
   def cardsPosition(
       cellWidth: Int,
       fightFieldCards: List[Card]
-  ) =
+  ): String =
     emptyCell(cellWidth) +
       fightFieldCards.foldLeft("") { (acc, card) =>
         acc +
@@ -98,7 +101,7 @@ case class FightField(fightField: List[Card]):
       cellNum: Int,
       fightFieldCards: List[Card],
       round: Int
-  ) =
+  ): String =
     cardsFirstName(cellWidth, fightFieldCards) +
       cardsLastName(cellWidth, fightFieldCards) +
       cardsAtk(cellWidth, fightFieldCards) +
@@ -111,7 +114,7 @@ case class FightField(fightField: List[Card]):
       cellNum: Int,
       fightFieldCards: List[Card],
       deck: Int
-  ) =
+  ): String =
     innerDeckBar(cellWidth, cellNum, deck) +
       cardsFirstName(cellWidth, fightFieldCards) +
       cardsLastName(cellWidth, fightFieldCards) +

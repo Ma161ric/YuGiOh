@@ -1,7 +1,8 @@
 package de.htwg.se.yuGiOh
 
-import scala.util.Random
+import scala.collection.mutable.ListBuffer
 import scala.io.StdIn.readLine
+import scala.util.Random
 
 import aview.Tui
 import aview.gui.Gui
@@ -26,6 +27,42 @@ import model.{Card, Field, FightField, Hand, Player}
   val emptyHand = Hand(List.fill(size)(Card.emptyCard))
   val emptyFightField = FightField(List.fill(size)(Card.emptyCard))
 
+  def generateDeck(): List[Card] = {
+    val cardNames = List(
+      CardName.roter,
+      CardName.schwarzer,
+      CardName.blauer,
+      CardName.weisser,
+      CardName.boeser,
+      CardName.guter,
+    )
+    val cardLastNames = List(
+      CardLastName.Drache,
+      CardLastName.Magier,
+      CardLastName.Hexer,
+      CardLastName.Gnom,
+      CardLastName.Krieger,
+      CardLastName.Reiter,
+    )
+
+    val deckBuffer = ListBuffer[Card]()
+    for {
+      firstName <- cardNames
+      lastName <- cardLastNames
+    } {
+      val atk = Random.nextInt(2701) + 300
+      val defe = Random.nextInt(2701) + 300
+      deckBuffer += Card(firstName, lastName, atk, defe, "deck")
+    }
+    deckBuffer.toList
+  }
+  val emptyCard: Card = Card(CardName.emptyName, CardLastName.emptyLastName,0,0,"")
+  val deck: Deck = Deck(generateDeck())
+  val startingHandPlayer1 = deck.startingHand(size)
+  val startingHandPlayer2 = deck.startingHand(size)
+
+
+
   println("Please enter your names: ")
   print("Player 1 Name: ")
   val firstName = readLine()
@@ -39,12 +76,8 @@ import model.{Card, Field, FightField, Hand, Player}
     input = readLine()
   }
   val secondName = input
-  val firstPlayer = Player(firstName, emptyHand, emptyFightField)
-  val secondPlayer = Player(secondName, emptyHand, emptyFightField)
-
-
-  //val firstPlayer = Player("1", emptyHand, emptyFightField)
-  //val secondPlayer = Player("2", emptyHand, emptyFightField)
+  val firstPlayer = Player(firstName, startingHandPlayer1, emptyFightField)
+  val secondPlayer = Player(secondName, startingHandPlayer2, emptyFightField)
 
   val field =
     Field(size, 1, 40, firstPlayer, secondPlayer)
@@ -52,7 +85,6 @@ import model.{Card, Field, FightField, Hand, Player}
 
 
   val gui = Gui(controller)
-  //gui.open()
   val tui = new Tui(controller)
 
   tui.run()

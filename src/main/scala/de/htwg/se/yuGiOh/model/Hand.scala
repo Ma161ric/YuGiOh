@@ -13,7 +13,7 @@ case class Hand(hand: List[Card]):
   def emptyCell(cellWidth: Int): String = "|" + " " * cellWidth
 
   def innerBar(cellWidth: Int, cellNum: Int): String =
-    emptyCell(cellWidth) + ("+" + "-" * cellWidth) * (cellNum) + "+" + eol
+    emptyCell(cellWidth) + ("+" + "-" * cellWidth) * cellNum + "+" + eol
 
   def cardsFirstName(
       cellWidth: Int,
