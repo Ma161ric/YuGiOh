@@ -3,12 +3,19 @@ package model
 
 case class Field(
     size: Int,
-    round: Int = 1,
-    deck: Int = 40,
+    round: Int,
+    deck: Int,
     player1: Player,
     player2: Player
 ):
   val eol: String = sys.props("line.separator")
+
+  def getSize: Int = size
+  def getPlayer1: Player = player1
+  def getPlayer2: Player = player2
+  def getRound: Int = round
+  def getDeck: Int = deck
+  
 
   def outerBar(cellWidth: Int, cellNum: Int): String =
     ("+" + "-" * cellWidth) * (cellNum + 1) + "+" + eol
@@ -46,7 +53,7 @@ case class Field(
   ): String =
     "| " + playerName(cellWidth, player.toString) + playerLp(
       cellWidth,
-      player.getLp
+      player.getLp.toString
     ) + (" " * cellWidth) * (cellNum - 4) + " " * (cellNum - 4) + "|" + eol
 
   def mesh(

@@ -6,12 +6,13 @@ trait Observer:
 
 trait Observable:
   var subscribers: Vector[Observer] = Vector()
-  def add(s: Observer) = subscribers = subscribers :+ s
-  def remove(s: Observer) = subscribers = subscribers.filterNot(o => o == s)
+  def add(s: Observer): Unit = subscribers = subscribers :+ s
+  def remove(s: Observer): Unit = subscribers = subscribers.filterNot(o => o == s)
   def notifyObservers = subscribers.foreach(o => o.update)
 
 enum Event:
   case Attack
+  case changeCardPosition
   case Draw
   case GameOver
   case Quit

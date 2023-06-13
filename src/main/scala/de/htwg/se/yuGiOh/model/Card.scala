@@ -32,13 +32,13 @@ enum Card(
 ):
   override def toString: String = firstName.toString + lastName.toString
 
-  def atkToString = atk.toString
-  def defeToString = defe.toString
-  def getFirstName = firstName.toString;
-  def getLastName = lastName.toString;
-  def getAtk = atk;
-  def getDefe = defe;
-  def getPosition = position;
+  def atkToString: String = atk.toString
+  def defeToString: String = defe.toString
+  def getFirstName: String = firstName.toString
+  def getLastName: String = lastName.toString
+  def getAtk: Int = atk
+  def getDefe: Int = defe
+  def getPosition: String = position
 
   /*val cardNames = List(
     CardName.roter,

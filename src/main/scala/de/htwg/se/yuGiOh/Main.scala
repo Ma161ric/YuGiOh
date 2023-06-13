@@ -23,11 +23,10 @@ import model.{Card, Field, FightField, Hand, Player}
   }
   val size = input.toInt*/
   val size = 6
-  // muss integer sein, sollte wert 6 haben
   val emptyHand = Hand(List.fill(size)(Card.emptyCard))
   val emptyFightField = FightField(List.fill(size)(Card.emptyCard))
 
-  /*println("Please enter your names: ")
+  println("Please enter your names: ")
   print("Player 1 Name: ")
   val firstName = readLine()
 
@@ -42,10 +41,10 @@ import model.{Card, Field, FightField, Hand, Player}
   val secondName = input
   val firstPlayer = Player(firstName, emptyHand, emptyFightField)
   val secondPlayer = Player(secondName, emptyHand, emptyFightField)
-*/
 
-  val firstPlayer = Player("1", emptyHand, emptyFightField)
-  val secondPlayer = Player("2", emptyHand, emptyFightField)
+
+  //val firstPlayer = Player("1", emptyHand, emptyFightField)
+  //val secondPlayer = Player("2", emptyHand, emptyFightField)
 
   val field =
     Field(size, 1, 40, firstPlayer, secondPlayer)
