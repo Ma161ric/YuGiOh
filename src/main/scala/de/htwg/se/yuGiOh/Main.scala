@@ -58,9 +58,8 @@ import model.{Card, CardLastName, CardName, Field, FightField, Hand, Player, Dec
     deckBuffer.toList
   }
   val deck: Deck = Deck(generateDeck())
-  val startingHandPlayer1 = deck.startingHand(size)
-  val startingHandPlayer2 = deck.startingHand(size)
-
+  val (startingHandPlayer1, updatedDeck1) = deck.startingHand(size)
+  val (startingHandPlayer2, updatedDeck2) = updatedDeck1.startingHand(size)
 
 
   println("Please enter your names: ")
@@ -78,9 +77,9 @@ import model.{Card, CardLastName, CardName, Field, FightField, Hand, Player, Dec
   val secondName = input
   val firstPlayer = Player(firstName, startingHandPlayer1, emptyFightField)
   val secondPlayer = Player(secondName, startingHandPlayer2, emptyFightField)
-
+  println(startingHandPlayer2)
   val field =
-    Field(size, 1, 40, firstPlayer, secondPlayer)
+    Field(size, 1, deck, firstPlayer, secondPlayer)
   val controller = Controller(field)
 
 

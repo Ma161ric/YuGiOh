@@ -7,7 +7,7 @@ import de.htwg.se.yuGiOh.model.Player
 case class Field(
     size: Int,
     round: Int,
-    deck: Int,
+    deck: Deck,
     player1: Player,
     player2: Player
 ):
@@ -17,7 +17,7 @@ case class Field(
   def getPlayer1: Player = player1
   def getPlayer2: Player = player2
   def getRound: Int = round
-  def getDeck: Int = deck
+  def getDeck: Deck = deck
 
 
   def outerBar(cellWidth: Int, cellNum: Int): String =
@@ -69,7 +69,7 @@ case class Field(
       + playerStatsRow(cellWidth, cellNum, player2)
       + outerBar(cellWidth, cellNum)
       + otherPlayerRow(cellWidth, cellNum, player2.getFightField, round)
-      + playerRow(cellWidth, cellNum, player1.getFightField, deck)
+      + playerRow(cellWidth, cellNum, player1.getFightField, deck.getDeckCount)
       + playerHandRow(cellWidth, cellNum, player1.getHand)
       + outerBar(cellWidth, cellNum)
       + playerStatsRow(cellWidth, cellNum, player1)

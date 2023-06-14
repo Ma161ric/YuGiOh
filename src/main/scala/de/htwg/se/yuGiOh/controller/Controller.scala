@@ -3,6 +3,8 @@ package controller
 
 import model.{Card, Deck, Field, FightField, Hand}
 import util.Observable
+import util.Event
+
 
 case class Controller(var field: Field) extends Observable {
   override def toString: String = field.toString
@@ -17,13 +19,26 @@ case class Controller(var field: Field) extends Observable {
       case head :: tail => (head, Deck(tail))
     }
 
-    val updatedHand = hand.copy(hand = hand.hand.map {
-      case card if card.getFirstName == "No" || card.getLastName == "Card" =>
-        firstCard
-      case otherCard => otherCard
+    val updatedHand = hand.copy(hand = {
+      var replacementDone = false
+      hand.hand.map { card =>
+        if (!replacementDone && card.getFirstName == "No") {
+          replacementDone = true
+          firstCard
+        } else {
+          card
+        }
+      }
     })
-
+    field = field.copy(deck = updatedDeck)
+    notifyObservers(Event.Draw)
     (updatedDeck, updatedHand)
+
+  def skip(): Unit = {
+    val currentRound = field.getRound
+    field = field.copy(round = currentRound + 1)
+    notifyObservers(Event.Skip)
+  }
 
   /*def drawStartingHand(): Unit =
     // ziehe die ersten drei karten vom deck

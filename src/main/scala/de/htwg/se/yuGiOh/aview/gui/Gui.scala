@@ -2,7 +2,7 @@ package de.htwg.se.yuGiOh.aview.gui
 
 
 import de.htwg.se.yuGiOh.controller.Controller
-import de.htwg.se.yuGiOh.model.{Card, FightField, Hand, Player}
+import de.htwg.se.yuGiOh.model.{Card, CardName, Deck, FightField, Hand, Player}
 import de.htwg.se.yuGiOh.util.{Event, Observer}
 
 import javax.swing.ImageIcon
@@ -59,6 +59,7 @@ class Gui(controller: Controller) extends Frame with Observer{
     case Event.Quit => sys.exit
 
   //val emptyCard: Card = Card.emptyCard
+  val deck: Deck = controller.field.deck
   val nameLabel = new Label("Welcome to Yu-Gi-Oh!")
   val startButton = new Button("Start Game")
   val player1: Player = controller.field.getPlayer1
@@ -67,13 +68,14 @@ class Gui(controller: Controller) extends Frame with Observer{
   val player2Label = new Label(s"Player 2: ${player2.toString}")
   val player1LpLabel = new Label(s"LP: ${player1.getLp}")
   val player2LpLabel = new Label(s"LP: ${player2.getLp}")
-  //val player1Hand: List[Label] = player1.getHand.map(card => new Label(card.toString))
-  val player2Hand = new Label(s"Hand: ${player2.getHand}")
+  var player1Hand: Hand = player1.getHand
+  val player1player1HandCards: List[Card] = player1.getHand.getCards
+  var player2Hand: Hand = player2.getHand
   val player1FightField = new Label(s"FightField: ${player1.getFightField}")
   val player2FightField = new Label(s"FightField: ${player2.getFightField}")
   val cardLabels: List[Label] = List.fill(6)(new Label("Test"))
   val roundLabel = new Label(s"Round: ${controller.field.getRound}")
-  val deckLabel = new Label(s"Deck: ${controller.field.getDeck}")
+  val deckLabel = new Label(s"Deck: ${controller.field.getDeck.getDeckCount}")
   val padding = 20
   val cardWidth = 100
   val cardHeight = 150
@@ -103,31 +105,67 @@ class Gui(controller: Controller) extends Frame with Observer{
     contents += new Label(s"def: ${emptyCard.getDefe}")
   }*/
 
-  val handFields: BoxPanel = new BoxPanel(Orientation.Horizontal) {
-    border = BorderFactory.createLineBorder(Color.black, 1)
-    preferredSize = new Dimension(600, 100)
-    player1.getHand.getCards.foreach({card =>
+
+  val player1HandCards: FlowPanel = new FlowPanel() {
+    player1Hand.getCards.foreach({ card =>
       val cardPanel: BoxPanel = new BoxPanel(Orientation.Vertical) {
+        border = BorderFactory.createLineBorder(Color.black, 1)
         contents += new Label(card.getFirstName) {
           xAlignment = Alignment.Center
         }
         contents += new Label(card.getLastName) {
           xAlignment = Alignment.Center
         }
-        contents += new Label(card.atkToString) {
+        contents += new Label("ATK: " + card.atkToString) {
           xAlignment = Alignment.Center
         }
-        contents += new Label(card.defeToString) {
+        contents += new Label("DEF: " + card.defeToString) {
           xAlignment = Alignment.Center
         }
         preferredSize = new Dimension(120, 100)
       }
       //contents += Swing.HStrut(10)
-      contents += new Separator(Orientation.Vertical)
+      //contents += new Separator(Orientation.Vertical)
       contents += cardPanel
     })
-    //contents.trimEnd(1)
-    //border = BorderFactory.createEmptyBorder(10, 10, 10, 10)
+  }
+
+  val player2HandCards: FlowPanel = new FlowPanel() {
+    player2Hand.getCards.foreach({ card =>
+      val cardPanel: BoxPanel = new BoxPanel(Orientation.Vertical) {
+        border = BorderFactory.createLineBorder(Color.black, 1)
+        contents += new Label(card.getFirstName) {
+          xAlignment = Alignment.Center
+        }
+        contents += new Label(card.getLastName) {
+          xAlignment = Alignment.Center
+        }
+        contents += new Label("ATK: " + card.atkToString) {
+          xAlignment = Alignment.Center
+        }
+        contents += new Label("DEF: " + card.defeToString) {
+          xAlignment = Alignment.Center
+        }
+        preferredSize = new Dimension(120, 100)
+      }
+      //contents += Swing.HStrut(10)
+      //contents += new Separator(Orientation.Vertical)
+      contents += cardPanel
+    })
+  }
+
+  val player1HandFields: BoxPanel = new BoxPanel(Orientation.Horizontal) {
+    border = BorderFactory.createLineBorder(Color.black, 1)
+    preferredSize = new Dimension(600, 100)
+
+    contents += player1HandCards
+  }
+
+  val player2HandFields: BoxPanel = new BoxPanel(Orientation.Horizontal) {
+    border = BorderFactory.createLineBorder(Color.black, 1)
+    preferredSize = new Dimension(600, 100)
+
+    contents += player2HandCards
   }
 
   val player1FightFields: BoxPanel = new BoxPanel(Orientation.Horizontal) {
@@ -141,10 +179,10 @@ class Gui(controller: Controller) extends Frame with Observer{
         contents += new Label(card.getLastName) {
           xAlignment = Alignment.Center
         }
-        contents += new Label(card.atkToString) {
+        contents += new Label("ATK: " + card.atkToString) {
           xAlignment = Alignment.Center
         }
-        contents += new Label(card.defeToString) {
+        contents += new Label("DEF: " + card.defeToString) {
           xAlignment = Alignment.Center
         }
         preferredSize = new Dimension(120, 100)
@@ -168,10 +206,10 @@ class Gui(controller: Controller) extends Frame with Observer{
         contents += new Label(card.getLastName) {
           xAlignment = Alignment.Center
         }
-        contents += new Label(card.atkToString) {
+        contents += new Label("ATK: " + card.atkToString) {
           xAlignment = Alignment.Center
         }
-        contents += new Label(card.defeToString) {
+        contents += new Label("DEF: " + card.defeToString) {
           xAlignment = Alignment.Center
         }
         preferredSize = new Dimension(120, 100)
@@ -204,7 +242,6 @@ class Gui(controller: Controller) extends Frame with Observer{
     contents += player2Stats
     contents += new BoxPanel(Orientation.Horizontal) {
       contents += new BoxPanel(Orientation.Vertical) {
-        border = BorderFactory.createLineBorder(Color.black, 1)
         //background = Color(645, 645, 645)
         contents += roundLabel
         contents += deckLabel
@@ -212,11 +249,54 @@ class Gui(controller: Controller) extends Frame with Observer{
       contents += new BoxPanel(Orientation.Vertical) {
         contents += player2FightFields
         contents += player1FightFields
-        contents += handFields
+        contents += player1HandFields
       }
     }
     contents += player1Stats
   }
+
+  def updateLayoutForRound(round: Int): Unit = {
+    if (round % 2 == 0) {
+      playField.contents.clear()
+
+      playField.contents += player1Stats
+      playField.contents += new BoxPanel(Orientation.Horizontal) {
+        contents += new BoxPanel(Orientation.Vertical) {
+          //background = Color(645, 645, 645)
+          contents += roundLabel
+          contents += deckLabel
+        }
+        contents += new BoxPanel(Orientation.Vertical) {
+          contents += player1FightFields
+          contents += player2FightFields
+          contents += player2HandFields
+        }
+      }
+      playField.contents += player2Stats
+    } else {
+      playField.contents.clear()
+
+      playField.contents += player2Stats
+      playField.contents += new BoxPanel(Orientation.Horizontal) {
+        contents += new BoxPanel(Orientation.Vertical) {
+          //background = Color(645, 645, 645)
+          contents += roundLabel
+          contents += deckLabel
+        }
+        contents += new BoxPanel(Orientation.Vertical) {
+          contents += player2FightFields
+          contents += player1FightFields
+          contents += player1HandFields
+        }
+      }
+      playField.contents += player1Stats
+    }
+
+    // Refresh the GUI
+    playField.revalidate()
+    repaint()
+  }
+
 
   private def updateContent() =
     new BorderPanel:
@@ -226,6 +306,15 @@ class Gui(controller: Controller) extends Frame with Observer{
   private def actionsBar: GridPanel =
     new GridPanel(1, 4):
       contents += Button("Attack") {
+        player1HandCards.contents.foreach({
+          case cardPanel: BoxPanel =>
+            val firstName = cardPanel.contents.collectFirst { case label: Label => label.text }.getOrElse("")
+            if (firstName != "No") {
+              cardPanel.background = java.awt.Color.YELLOW // Set the desired background color
+              cardPanel.opaque = true
+            }
+        })
+        repaint()
         //wenn karte 2 atk oder def kleiner als von karte 1 ist, dann meldung: attack not possible, your monster is too weak
         //controller.attack()
       }
@@ -233,10 +322,65 @@ class Gui(controller: Controller) extends Frame with Observer{
         //controller.playCard()
       }
       contents += Button("Draw") {
-        //controller.draw()
+        println(controller.field.getDeck)
+        if (controller.field.getRound % 2 == 0) {
+          val (updatedDeck, updatedHand) = controller.drawCard(player1Hand, controller.field.getDeck)
+          player2Hand = updatedHand
+          player2HandCards.contents.clear()
+          updatedHand.getCards.foreach({ card =>
+            val cardPanel: BoxPanel = new BoxPanel(Orientation.Vertical) {
+              border = BorderFactory.createLineBorder(Color.black, 1)
+              contents += new Label(card.getFirstName) {
+                xAlignment = Alignment.Center
+              }
+              contents += new Label(card.getLastName) {
+                xAlignment = Alignment.Center
+              }
+              contents += new Label("ATK: " + card.atkToString) {
+                xAlignment = Alignment.Center
+              }
+              contents += new Label("DEF: " + card.defeToString) {
+                xAlignment = Alignment.Center
+              }
+              preferredSize = new Dimension(120, 100)
+            }
+            player2HandCards.contents += cardPanel
+          })
+          deckLabel.text = s"Deck: ${updatedDeck.getDeckCount}"
+          player2HandCards.revalidate()
+          repaint()
+        } else {
+          val (updatedDeck, updatedHand) = controller.drawCard(player1Hand, controller.field.getDeck)
+          player1Hand = updatedHand
+          player1HandCards.contents.clear()
+          updatedHand.getCards.foreach({ card =>
+            val cardPanel: BoxPanel = new BoxPanel(Orientation.Vertical) {
+              border = BorderFactory.createLineBorder(Color.black, 1)
+              contents += new Label(card.getFirstName) {
+                xAlignment = Alignment.Center
+              }
+              contents += new Label(card.getLastName) {
+                xAlignment = Alignment.Center
+              }
+              contents += new Label("ATK: " + card.atkToString) {
+                xAlignment = Alignment.Center
+              }
+              contents += new Label("DEF: " + card.defeToString) {
+                xAlignment = Alignment.Center
+              }
+              preferredSize = new Dimension(120, 100)
+            }
+            player1HandCards.contents += cardPanel
+          })
+          deckLabel.text = s"Deck: ${updatedDeck.getDeckCount}"
+          player1HandCards.revalidate()
+          repaint()
+        }
       }
       contents += Button("Skip") {
-        //controller.skip()
+        roundLabel.text = s"Round: ${controller.field.getRound}"
+        controller.skip()
+        updateLayoutForRound(controller.field.getRound)
       }
       border = Swing.EmptyBorder(10, 10, 10, 10)
 

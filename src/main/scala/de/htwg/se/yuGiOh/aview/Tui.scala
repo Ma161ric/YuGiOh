@@ -18,6 +18,7 @@ class Tui(controller: Controller) extends Observer:
       //if (controller.player1Won) println("Spieler 1 hat das Spiel gewonnen!")
       //else if (controller.player2Won) println("Spieler 1 hat das Spiel gewonnen!")
     case Event.Quit => sys.exit
+    case _ =>
 
   def run(): Unit =
     println(controller.field.toString)
