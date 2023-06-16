@@ -1,43 +1,42 @@
 package de.htwg.se.yuGiOh
 package controller
 
-import model.{Card, Deck, Field, FightField, Hand}
-import util.Observable
-import util.Event
+import model.{Card, Deck, Field, FightField, Hand, Player}
+import util.{Event, Move, Observable, UndoManager}
+
 
 
 case class Controller(var field: Field) extends Observable {
+
+
   override def toString: String = field.toString
+
+  private val undoManager = new UndoManager[Field]
+
+  def undo: Field =
+    field = undoManager.undoStep(field)
+    //print("field after undoManager" + field)
+    notifyObservers(Event.Move)
+
+    field
+
+  def redo: Field =
+    field = undoManager.redoStep(field)
+    field
 
   /*def attack(opponentsCard: String, playersCard: String): Unit =
     1*/
 
-
-  def drawCard(hand: Hand, deck: Deck): (Deck, Hand) =
-    val (firstCard, updatedDeck) = deck.deck match {
-      case Nil => throw new NoSuchElementException("Deck is empty")
-      case head :: tail => (head, Deck(tail))
-    }
-
-    val updatedHand = hand.copy(hand = {
-      var replacementDone = false
-      hand.hand.map { card =>
-        if (!replacementDone && card.getFirstName == "No") {
-          replacementDone = true
-          firstCard
-        } else {
-          card
-        }
-      }
-    })
-    field = field.copy(deck = updatedDeck)
+  def drawCard(moveString: String): Field =
+    val move = Move(moveString)
+    field = undoManager.doStep(field, DoCommand(move, field) )
     notifyObservers(Event.Draw)
-    (updatedDeck, updatedHand)
 
-  def skip(): Unit = {
-    val currentRound = field.getRound
+    field
+
+  def roundIncrement(currentRound: Int): Unit = {
     field = field.copy(round = currentRound + 1)
-    notifyObservers(Event.Skip)
+    notifyObservers(Event.Next)
   }
 
   /*def drawStartingHand(): Unit =
@@ -91,3 +90,4 @@ case class Controller(var field: Field) extends Observable {
   def quit(): Unit =
     System.exit(0)
 }
+

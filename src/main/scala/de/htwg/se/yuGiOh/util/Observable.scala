@@ -15,6 +15,7 @@ enum Event:
   case changeCardPosition
   case Draw
   case GameOver
+  case Move
   case Quit
-  case Skip
+  case Next
   case PlayCard

@@ -62,7 +62,7 @@ import model.{Card, CardLastName, CardName, Field, FightField, Hand, Player, Dec
   val (startingHandPlayer2, updatedDeck2) = updatedDeck1.startingHand(size)
 
 
-  println("Please enter your names: ")
+  /*println("Please enter your names: ")
   print("Player 1 Name: ")
   val firstName = readLine()
 
@@ -74,10 +74,11 @@ import model.{Card, CardLastName, CardName, Field, FightField, Hand, Player, Dec
     print("Player 2 Name: ")
     input = readLine()
   }
-  val secondName = input
-  val firstPlayer = Player(firstName, startingHandPlayer1, emptyFightField)
-  val secondPlayer = Player(secondName, startingHandPlayer2, emptyFightField)
-  println(startingHandPlayer2)
+  val secondName = input*/
+  //val firstPlayer = Player(firstName, startingHandPlayer1, emptyFightField)
+  //val secondPlayer = Player(secondName, startingHandPlayer2, emptyFightField)
+  val firstPlayer = Player("1", startingHandPlayer1, emptyFightField)
+  val secondPlayer = Player("2", startingHandPlayer2, emptyFightField)
   val field =
     Field(size, 1, deck, firstPlayer, secondPlayer)
   val controller = Controller(field)

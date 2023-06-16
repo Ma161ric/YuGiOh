@@ -12,9 +12,9 @@ enum CardName(firstName: String):
   case schwarzer extends CardName("Schwarzer")
   case blauer extends CardName("Blauer")
   case weisser extends CardName("Weisser")
-  case boeser extends CardName("Schlimmer")
+  case boeser extends CardName("Fieser")
   case guter extends CardName("Guter")
-  case emptyName extends CardName("No")
+  case emptyName extends CardName(" ")
 
 enum CardLastName(lastName: String):
   override def toString: String = lastName
@@ -25,7 +25,7 @@ enum CardLastName(lastName: String):
   case Gnom extends CardLastName("Gnom")
   case Reiter extends CardLastName("Reiter")
   case Krieger extends CardLastName("Krieger")
-  case emptyLastName extends CardLastName("Card")
+  case emptyLastName extends CardLastName(" ")
 
 case class Card(
     firstName: CardName,
