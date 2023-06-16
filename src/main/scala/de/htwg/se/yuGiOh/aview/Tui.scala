@@ -1,14 +1,14 @@
 package de.htwg.se.yuGiOh.aview
 
-import de.htwg.se.yuGiOh.controller.Controller
+import de.htwg.se.yuGiOh.controller.GameController
 import de.htwg.se.yuGiOh.util.Observer
 
 import scala.io.StdIn.readLine
 
-class Tui(controller: Controller) extends Observer:
+class Tui(controller: GameController) extends Observer:
   controller.add(this)
   def run(): Unit =
-    println(controller.field.toString)
+    println(controller.toString)
     printhelp()
     inputLoop()
 
@@ -44,27 +44,51 @@ class Tui(controller: Controller) extends Observer:
         return SUCCESS
       case "draw" | "d" =>
         println("draw card")
-        controller.drawCard()
+        if (!controller.drawCard()) {
+          println("already drawed a card")
+          return ERROR
+        }
+        // hier einfach state updaten welcher spieler dran ist
+        // und dann einfach nur sagen das der spieler zieht also ist dann klar wer ziehen muss
         return SUCCESS
       case "play" | "p" =>
         println("play card")
         return SUCCESS
       case "attack" | "a" =>
         if (in.length >= 3) {
-          val opponentsCard = in(1)
-          val playersCard = in(2)
+          val opponentsCard = in(1).toInt
+          // sollen wir hier das als index machen?
+          val playersCard = in(2).toInt
+          // hier auch index, also nur eine zahl übergeben
           println(s"Attack with $playersCard on $opponentsCard")
-          controller.attack(opponentsCard, playersCard)
-          return SUCCESS
+          if (controller.attack(playersCard, opponentsCard)) {
+            println("attack successful")
+            return SUCCESS
+          } else {
+            println("attack failed")
+            return ERROR
+          }
         } else {
-          println("Invalid attack command. Provide both the card to attack and the card used to attack.")
+          println(
+            "Invalid attack command. Provide both the card to attack and the card used to attack."
+          )
           return ERROR
         }
+      case "next" =>
+        println("next player")
+        if (controller.nextPlayer()) {
+          println("already drawed a card")
+          return ERROR
+        }
+        // hier einfach state updaten welcher spieler dran ist
+        // und dann einfach nur sagen das der spieler zieht also ist dann klar wer ziehen muss
+        return SUCCESS
+
       case _ =>
         printhelp()
         return ERROR
 
-  override def update(): Unit =  println(controller.field.toString)
+  override def update(): Unit = println(controller.toString)
 
   /*def fillList[A](element: A, n: Int): List[A] =
     List.fill(n)(element)*/

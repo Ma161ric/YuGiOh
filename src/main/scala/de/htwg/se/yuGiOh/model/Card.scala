@@ -48,7 +48,7 @@ case class Card(
     CardName.blauer,
     CardName.weisser,
     CardName.boeser,
-    CardName.guter,
+    CardName.guter
   )
   private val cardLastNames = List(
     CardLastName.Drache,
@@ -56,7 +56,7 @@ case class Card(
     CardLastName.Hexer,
     CardLastName.Gnom,
     CardLastName.Krieger,
-    CardLastName.Reiter,
+    CardLastName.Reiter
   )
 
   private def deckNamesList(): List[(CardName, CardLastName)] =
@@ -64,26 +64,16 @@ case class Card(
       cardLastNames.map(cardLastName => (cardName, cardLastName))
     }
 
-  /**
-  val deck: List[Card] = deckNamesList().map { case (firstName, lastName) =>
-    val atk = Random.nextInt(2701) + 300 // Generates a random number between 300 and 3000
-    val defe = Random.nextInt(2701) + 300 // Generates a random number between 300 and 3000
-    Card(firstName, lastName, atk, defe, "deck")
-  }
-
-  val deck: List[Card] = generateDeck()
-
-
-  def generateDeck(): List[Card] = {
-    val deckBuffer = ListBuffer[Card]()
-    for {
-      firstName <- cardNames
-      lastName <- cardLastNames
-    } {
-      val atk = Random.nextInt(2701) + 300
-      val defe = Random.nextInt(2701) + 300
-      deckBuffer += Card(firstName, lastName, atk, defe, "deck")
-    }
-    deckBuffer.toList
-  }
-  **/
+  /** val deck: List[Card] = deckNamesList().map { case (firstName, lastName) =>
+    * val atk = Random.nextInt(2701) + 300 // Generates a random number between
+    * 300 and 3000 val defe = Random.nextInt(2701) + 300 // Generates a random
+    * number between 300 and 3000 Card(firstName, lastName, atk, defe, "deck") }
+    *
+    * val deck: List[Card] = generateDeck()
+    *
+    * def generateDeck(): List[Card] = { val deckBuffer = ListBuffer[Card]() for
+    * { firstName <- cardNames lastName <- cardLastNames } { val atk =
+    * Random.nextInt(2701) + 300 val defe = Random.nextInt(2701) + 300
+    * deckBuffer += Card(firstName, lastName, atk, defe, "deck") }
+    * deckBuffer.toList }
+    */

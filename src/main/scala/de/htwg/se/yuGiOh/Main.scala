@@ -4,8 +4,17 @@ import scala.io.StdIn.readLine
 import scala.collection.mutable.ListBuffer
 
 import de.htwg.se.yuGiOh.aview.Tui
-import de.htwg.se.yuGiOh.controller.Controller
-import de.htwg.se.yuGiOh.model.{Card, CardLastName, CardName, Deck, Field, FightField, Hand, Player}
+import de.htwg.se.yuGiOh.controller.GameController
+import de.htwg.se.yuGiOh.model.{
+  Card,
+  CardLastName,
+  CardName,
+  Deck,
+  Field,
+  FightField,
+  Hand,
+  Player
+}
 
 import scala.util.Random
 
@@ -30,7 +39,7 @@ import scala.util.Random
       CardName.blauer,
       CardName.weisser,
       CardName.boeser,
-      CardName.guter,
+      CardName.guter
     )
     val cardLastNames = List(
       CardLastName.Drache,
@@ -38,7 +47,7 @@ import scala.util.Random
       CardLastName.Hexer,
       CardLastName.Gnom,
       CardLastName.Krieger,
-      CardLastName.Reiter,
+      CardLastName.Reiter
     )
 
     val deckBuffer = ListBuffer[Card]()
@@ -53,15 +62,23 @@ import scala.util.Random
     deckBuffer.toList
   }
 
-
   val size = input.toInt
   // size muss integer sein, sollte wert 6 haben
-  val emptyCard: Card = Card(CardName.emptyName, CardLastName.emptyLastName,0,0,"")
+  val emptyCard: Card =
+    Card(CardName.emptyName, CardLastName.emptyLastName, 0, 0, "")
   val deck: Deck = Deck(generateDeck())
   val startingHandPlayer1 = deck.startingHand(size)
   val startingHandPlayer2 = deck.startingHand(size)
-  val emptyHand = Hand(List.fill(size)(Card(CardName.emptyName, CardLastName.emptyLastName,0,0,"")))
-  val emptyFightField = FightField(List.fill(size)(Card(CardName.emptyName, CardLastName.emptyLastName,0,0,"")))
+  val emptyHand = Hand(
+    List.fill(size)(
+      Card(CardName.emptyName, CardLastName.emptyLastName, 0, 0, "")
+    )
+  )
+  val emptyFightField = FightField(
+    List.fill(size)(
+      Card(CardName.emptyName, CardLastName.emptyLastName, 0, 0, "")
+    )
+  )
 
   println(startingHandPlayer1)
 
@@ -83,7 +100,9 @@ import scala.util.Random
 
   val field =
     Field(size, 1, 40, firstPlayer, secondPlayer)
-  val controller = Controller(field)
+
+  val controller = GameController.getInstance(field)
+  // val controller = Controller(field)
   val tui = new Tui(controller)
 
   tui.run()

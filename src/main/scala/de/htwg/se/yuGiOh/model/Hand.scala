@@ -3,6 +3,8 @@ package de.htwg.se.yuGiOh.model
 case class Hand(hand: List[Card]):
   val eol: String = sys.props("line.separator")
 
+  def iterator: Iterator[Card] = hand.iterator
+
   def getCards: List[Card] = hand
 
   def getCard(i: Int): Card = hand(i - 1)
