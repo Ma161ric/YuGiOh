@@ -49,3 +49,4 @@ case class Deck(deck: List[Card]):
     val updatedDeck: List[Card] = deck.filterNot(startingHandList.contains)
     (startingHand, Deck(updatedDeck))
     //to do: update deck and remove the three cards that have been drawn
+    //-> i think that the to do has been done because it works in the game but i dont remember anything

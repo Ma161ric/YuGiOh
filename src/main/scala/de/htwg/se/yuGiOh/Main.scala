@@ -3,15 +3,14 @@ package de.htwg.se.yuGiOh
 import scala.collection.mutable.ListBuffer
 import scala.io.StdIn.readLine
 import scala.util.Random
-
 import aview.Tui
 import aview.gui.Gui
 import controller.Controller
-import model.{Card, CardLastName, CardName, Field, FightField, Hand, Player, Deck}
+import model.{Card, CardLastName, CardName, Deck, Field, FightField, Hand, Player, StartingGame}
 
 @main def run: Unit =
 
-  val rnd = new Random
+  //val rnd = new Random
   var input = ""
 
   println("Welcome to my game!")
@@ -24,45 +23,8 @@ import model.{Card, CardLastName, CardName, Field, FightField, Hand, Player, Dec
   }
   val size = input.toInt*/
   val size = 6
-  val emptyCard: Card = Card(CardName.emptyName, CardLastName.emptyLastName,0,0,"")
-  //val emptyHand = Hand(List.fill(size)(Card.emptyCard))
-  val emptyFightField = FightField(List.fill(size)(emptyCard))
-
-  def generateDeck(): List[Card] = {
-    val cardNames = List(
-      CardName.roter,
-      CardName.schwarzer,
-      CardName.blauer,
-      CardName.weisser,
-      CardName.boeser,
-      CardName.guter,
-    )
-    val cardLastNames = List(
-      CardLastName.Drache,
-      CardLastName.Magier,
-      CardLastName.Hexer,
-      CardLastName.Gnom,
-      CardLastName.Krieger,
-      CardLastName.Reiter,
-    )
-
-    val deckBuffer = ListBuffer[Card]()
-    for {
-      firstName <- cardNames
-      lastName <- cardLastNames
-    } {
-      val atk = Random.nextInt(2701) + 300
-      val defe = Random.nextInt(2701) + 300
-      deckBuffer += Card(firstName, lastName, atk, defe, "deck")
-    }
-    deckBuffer.toList
-  }
-  val deck: Deck = Deck(generateDeck())
-  val (startingHandPlayer1, updatedDeck1) = deck.startingHand(size)
-  val (startingHandPlayer2, updatedDeck2) = updatedDeck1.startingHand(size)
-
-
-  /*println("Please enter your names: ")
+  
+  println("Please enter your names: ")
   print("Player 1 Name: ")
   val firstName = readLine()
 
@@ -74,13 +36,11 @@ import model.{Card, CardLastName, CardName, Field, FightField, Hand, Player, Dec
     print("Player 2 Name: ")
     input = readLine()
   }
-  val secondName = input*/
-  //val firstPlayer = Player(firstName, startingHandPlayer1, emptyFightField)
-  //val secondPlayer = Player(secondName, startingHandPlayer2, emptyFightField)
-  val firstPlayer = Player("1", startingHandPlayer1, emptyFightField)
-  val secondPlayer = Player("2", startingHandPlayer2, emptyFightField)
-  val field =
-    Field(size, 1, deck, firstPlayer, secondPlayer)
+  val secondName = input
+  //playername input should be try option. dont forget this sarah!
+
+  val field = StartingGame.prepare(firstName, secondName)
+  
   val controller = Controller(field)
 
 
@@ -88,8 +48,6 @@ import model.{Card, CardLastName, CardName, Field, FightField, Hand, Player, Dec
   val tui = new Tui(controller)
 
   tui.run()
-
-  // tui.run(size, firstPlayer, secondPlayer)
 
   // print("Who starts first (1 or 2)? ") // input 1 or 2 or q
   // input = readLine()
@@ -103,5 +61,3 @@ import model.{Card, CardLastName, CardName, Field, FightField, Hand, Player, Dec
   //     secondPlayer
   //   )
 
-  // println(field.toString)
-  // println(field.mesh(size,size, input, Card.roterDrache))

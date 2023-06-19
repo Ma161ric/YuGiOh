@@ -1,7 +1,7 @@
 package de.htwg.se.yuGiOh
 package model
 
-import scala.util.Random
+import scala.util.{Random, Try}
 import scala.collection.mutable.ListBuffer
 
 
@@ -32,7 +32,7 @@ case class Card(
     lastName: CardLastName,
     atk: Int,
     defe: Int,
-    position: String
+    position: String = " "
 ):
   override def toString: String = firstName.toString + lastName.toString
 
@@ -44,6 +44,13 @@ case class Card(
   def getDefe: Int = defe
   def getPosition: String = position
 
+  def isEmpty(card: Card): Boolean =
+    Try(card.firstName.toString).toOption.exists(firstName =>
+      firstName.trim.isEmpty
+    )
+
+
+/**
   private val cardNames = List(
     CardName.roter,
     CardName.schwarzer,
@@ -61,12 +68,15 @@ case class Card(
     CardLastName.Reiter,
   )
 
-  private def deckNamesList(): List[(CardName, CardLastName)] =
-    cardNames.flatMap { cardName =>
-      cardLastNames.map(cardLastName => (cardName, cardLastName))
-    }
 
-  /**
+
+
+
+private def deckNamesList(): List[(CardName, CardLastName)] =
+cardNames.flatMap { cardName =>
+cardLastNames.map(cardLastName => (cardName, cardLastName))
+}
+
   val deck: List[Card] = deckNamesList().map { case (firstName, lastName) =>
     val atk = Random.nextInt(2701) + 300 // Generates a random number between 300 and 3000
     val defe = Random.nextInt(2701) + 300 // Generates a random number between 300 and 3000

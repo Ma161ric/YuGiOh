@@ -12,10 +12,11 @@ trait Observable:
 
 enum Event:
   case Attack
-  case changeCardPosition
+  case ChangeCardPosition
   case Draw
   case GameOver
   case Move
-  case Quit
+  case NewGame
   case Next
   case PlayCard
+  case Quit

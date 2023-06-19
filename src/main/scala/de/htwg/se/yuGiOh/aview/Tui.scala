@@ -6,13 +6,19 @@ import util.{Event, Observer}
 
 import scala.annotation.tailrec
 import scala.io.StdIn.readLine
+import scala.util.{Failure, Success, Try}
 
 class Tui(controller: Controller) extends Observer:
   controller.add(this)
 
+  val ERROR: Int = -1
+  val EXIT: Int = 0
+  val SUCCESS: Int = 1
+
   override def update(e: Event): Unit = e match
     case Event.Attack =>
-      println(controller.field.toString)
+      println("Attack!")
+      //println(controller.field.toString)
     case Event.GameOver =>
       println("Game over!")
       //if (controller.player1Won) println("Spieler 1 hat das Spiel gewonnen!")
@@ -22,17 +28,13 @@ class Tui(controller: Controller) extends Observer:
 
   def run(): Unit =
     println(controller.field.toString)
-    controller.printhelp()
+    controller.printHelp()
     inputLoop()
-
-  val ERROR: Int = -1
-  val EXIT: Int = 0
-  val SUCCESS: Int = 1
 
   @tailrec
   private def inputLoop(): Unit =
-    processInputLine(readLine) match {
-      case ERROR => controller.printhelp()
+    processInputLine(readLineTry()) match {
+      case ERROR => controller.printHelp()
       case EXIT =>
         print("bye\n")
         System.exit(0)
@@ -40,33 +42,46 @@ class Tui(controller: Controller) extends Observer:
     }
     inputLoop()
 
-  def processInputLine(input: String): Int =
-    if (input.isEmpty)
+  def readLineTry(): Try[String] = Try(readLine())
+
+  def stringLength(input: Try[String]): Option[Int] = input.toOption.map(_.length)
+
+  def processInputLine(input: Try[String]): Int =
+    /*if (input.isEmpty)
       print("no input!\n")
-      return ERROR
-    val in = input.split(" ")
-    in(0) match
-      case "exit" | "q" =>
+      return ERROR*/
+    val inputStrings: Try[Array[String]] = input.map(_.split(" "))
+    val inputStringIndex0Option: Option[String] = inputStrings.toOption.flatMap(_.headOption)
+    val inputIndex1Option: Option[String] = inputStrings.toOption.flatMap(_.lift(1))
+    val inputIndex2Option: Option[String] = inputStrings.toOption.flatMap(_.lift(2))
+    //val inputStringIndex0: String = inputStringIndex0Option.getOrElse("")
+    val inputIndex1String: String = inputIndex1Option.getOrElse("")
+    val inputIndex2String: String = inputIndex2Option.getOrElse("")
+
+    val inputLength: Option[Int] = stringLength(input)
+
+    input match {
+      case Success("exit" | "q") =>
         println("end game!")
         EXIT
-      case "help" | "h" =>
-        controller.printhelp()
+      case Success("help" | "h") =>
+        controller.printHelp()
         ERROR
-      case "new" | "n" =>
-        println("new game")
+      case Success("new" | "n") =>
+        println("new game!")
         run()
         SUCCESS
-      case "draw" | "d" =>
+      case Success("draw" | "d") =>
         println("draw card")
         //controller.drawCard()
         SUCCESS
-      case "play" | "p" =>
+      case Success("play" | "p") =>
         println("play card")
         SUCCESS
-      case "attack" | "a" =>
-        if (in.length >= 3) {
-          val opponentsCard = in(1)
-          val playersCard = in(2)
+      case Success("attack" | "a") =>
+        if (inputLength.exists(_ >= 3)) {
+          val opponentsCard = inputIndex1String
+          val playersCard = inputIndex2String
           println(s"Attack with $playersCard on $opponentsCard")
           //controller.attack(opponentsCard, playersCard)
           SUCCESS
@@ -74,28 +89,16 @@ class Tui(controller: Controller) extends Observer:
           println("Invalid attack command. Provide both the card to attack and the card used to attack.")
           ERROR
         }
-      case _ =>
-        controller.printhelp()
+      case Success(_) =>
+        print("no input!\n")
+        controller.printHelp()
+        SUCCESS
+      case Failure(_) =>
+        print("input error!\n")
         ERROR
+    }
 
-  def update(): Unit =  println(controller.field.toString)
-
-  /*def fillList[A](element: A, n: Int): List[A] =
-    List.fill(n)(element)*/
-
-  /*def setInitialHand(size: Int): Unit =
-    // ziehe die ersten drei karten vom deck
-    val hand = Hand(List.fill(6)(Card.emptyCard))*/
-
-  /*def emptyHand(size: Int): Unit =
-    val emptyHand = Hand(List.fill(size)(Card.emptyCard))
-    controller.setHandPlayer(emptyHand)
-
-  def emptyFightField(size: Int): Unit =
-    val emptyFightField = FightField(List.fill(size)(Card.emptyCard))
-    controller.setFightFieldPlayer1(emptyFightField)
-    controller.setFightFieldPlayer2(emptyFightField)
-
+  /*
   def chooseCardToPlayPlayer1(hand: Hand, fightField: FightField): Unit =
     println(
       "Choose which Card to Play: \n" +
@@ -184,15 +187,3 @@ class Tui(controller: Controller) extends Observer:
     controller.setLpPlayer1(player1.getLp)
     controller.setNamePlayer2(player2.toString)
     controller.setLpPlayer2(player2.getLp)*/
-
-  /*private def printhelp(): Unit =
-    print("""
-      Befehlsuebersicht:
-      - help | h                  : this help comment
-      - exit | q                  : leaves the game
-      - new  | n                  : creates new game
-      - attack | a                : attack with card from player
-      - draw | d                  : draw one card from deck to hand 
-      - play | p                  : places card from player hand to fight field
-      """ + "\n")
-*/
