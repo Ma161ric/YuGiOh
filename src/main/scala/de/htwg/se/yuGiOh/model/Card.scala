@@ -4,7 +4,6 @@ package model
 import scala.util.{Random, Try}
 import scala.collection.mutable.ListBuffer
 
-
 enum CardName(firstName: String):
   override def toString: String = firstName
 
@@ -32,7 +31,7 @@ case class Card(
     lastName: CardLastName,
     atk: Int,
     defe: Int,
-    position: String = " "
+    position: String
 ):
   override def toString: String = firstName.toString + lastName.toString
 
@@ -49,53 +48,3 @@ case class Card(
       firstName.trim.isEmpty
     )
 
-
-/**
-  private val cardNames = List(
-    CardName.roter,
-    CardName.schwarzer,
-    CardName.blauer,
-    CardName.weisser,
-    CardName.boeser,
-    CardName.guter,
-  )
-  private val cardLastNames = List(
-    CardLastName.Drache,
-    CardLastName.Magier,
-    CardLastName.Hexer,
-    CardLastName.Gnom,
-    CardLastName.Krieger,
-    CardLastName.Reiter,
-  )
-
-
-
-
-
-private def deckNamesList(): List[(CardName, CardLastName)] =
-cardNames.flatMap { cardName =>
-cardLastNames.map(cardLastName => (cardName, cardLastName))
-}
-
-  val deck: List[Card] = deckNamesList().map { case (firstName, lastName) =>
-    val atk = Random.nextInt(2701) + 300 // Generates a random number between 300 and 3000
-    val defe = Random.nextInt(2701) + 300 // Generates a random number between 300 and 3000
-    Card(firstName, lastName, atk, defe, "deck")
-  }
-
-  val deck: List[Card] = generateDeck()
-
-
-  def generateDeck(): List[Card] = {
-    val deckBuffer = ListBuffer[Card]()
-    for {
-      firstName <- cardNames
-      lastName <- cardLastNames
-    } {
-      val atk = Random.nextInt(2701) + 300
-      val defe = Random.nextInt(2701) + 300
-      deckBuffer += Card(firstName, lastName, atk, defe, "deck")
-    }
-    deckBuffer.toList
-  }
-  **/

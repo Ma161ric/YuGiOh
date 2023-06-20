@@ -1,14 +1,14 @@
 package de.htwg.se.yuGiOh
 package aview
 
-import controller.Controller
+import controller.GameController
 import util.{Event, Observer}
 
 import scala.annotation.tailrec
 import scala.io.StdIn.readLine
 import scala.util.{Failure, Success, Try}
 
-class Tui(controller: Controller) extends Observer:
+class Tui(controller: GameController) extends Observer:
   controller.add(this)
 
   val ERROR: Int = -1
@@ -27,11 +27,10 @@ class Tui(controller: Controller) extends Observer:
     case _ =>
 
   def run(): Unit =
-    println(controller.field.toString)
-    controller.printHelp()
+    println(controller.toString) // remember: was controller.field.tostring
+    controller.printhelp()
     inputLoop()
 
-  @tailrec
   private def inputLoop(): Unit =
     processInputLine(readLineTry()) match {
       case ERROR => controller.printHelp()
@@ -48,8 +47,8 @@ class Tui(controller: Controller) extends Observer:
 
   def processInputLine(input: Try[String]): Int =
     /*if (input.isEmpty)
-      print("no input!\n")
-      return ERROR*/
+          print("no input!\n")
+          return ERROR*/ //to do
     val inputStrings: Try[Array[String]] = input.map(_.split(" "))
     val inputStringIndex0Option: Option[String] = inputStrings.toOption.flatMap(_.headOption)
     val inputIndex1Option: Option[String] = inputStrings.toOption.flatMap(_.lift(1))
@@ -73,7 +72,13 @@ class Tui(controller: Controller) extends Observer:
         SUCCESS
       case Success("draw" | "d") =>
         println("draw card")
-        //controller.drawCard()
+        //to do: joa mal gucken das es wieder läuft
+        //if (!controller.drawCard()) {
+        //  println("already drew a card")
+        //  return ERROR
+        //}
+        // hier einfach state updaten welcher spieler dran ist
+        // und dann einfach nur sagen das der spieler zieht also ist dann klar wer ziehen muss
         SUCCESS
       case Success("play" | "p") =>
         println("play card")
@@ -81,14 +86,35 @@ class Tui(controller: Controller) extends Observer:
       case Success("attack" | "a") =>
         if (inputLength.exists(_ >= 3)) {
           val opponentsCard = inputIndex1String
+          // sollen wir hier das als index machen?
+          //to do: klingt gut! wenn die zeit reicht machen wir das noch, es ist auf der to do liste
           val playersCard = inputIndex2String
+          // hier auch index, also nur eine zahl übergeben
           println(s"Attack with $playersCard on $opponentsCard")
-          //controller.attack(opponentsCard, playersCard)
-          SUCCESS
+          //to do: wieder zum laufen kriegen dass controll.attack richtig funkt hier
+          if (controller.attack(playersCard, opponentsCard)) {
+            println("attack successful")
+            SUCCESS
+          } else {
+            println("attack failed")
+            ERROR
+          }
         } else {
-          println("Invalid attack command. Provide both the card to attack and the card used to attack.")
+          println(
+            "Invalid attack command. Provide both the card to attack and the card used to attack."
+          )
           ERROR
         }
+      case "next" =>
+        println("next player")
+        if (controller.nextPlayer()) {
+          println("already drew a card")
+          return ERROR
+        }
+        //to do
+        // hier einfach state updaten welcher spieler dran ist
+        // und dann einfach nur sagen das der spieler zieht also ist dann klar wer ziehen muss
+        SUCCESS
       case Success(_) =>
         print("no input!\n")
         controller.printHelp()

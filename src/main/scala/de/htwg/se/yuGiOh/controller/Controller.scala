@@ -7,42 +7,93 @@ import util.{Event, Move, Observable, UndoManager}
 import scala.collection.mutable.ListBuffer
 import scala.util.Random
 
+// Singelton Pattern
+object GameController {
+  private var instance: GameController = _
 
+  def getInstance(field: Field): GameController = {
+    if (instance == null) {
+      instance = new GameController(field)
+    }
+    instance
+  }
+}
 
-case class Controller(var field: Field) extends Observable {
+val ERROR: Int = -1
+val EXIT: Int = 0
+val SUCCESS: Int = 1
 
+//remember: controller changed from case class to class
+class Controller(var field: Field) extends Observable {
   override def toString: String = field.toString
+  var attStrategy: AttackStrategy = AttackStrategyAttDef
+  // hardcoded for now
+  var actStrategy: ActionStrategy = DrawStrategy
+  val this.field = field
 
   private val undoManager = new UndoManager[Field]
 
-  def attack(/*opponentsCard: String, playersCard: String*/): Unit =
-    //actual attack mechanic
-    notifyObservers(Event.Attack)
-
-  def drawCard(moveString: String): Field =
-    val move = Move(moveString)
-    field = undoManager.doStep(field, DoCommand(move, field)) //für jedes draw, attack, etc ein eigenes command anstatt move übergeben und case ausprobiere
-
-    notifyObservers(Event.Draw)
-
-    field
-
-  def roundIncrement(newRound: Int): Unit = {
-    field = field.copy(round = newRound)
-    notifyObservers(Event.Next)
+  def setAttackStrategy(strategy: AttackStrategy): Unit = {
+    this.attStrategy = strategy
   }
+
+  def setActionStrategy(strategy: ActionStrategy): Unit = {
+    this.actStrategy = strategy
+  }
+
+  def attack(opponentsCard: Int, playersCard: Int): Boolean =
+    if (
+      opponentsCard < 0 || opponentsCard > 4 || playersCard < 0 || playersCard > 4
+    ) {
+      println("Invalid card index for opponents card.")
+      return false
+    }
+    if (actStrategy == AttStrategy) {
+      actStrategy = NextStrategy
+      attStrategy = AttackStrategyAttDef
+      attStrategy.attack(field, playersCard, opponentsCard)
+      notifyObservers(Event.Attack) // Notify the observers about the state change in the field
+      true
+    } else {
+      println(
+        "No attack strategy set. Please set an attack strategy before attacking. Maybe skip drawing a card"
+      )
+      false
+    }
+
+  //remember: drawCard doesnt return field anymore
+  def drawCard(moveString: String): Boolean =
+    if (actStrategy == DrawStrategy) {
+      actStrategy.performAction(field)
+      actStrategy = AttStrategy
+      val move = Move(moveString) //
+      field = undoManager.doStep(field, DoCommand(move, field)) //für jedes draw, attack, etc ein eigenes command anstatt move übergeben und case ausprobiere
+      notifyObservers(Event.Draw) // Notify the observers about the state change in the field
+      true
+    } else {
+      println(
+        "No action strategy set. Please set an action strategy before drawing a card."
+      )
+      false
+    }
 
   def newGame(): Unit =
     field = StartingGame.prepare(field.getPlayer1.name, field.getPlayer2.name)
     notifyObservers(Event.NewGame)
 
-
-  def playCard(card: Card, moveString: String): Field =
-    val move = Move(moveString)
-    field = undoManager.doStep(field, DoCommand(move, field, card))
-    notifyObservers(Event.PlayCard)
-
-    field
+  def playCard(card: Card, moveString: String): Boolean =
+    if (actStrategy == AttStrategy) {
+      actStrategy = NextStrategy
+      val move = Move(moveString) //
+      field = undoManager.doStep(field, DoCommand(move, field, card)) //
+      notifyObservers(Event.PlayCard) // Notify the observers about the state change in the field
+      true
+    } else {
+      println(
+        "No attack strategy set. Please set an attack strategy before attacking."
+      )
+      false
+    }
 
   def printHelp(): Unit =
     print(
@@ -70,10 +121,27 @@ case class Controller(var field: Field) extends Observable {
 
     field
 
+  //to do: change name roundIncrement to smth like nextRound
+  def roundIncrement(newRound: Int): Unit = {
+    if (actStrategy == NextStrategy) {
+      actStrategy.performAction(field)
+      field = field.copy(round = newRound)
+      notifyObservers(Event.Next) // Notify the observers about the state change in the field
+      true
+    } else {
+      println(
+        "No next strategy set. Please set an next strategy before switching to the next player."
+      )
+      false
+    }
+    //actStrategy = DrawStrategy
+    //notifyObservers() // Notify the observers about the state change in the field
+    //return true
+  }
 
   /*def drawStartingHand(): Unit =
-      // ziehe die ersten drei karten vom deck
-      val hand = Hand(List.fill(6)(Card.emptyCard))*/
+    // ziehe die ersten drei karten vom deck
+    val hand = Hand(List.fill(6)(Card.emptyCard))*/
 
   // def setNamePlayer1(name: String) =
   //   field.playerName(10, name)
@@ -94,7 +162,7 @@ case class Controller(var field: Field) extends Observable {
   /*def setHandPlayer(hand: Hand) =
     hand.playerHandRow(10, hand.getSize, hand.getCards)
     notifyObservers
-
+*/
   // def countRound(fightField: FightField, round: Int) =
   //   val newRound = round + 1
   //   fightField.innerRoundBar(10, fightField.getSize, newRound)
@@ -106,6 +174,5 @@ case class Controller(var field: Field) extends Observable {
 
   // def setFightFieldPlayer2(fightField: FightField) =
   //   fightField.playerRow(10, fightField.getSize, fightField.getCards, 40)
-  //   notifyObservers*/
+  //   notifyObservers
 }
-

@@ -1,14 +1,29 @@
 package de.htwg.se.yuGiOh
 package model
-
+//to do: untere zweite imports unnötig
 import de.htwg.se.yuGiOh.model.Card
 import de.htwg.se.yuGiOh.model.Hand
 
 import scala.util.Random
+import scala.collection.Iterator
+
+case class DeckIterator(deck: Deck) extends Iterator[Card] {
+  private var currentIndex = 0
+
+  override def hasNext: Boolean = currentIndex < deck.getDeck.size
+
+  override def next(): Card = {
+    val card = deck.getDeck(currentIndex)
+    currentIndex += 1
+    card
+  }
+}
 
 case class Deck(deck: List[Card]):
   def getDeck: List[Card] = deck
   def getDeckCount: Int = deck.length
+
+  def createIterator: DeckIterator = DeckIterator(this)
 
   /*private def generateDeck(): List[Card] = {
     val cardNames = List(

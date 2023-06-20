@@ -3,7 +3,6 @@ package model
 
 import de.htwg.se.yuGiOh.model.Player
 
-
 case class Field(
     size: Int,
     round: Int,
@@ -12,6 +11,17 @@ case class Field(
     player2: Player
 ):
   val eol: String = sys.props("line.separator")
+  var currentPlayer: Int = 1
+
+  def getCurrentPlayer(): Player =
+    currentPlayer match
+      case 1 => player1
+      case 2 => player2
+
+  def nextPlayer(): Unit =
+    currentPlayer match
+      case 1 => currentPlayer = 2
+      case 2 => currentPlayer = 1
 
   def getSize: Int = size
   def getPlayer1: Player = player1
