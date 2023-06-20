@@ -22,9 +22,15 @@ case class Controller(var field: Field) extends Observable {
   def drawCard(moveString: String): Field =
     val move = Move(moveString)
     field = undoManager.doStep(field, DoCommand(move, field)) //für jedes draw, attack, etc ein eigenes command anstatt move übergeben und case ausprobiere
+
     notifyObservers(Event.Draw)
 
     field
+
+  def roundIncrement(newRound: Int): Unit = {
+    field = field.copy(round = newRound)
+    notifyObservers(Event.Next)
+  }
 
   def newGame(): Unit =
     field = StartingGame.prepare(field.getPlayer1.name, field.getPlayer2.name)
@@ -56,11 +62,6 @@ case class Controller(var field: Field) extends Observable {
   def redo: Field =
     field = undoManager.redoStep(field)
     field
-
-  def roundIncrement(currentRound: Int): Unit = {
-    field = field.copy(round = currentRound + 1)
-    notifyObservers(Event.Next)
-  }
 
   def undo: Field =
     field = undoManager.undoStep(field)
