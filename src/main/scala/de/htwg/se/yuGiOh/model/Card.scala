@@ -31,7 +31,7 @@ case class Card(
     lastName: CardLastName,
     atk: Int,
     defe: Int,
-    position: String
+    position: String = " "
 ):
   override def toString: String = firstName.toString + lastName.toString
 

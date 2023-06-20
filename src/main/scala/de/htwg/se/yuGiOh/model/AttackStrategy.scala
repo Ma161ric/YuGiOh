@@ -1,4 +1,5 @@
-package de.htwg.se.yuGiOh.model
+package de.htwg.se.yuGiOh
+package model
 
 trait AttackStrategy {
   def attack(field: Field, opponentsCard: Int, playersCard: Int): Unit

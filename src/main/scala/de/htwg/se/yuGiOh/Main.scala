@@ -6,7 +6,7 @@ import scala.util.Random
 
 import aview.Tui
 import aview.gui.Gui
-import controller.GameController
+import controller.Controller
 import model.{Card, CardLastName, CardName, Deck, Field, FightField, Hand, Player, StartingGame}
 
 @main def run: Unit =
@@ -44,7 +44,7 @@ import model.{Card, CardLastName, CardName, Deck, Field, FightField, Hand, Playe
   val field = StartingGame.prepare(firstName, secondName)
 
   //val controller = Controller(field)
-  val controller = GameController.getInstance(field)
+  val controller = Controller.getInstance(field)
   val gui = Gui(controller)
   val tui = new Tui(controller)
 

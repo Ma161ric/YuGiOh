@@ -62,7 +62,6 @@ class Gui(controller: Controller) extends Frame with Observer{
       borderPainted = false
       contents += new MenuItem(Action("New Game") {
         controller.newGame()
-        //updateContent()
       })
       contents += new Menu("Edit") {
         contents += new MenuItem(Action("Undo") {
@@ -85,19 +84,14 @@ class Gui(controller: Controller) extends Frame with Observer{
   }
 
   private def updateContent() =
-  /*new BorderPanel:
-    add(mainPanel, BorderPanel.Position.Center)
-    mainPanel.revalidate()
-    repaint()*/
-
-  //to do: check if playfield and actionsbar are proper for the new game function
+    /*new BorderPanel:
+      add(mainPanel, BorderPanel.Position.Center)
+      mainPanel.revalidate()
+      repaint()*/
     new BorderPanel:
       add(playField, BorderPanel.Position.North)
       add(actionsBar, BorderPanel.Position.South)
-  //revalidate()
-  //repaint()
-
-
+  
   override def update(event: Event): Unit = event match
     case Event.Attack =>
       contents = updateContent()
@@ -355,7 +349,9 @@ class Gui(controller: Controller) extends Frame with Observer{
       contents += Button("Attack") {
         background = barBrown
         highlightHandCardsEnabled = true
-        controller.attack()
+        controller.attack(1,2)
+        //to do: attack function machen
+        //to do: attack parameter sind hardcoded noch
         //newRound()
       }
       contents += Button("Play Card") {

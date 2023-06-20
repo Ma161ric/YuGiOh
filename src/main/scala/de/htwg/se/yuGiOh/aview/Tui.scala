@@ -1,14 +1,14 @@
 package de.htwg.se.yuGiOh
 package aview
 
-import controller.GameController
+import controller.Controller
 import util.{Event, Observer}
 
 import scala.annotation.tailrec
 import scala.io.StdIn.readLine
 import scala.util.{Failure, Success, Try}
 
-class Tui(controller: GameController) extends Observer:
+class Tui(controller: Controller) extends Observer:
   controller.add(this)
 
   val ERROR: Int = -1
@@ -28,7 +28,7 @@ class Tui(controller: GameController) extends Observer:
 
   def run(): Unit =
     println(controller.toString) // remember: was controller.field.tostring
-    controller.printhelp()
+    controller.printHelp()
     inputLoop()
 
   private def inputLoop(): Unit =
@@ -83,7 +83,7 @@ class Tui(controller: GameController) extends Observer:
       case Success("play" | "p") =>
         println("play card")
         SUCCESS
-      case Success("attack" | "a") =>
+      /*case Success("attack" | "a") =>
         if (inputLength.exists(_ >= 3)) {
           val opponentsCard = inputIndex1String
           // sollen wir hier das als index machen?
@@ -91,7 +91,6 @@ class Tui(controller: GameController) extends Observer:
           val playersCard = inputIndex2String
           // hier auch index, also nur eine zahl übergeben
           println(s"Attack with $playersCard on $opponentsCard")
-          //to do: wieder zum laufen kriegen dass controll.attack richtig funkt hier
           if (controller.attack(playersCard, opponentsCard)) {
             println("attack successful")
             SUCCESS
@@ -104,14 +103,15 @@ class Tui(controller: GameController) extends Observer:
             "Invalid attack command. Provide both the card to attack and the card used to attack."
           )
           ERROR
-        }
-      case "next" =>
+        }*/
+      //to do: case success wieder zum laufen kriegen dass controll.attack richtig funkt hier
+      case Success("next") =>
         println("next player")
-        if (controller.nextPlayer()) {
+        /*if (controller.roundIncrement()) {
           println("already drew a card")
           return ERROR
-        }
-        //to do
+        }*/
+        //to do: rounincrement funkt nicht hier
         // hier einfach state updaten welcher spieler dran ist
         // und dann einfach nur sagen das der spieler zieht also ist dann klar wer ziehen muss
         SUCCESS
