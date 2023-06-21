@@ -105,7 +105,7 @@ class Tui(controller: Controller) extends Observer:
           ERROR
         }*/
       //to do: case success wieder zum laufen kriegen dass controll.attack richtig funkt hier
-      case Success("next") =>
+      case Success("next" | "n") =>
         println("next player")
         /*if (controller.roundIncrement()) {
           println("already drew a card")
@@ -114,6 +114,14 @@ class Tui(controller: Controller) extends Observer:
         //to do: rounincrement funkt nicht hier
         // hier einfach state updaten welcher spieler dran ist
         // und dann einfach nur sagen das der spieler zieht also ist dann klar wer ziehen muss
+        SUCCESS
+      case Success("save" | "s") =>
+        print("Save Game!\n")
+        controller.save
+        SUCCESS
+      case Success("load" | "l") =>
+        print("Load Game!\n")
+        controller.save
         SUCCESS
       case Success(_) =>
         print("no input!\n")

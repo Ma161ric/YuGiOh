@@ -33,6 +33,37 @@ class Controller(var field: Field) extends Observable {
 
   private val undoManager = new UndoManager[Field]
 
+  def save(): Unit = {
+    val fileIo = new FileIOXml(field)
+    fileIo.save
+    //gameStatus = SAVED
+    //publish(new CellChanged)
+    //notifyObserver(Event.?)
+  }
+
+  /*für später wenn dependency inj da ist
+  def save(): Unit = {
+    fileIo.save(field) //val fileIO oben definiert dann
+    notifyObserver(Event.?)
+  }
+  */
+
+  def load(): Unit = {
+    val fileIo = new FileIOXml(field)
+    grid = fileIo.load
+    //gameStatus = LOADED
+    //publish(new CellChanged)
+  }
+
+  /*für später wenn dependency inj da ist
+  def load(): Unit = {
+    val (f, p) = fileIO.load
+    field = f
+    playerstrategy = p
+    notifyObservers(Event.??)
+  }
+  */
+
   def setAttackStrategy(strategy: AttackStrategy): Unit = {
     this.attStrategy = strategy
   }
@@ -146,7 +177,7 @@ class Controller(var field: Field) extends Observable {
     //notifyObservers() // Notify the observers about the state change in the field
     //return true
   }
-  
+
   // def setNamePlayer1(name: String) =
   //   field.playerName(10, name)
   //   notifyObservers
@@ -162,5 +193,5 @@ class Controller(var field: Field) extends Observable {
   // def setLpPlayer2(lp: String) =
   //   field.playerLp(10, lp)
   //   notifyObservers
-  
+
 }
