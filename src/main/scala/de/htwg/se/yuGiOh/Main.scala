@@ -6,8 +6,12 @@ import scala.util.Random
 
 import aview.Tui
 import aview.gui.Gui
-import controller.Controller
-import model.{Card, CardLastName, CardName, Deck, Field, FightField, Hand, Player, StartingGame}
+
+import de.htwg.se.yuGiOh.controller.controllerComponent.ControllerInterface
+import de.htwg.se.yuGiOh.controller.controllerComponent.controllerBaseImpl._
+import de.htwg.se.yuGiOh.model.fieldComponent.FieldInterface
+import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl._
+import de.htwg.se.yuGiOh.model.playerComponent.Player
 
 @main def run: Unit =
 
@@ -44,7 +48,8 @@ import model.{Card, CardLastName, CardName, Deck, Field, FightField, Hand, Playe
   val field = StartingGame.prepare(firstName, secondName)
 
   //val controller = Controller(field)
-  val controller = Controller.getInstance(field)
+  val controller = Controller(field)
+  //val controller = injector.getInstance(classOf[ControllerInterface])
   val gui = Gui(controller)
   val tui = new Tui(controller)
 

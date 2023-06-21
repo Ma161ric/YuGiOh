@@ -1,5 +1,4 @@
-package de.htwg.se.yuGiOh
-package model
+package de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl
 
 case class Hand(hand: List[Card]):
   val eol: String = sys.props("line.separator")

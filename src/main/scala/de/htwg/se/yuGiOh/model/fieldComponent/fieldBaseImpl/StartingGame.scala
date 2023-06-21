@@ -1,9 +1,12 @@
-package de.htwg.se.yuGiOh.model
+package de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl
 
 import scala.collection.mutable.ListBuffer
 import scala.util.Random
 
-object StartingGame {
+import de.htwg.se.yuGiOh.model.fieldComponent.StartingGameInterface
+import de.htwg.se.yuGiOh.model.playerComponent._
+
+object StartingGame extends StartingGameInterface {
   def prepare(player1Name: String, player2Name: String): Field =
     val emptyCard: Card = Card(CardName.emptyName, CardLastName.emptyLastName, 0, 0, "")
     val emptyFightField = FightField(List.fill(6)(emptyCard))
@@ -18,7 +21,7 @@ object StartingGame {
     
     field
 
-  def generateDeck(): List[Card] = {
+  private def generateDeck(): List[Card] = {
     val cardNames = List(
       CardName.roter,
       CardName.schwarzer,

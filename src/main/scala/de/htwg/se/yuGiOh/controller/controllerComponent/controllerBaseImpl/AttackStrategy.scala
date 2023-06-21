@@ -1,20 +1,21 @@
-package de.htwg.se.yuGiOh
-package model
+package de.htwg.se.yuGiOh.controller.controllerComponent.controllerBaseImpl
 
-trait AttackStrategy {
-  def attack(field: Field, opponentsCard: Int, playersCard: Int): Unit
+import de.htwg.se.yuGiOh.model.fieldComponent.FieldInterface
+
+trait AttackStrategy /*extends StrategyInterface*/{
+  def attack(field: FieldInterface, opponentsCard: Int, playersCard: Int): Unit
 }
 
 // evtl sollten hier nur die indizes übergeben werden mit dem field
 object AttackStrategyAttAtt extends AttackStrategy {
   override def attack(
-      field: Field,
+      field: FieldInterface,
       opponentsCard: Int,
       playersCard: Int
   ): Unit = {
 
     val diff = opponentsCard - playersCard
-    val opponentLP = field.player2.getLp
+    val opponentLP = field.getPlayer2.getLp
     val updatedLP = opponentLP.toInt - diff
 
     // Update opponent's life points with the new value (e.g., setLifePoints(opponentsCard, updatedLP))
@@ -24,13 +25,13 @@ object AttackStrategyAttAtt extends AttackStrategy {
 
 object AttackStrategyAttDef extends AttackStrategy {
   override def attack(
-      field: Field,
+      field: FieldInterface,
       opponentsCard: Int,
       playersCard: Int
   ): Unit = {
     // Destroy the opponent's card (e.g., field.destroyCard(opponentsCard))
     val diff = opponentsCard - playersCard
-    val opponentLP = field.player2.getLp
+    val opponentLP = field.getPlayer2.getLp
     val updatedLP = opponentLP.toInt - diff
 
     // Update opponent's life points with the new value (e.g., field.player2.setLp(updatedLP))
@@ -40,13 +41,13 @@ object AttackStrategyAttDef extends AttackStrategy {
 
 object AttackStrategyDefAtt extends AttackStrategy {
   override def attack(
-      field: Field,
+      field: FieldInterface,
       opponentsCard: Int,
       playersCard: Int
   ): Unit = {
     // Destroy the player's card (e.g., field.destroyCard(playersCard))
     val diff = playersCard - opponentsCard
-    val opponentLP = field.player2.getLp
+    val opponentLP = field.getPlayer2.getLp
     val updatedLP = opponentLP.toInt - diff
 
     // Update opponent's life points with the new value (e.g., field.player2.setLp(updatedLP))
@@ -56,7 +57,7 @@ object AttackStrategyDefAtt extends AttackStrategy {
 
 object AttackStrategyDefDef extends AttackStrategy {
   override def attack(
-      field: Field,
+      field: FieldInterface,
       opponentsCard: Int,
       playersCard: Int
   ): Unit = {

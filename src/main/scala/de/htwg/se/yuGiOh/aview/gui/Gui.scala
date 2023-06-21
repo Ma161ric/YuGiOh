@@ -1,8 +1,11 @@
 package de.htwg.se.yuGiOh.aview.gui
 
 
-import de.htwg.se.yuGiOh.controller.Controller
-import de.htwg.se.yuGiOh.model.{Card, CardLastName, CardName, Deck, FightField, Hand, Player}
+import de.htwg.se.yuGiOh.controller.controllerComponent.ControllerInterface
+import de.htwg.se.yuGiOh.controller.controllerComponent.controllerBaseImpl._
+import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl._
+import de.htwg.se.yuGiOh.model.playerComponent.Player
+import de.htwg.se.yuGiOh.model.fieldComponent.FieldInterface
 import de.htwg.se.yuGiOh.util.{Event, Observer}
 
 import javax.swing.ImageIcon
@@ -19,7 +22,7 @@ import java.io.File
 import scala.swing
 import scala.swing.Panel
 
-class Gui(controller: Controller) extends Frame with Observer{
+class Gui(controller: ControllerInterface) extends Frame with Observer{
   controller.add(this)
 
   title = "Yu-Gi-Oh"
@@ -62,12 +65,13 @@ class Gui(controller: Controller) extends Frame with Observer{
       borderPainted = false
       contents += new MenuItem(Action("New Game") {
         controller.newGame()
+        highlightHandCardsEnabled = false
       })
       contents += new Menu("Edit") {
         contents += new MenuItem(Action("Undo") {
           controller.undo
           //val updatedField = controller.field
-          println(controller.field)
+          //println(controller.getField)
           //updateContent()
         })
         contents += new MenuItem(Action("Redo") {
@@ -91,7 +95,7 @@ class Gui(controller: Controller) extends Frame with Observer{
     new BorderPanel:
       add(playField, BorderPanel.Position.North)
       add(actionsBar, BorderPanel.Position.South)
-  
+
   override def update(event: Event): Unit = event match
     case Event.Attack =>
       contents = updateContent()
@@ -134,13 +138,13 @@ class Gui(controller: Controller) extends Frame with Observer{
     opaque = true
   }
   private val roundLabel = new Label {
-    text = s"Round: ${controller.field.getRound}"
+    text = s"Round: ${controller.getField.getRound}"
     border = new EmptyBorder(5, 2, 0, 34)
     background = lightBrown
     opaque = true
   }
   private val deckLabel = new Label {
-    text = s"Deck: ${controller.field.getDeck.getDeckCount}"
+    text = s"Deck: ${controller.getField.getDeck.getDeckCount}"
     border = new EmptyBorder(5, 2, 5, 38)
     background = lightBrown
     opaque = true
@@ -285,9 +289,9 @@ class Gui(controller: Controller) extends Frame with Observer{
   }
 
   private def playField: BoxPanel = new BoxPanel(Orientation.Vertical) {
-    val currentRound: Int = controller.field.getRound
-    val player1: Player = controller.field.getPlayer1
-    val player2: Player = controller.field.getPlayer2
+    val currentRound: Int = controller.getField.getRound
+    val player1: Player = controller.getField.getPlayer1
+    val player2: Player = controller.getField.getPlayer2
 
     border = brownBorder
 
@@ -319,9 +323,9 @@ class Gui(controller: Controller) extends Frame with Observer{
   }
 
   private def newRound(): Unit =
-    val newRound: Int = controller.field.getRound + 1
+    val newRound: Int = controller.getField.getRound + 1
     controller.roundIncrement(newRound)
-    roundLabel.text = s"Round: ${controller.field.getRound}"
+    roundLabel.text = s"Round: ${controller.getField.getRound}"
   //weird: if the upper line is gone nothing works anymore, seems suspicious
   //solved: because roundlabel is a val and not a def, to do: change that
 
@@ -359,16 +363,16 @@ class Gui(controller: Controller) extends Frame with Observer{
         //to do: player should be able to click on the cards he wants to play
         //choose card to play and pass chosen card as argument for playCard function
         //momentan nur default card playable als bsp um zu prüfung obs geht
-        val defaultCard: Card = Card(CardName.weisser, CardLastName.Drache, 2000, 3000)
+        //val defaultCard: Card = Card(CardName.weisser, CardLastName.Drache, 2000, 3000)
 
-        controller.playCard(defaultCard, "playCard")
+        controller.playCard()
 
-        deckLabel.text = s"Deck: ${controller.field.getDeck.getDeckCount}"
+        deckLabel.text = s"Deck: ${controller.getField.getDeck.getDeckCount}"
         //newRound()
       }
       contents += Button("Draw") {
-          controller.drawCard("draw")
-          deckLabel.text = s"Deck: ${controller.field.getDeck.getDeckCount}"
+          controller.drawCard()
+          deckLabel.text = s"Deck: ${controller.getField.getDeck.getDeckCount}"
       }
       contents += Button("Next") {
         newRound()

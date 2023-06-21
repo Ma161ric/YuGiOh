@@ -1,17 +1,23 @@
-package de.htwg.se.yuGiOh
-package model
+package de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl
 
-import de.htwg.se.yuGiOh.model.Player
+import de.htwg.se.yuGiOh.model.fieldComponent.FieldInterface
+import de.htwg.se.yuGiOh.model.playerComponent._
 
-case class Field(
+case class Field (
     size: Int,
     round: Int,
     deck: Deck,
     player1: Player,
     player2: Player
-):
+) extends FieldInterface :
+
   val eol: String = sys.props("line.separator")
   var currentPlayer: Int = 1
+
+  def copy(size: Int = this.size, round: Int = this.round, deck: Deck = this.deck, player1: Player = this.player1, player2: Player = this.player2): FieldInterface =
+    Field(size, round, deck, player1, player2)
+
+
 
   def getCurrentPlayer(): Player =
     currentPlayer match

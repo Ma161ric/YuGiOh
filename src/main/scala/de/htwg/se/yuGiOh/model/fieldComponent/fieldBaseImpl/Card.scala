@@ -1,5 +1,6 @@
-package de.htwg.se.yuGiOh
-package model
+package de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl
+
+import de.htwg.se.yuGiOh.model.fieldComponent.CardInterface
 
 import scala.util.{Random, Try}
 import scala.collection.mutable.ListBuffer
@@ -32,7 +33,7 @@ case class Card(
     atk: Int,
     defe: Int,
     position: String = " "
-):
+) extends CardInterface:
   override def toString: String = firstName.toString + lastName.toString
 
   def atkToString: String = atk.toString

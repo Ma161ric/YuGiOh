@@ -1,5 +1,4 @@
-package de.htwg.se.yuGiOh
-package util
+package de.htwg.se.yuGiOh.util
 
 trait Observer:
   def update(e: Event): Unit

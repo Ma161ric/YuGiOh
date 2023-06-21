@@ -1,5 +1,7 @@
-package de.htwg.se.yuGiOh
-package model
+package de.htwg.se.yuGiOh.model.playerComponent
+
+import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl._
+import de.htwg.se.yuGiOh.model._
 
 case class Player(name: String, hand: Hand, fightField: FightField, lp: Int = 1000):
   override def toString: String = name

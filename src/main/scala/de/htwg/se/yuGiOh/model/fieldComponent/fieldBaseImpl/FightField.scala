@@ -1,8 +1,4 @@
-package de.htwg.se.yuGiOh
-package model
-
-//import de.htwg.se.yuGiOh.model.Card
-
+package de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl
 
 case class FightField(fightField: List[Card]):
   val eol: String = sys.props("line.separator")

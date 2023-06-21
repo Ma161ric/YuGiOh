@@ -1,15 +1,14 @@
-package de.htwg.se.yuGiOh.controller
+package de.htwg.se.yuGiOh.controller.controllerComponent.controllerBaseImpl
 
-import de.htwg.se.yuGiOh.model.{Card, CardLastName, CardName, Deck, Field, FightField, Hand, Player}
-import de.htwg.se.yuGiOh.util.UndoManager
-import de.htwg.se.yuGiOh.util.Command
-import de.htwg.se.yuGiOh.util.Move
+import de.htwg.se.yuGiOh.model.fieldComponent.FieldInterface
+import de.htwg.se.yuGiOh.util.*
+import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl.*
+import de.htwg.se.yuGiOh.model.playerComponent.*
 
-
-class DoCommand(move: Move, var field: Field, chosenCard: Card = Card(CardName.emptyName, CardLastName.emptyLastName, 0, 0, " ")) extends Command[Field]:
+class DoCommand(move: Move, var field: FieldInterface, chosenCard: Card = Card(CardName.emptyName, CardLastName.emptyLastName, 0, 0, " ")) extends Command[FieldInterface]:
 
   val controller: Controller = Controller(field)
-  override def doStep(field: Field): Field =
+  override def doStep(field: FieldInterface): FieldInterface =
     move.value match {
       case "draw" =>
         val (firstCard, updatedDeck) = field.getDeck.deck match {
@@ -93,7 +92,7 @@ class DoCommand(move: Move, var field: Field, chosenCard: Card = Card(CardName.e
         field.copy(player1 = player1, player2 = player2)
     }
 
-  override def undoStep(field: Field): Field =
+  override def undoStep(field: FieldInterface): FieldInterface =
     move.value match {
       case "draw" =>
         val temp = this.field
@@ -101,7 +100,7 @@ class DoCommand(move: Move, var field: Field, chosenCard: Card = Card(CardName.e
         temp
     }
 
-  override def redoStep(field: Field): Field =
+  override def redoStep(field: FieldInterface): FieldInterface =
     move.value match {
       case "draw" =>
         val temp = this.field

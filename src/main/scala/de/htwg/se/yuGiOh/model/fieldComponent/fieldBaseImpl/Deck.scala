@@ -1,8 +1,6 @@
-package de.htwg.se.yuGiOh
-package model
-//to do: untere zweite imports unnötig
-import de.htwg.se.yuGiOh.model.Card
-import de.htwg.se.yuGiOh.model.Hand
+package de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl
+
+import de.htwg.se.yuGiOh.model.fieldComponent.DeckInterface
 
 import scala.util.Random
 import scala.collection.Iterator
@@ -19,7 +17,7 @@ case class DeckIterator(deck: Deck) extends Iterator[Card] {
   }
 }
 
-case class Deck(deck: List[Card]):
+case class Deck(deck: List[Card]) extends DeckInterface:
   def getDeck: List[Card] = deck
   def getDeckCount: Int = deck.length
 
