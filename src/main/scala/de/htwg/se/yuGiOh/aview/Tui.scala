@@ -2,12 +2,17 @@ package de.htwg.se.yuGiOh
 package aview
 
 import de.htwg.se.yuGiOh.controller.controllerComponent.ControllerInterface
-import de.htwg.se.yuGiOh.controller.controllerComponent._
+import de.htwg.se.yuGiOh.controller.controllerComponent.*
 import de.htwg.se.yuGiOh.util.{Event, Observer}
 
+import scala.swing.Swing
 import scala.annotation.tailrec
+import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.io.StdIn.readLine
 import scala.util.{Failure, Success, Try}
+import java.io.{BufferedReader, InputStreamReader}
+import java.util.concurrent.LinkedBlockingQueue
 
 class Tui(controller: ControllerInterface) extends Observer:
   controller.add(this)
@@ -33,23 +38,45 @@ class Tui(controller: ControllerInterface) extends Observer:
     inputLoop()
 
   private def inputLoop(): Unit =
-    processInputLine(readLineTry()) match {
+    val inputQueue = new LinkedBlockingQueue[String]()
+
+    /*Future {
+      while (true) {
+        val input = readLine()
+        inputQueue.put(input)
+      }
+    }
+
+    Swing.onEDT {
+      while (true) {
+        val input = inputQueue.take()
+        processInputLine(Try(input)) match {
+          case ERROR =>
+            controller.printHelp()
+          case EXIT =>
+            print("bye\n")
+            System.exit(0)
+          case SUCCESS =>
+            print("\n\n")
+        }
+      }
+    }*/
+
+    /*processInputLine(readLineTry()) match {
       case ERROR => controller.printHelp()
       case EXIT =>
         print("bye\n")
         System.exit(0)
       case SUCCESS => print("\n\n")
-    }
-    inputLoop()
+    }*/
+    inputLoop() //to do: if this commented out, recursion with docker and always "no input!"
 
   def readLineTry(): Try[String] = Try(readLine())
 
-  def stringLength(input: Try[String]): Option[Int] = input.toOption.map(_.length)
+  //def stringLength(input: Try[String]): Option[Int] = input.toOption.map(_.length)
 
   def processInputLine(input: Try[String]): Int =
-    /*if (input.isEmpty)
-          print("no input!\n")
-          return ERROR*/ //to do
+    val inputString = input.getOrElse("")
     val inputStrings: Try[Array[String]] = input.map(_.split(" "))
     val inputStringIndex0Option: Option[String] = inputStrings.toOption.flatMap(_.headOption)
     val inputIndex1Option: Option[String] = inputStrings.toOption.flatMap(_.lift(1))
@@ -58,7 +85,7 @@ class Tui(controller: ControllerInterface) extends Observer:
     val inputIndex1String: String = inputIndex1Option.getOrElse("")
     val inputIndex2String: String = inputIndex2Option.getOrElse("")
 
-    val inputLength: Option[Int] = stringLength(input)
+    //val inputLength: Option[Int] = stringLength(input)
 
     input match {
       case Success("exit" | "q") =>
@@ -118,7 +145,7 @@ class Tui(controller: ControllerInterface) extends Observer:
         SUCCESS
       case Success(_) =>
         print("no input!\n")
-        controller.printHelp()
+        //controller.printHelp()
         SUCCESS
       case Failure(_) =>
         print("input error!\n")

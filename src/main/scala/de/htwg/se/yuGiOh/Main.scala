@@ -54,7 +54,7 @@ import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl._
   val controller: ControllerInterface = injector.getInstance(classOf[ControllerInterface])
 
   //val controller = Controller(field)
-  //val gui = Gui(controller)
+  val gui = Gui(controller)
   val tui = new Tui(controller)
 
   tui.run()

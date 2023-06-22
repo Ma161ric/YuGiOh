@@ -28,6 +28,8 @@ class Gui(controller: ControllerInterface) extends Frame with Observer{
 
   title = "Yu-Gi-Oh"
   preferredSize = new Dimension(800, 638)
+  minimumSize = new Dimension(800, 638)
+  maximumSize = new Dimension(800, 638)
   resizable = false
 
   private val actionsBarSize = new Dimension(800, 45)
