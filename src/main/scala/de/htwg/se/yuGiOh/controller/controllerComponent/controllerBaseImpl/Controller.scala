@@ -29,7 +29,9 @@ val SUCCESS: Int = 1
 
 //remember: controller changed from case class to class
 class Controller @Inject()(var field: FieldInterface) extends ControllerInterface with Observable {
-  field = StartingGame.prepare()
+
+  field = StartingGame.prepare(field.getPlayer2.getName, field.getPlayer2.getName) // for default player just switch to ...prepare()
+
   override def toString: String = field.toString
   var attStrategy: AttackStrategy = AttackStrategyAttDef
   // hardcoded for now
@@ -87,8 +89,19 @@ class Controller @Inject()(var field: FieldInterface) extends ControllerInterfac
       false
     }
 
+  def restart(): Unit =
+    field = StartingGame.prepare(field.getPlayer1.getName, field.getPlayer2.getName)
+    notifyObservers(Event.Restart)
+
   def newGame(): Unit =
     field = StartingGame.prepare(field.getPlayer1.getName, field.getPlayer2.getName)
+    notifyObservers(Event.StartingGame)
+
+  def newStartingGame(optionStringPlayer1: Option[String], optionStringPlayer2: Option[String]): Unit =
+    val stringPlayer1: String = optionStringPlayer1.getOrElse("Default")
+    val stringPlayer2: String = optionStringPlayer2.getOrElse("Default")
+
+    field = StartingGame.prepare(stringPlayer1, stringPlayer2)
     notifyObservers(Event.NewGame)
 
   def playCard(): Boolean = //to do: hier nachher karte übergeben, am besten den index oder so davon

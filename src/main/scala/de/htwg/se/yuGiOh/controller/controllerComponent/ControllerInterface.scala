@@ -12,10 +12,12 @@ trait ControllerInterface extends Observable{
   def attack(opponentsCard: Int, playersCard: Int): Boolean
   def drawCard(): Boolean
   def newGame(): Unit
+  def newStartingGame(optionStringPlayer1: Option[String], optionStringPlayer2: Option[String]): Unit
   def playCard(): Boolean
   def printHelp(): Unit
   def quit(): Unit
   def redo: Unit
   def undo: Unit
+  def restart(): Unit
   def roundIncrement(newRound: Int): Boolean
 }

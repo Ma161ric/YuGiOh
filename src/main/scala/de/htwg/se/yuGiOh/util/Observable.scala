@@ -19,3 +19,5 @@ enum Event:
   case Next
   case PlayCard
   case Quit
+  case StartingGame
+  case Restart

@@ -12,8 +12,8 @@ object StartingGame extends StartingGameInterface {
 
   @Inject
   val injector = Guice.createInjector(new Module)
-  var defaultPlayer1 = injector.instance[PlayerInterface](Names.named("DefaultPlayer1")) // to do: needs to be defaultplayer1
-  //var defaultPlayer2 = injector.instance[Player](Names.named("DefaultPlayer2"))
+  var player1 = injector.instance[PlayerInterface](Names.named("DefaultPlayer1"))
+  var player2 = injector.instance[PlayerInterface](Names.named("DefaultPlayer2"))
 
 
   def prepare(player1Name: String = " ", player2Name: String = " "): Field =
@@ -23,8 +23,8 @@ object StartingGame extends StartingGameInterface {
     val (startingHandPlayer1, updatedDeck1) = deck.startingHand(6)
     val (startingHandPlayer2, updatedDeck2) = updatedDeck1.startingHand(6)
 
-    val defPlayer1: PlayerInterface = defaultPlayer1
-    val defPlayer2: PlayerInterface = defaultPlayer1 //to do: needs to be ddefaultplayer2
+    val defPlayer1: PlayerInterface = player1
+    val defPlayer2: PlayerInterface = player2
     val newPlayer1: Player = Player(player1Name, startingHandPlayer1, emptyFightField)
     val newPlayer2: Player = Player(player2Name, startingHandPlayer2, emptyFightField)
 
@@ -37,6 +37,8 @@ object StartingGame extends StartingGameInterface {
 
       field
     }
+
+  //def preparePlayer()
 
 
   private def generateDeck(): List[Card] = {

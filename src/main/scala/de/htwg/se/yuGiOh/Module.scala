@@ -17,13 +17,11 @@ class Module extends AbstractModule with ScalaModule {
 
   private val defaultName: String = "Default"
 
-  private val defaultName1: String = "DefaultPlayer"
-  private val defaultName2: String = "DefaultPlayer"
-
   override def configure(): Unit =
-    val defaultStartingGame = StartingGame.prepare(defaultName1,defaultName1)
+    val defaultStartingGame = StartingGame.prepare(defaultName,defaultName)
     val defaultPlayer1 = defaultStartingGame.getPlayer1
     val defaultPlayer2 = defaultStartingGame.getPlayer2
+
     //bindConstant().annotatedWith(Names.named("DefaultSize")).to(defaultSize, defaultRound)
     //bindConstant().annotatedWith(Names.named("DefaultName")).to(defaultName)
 
@@ -32,7 +30,7 @@ class Module extends AbstractModule with ScalaModule {
 
     //bind[PlayerInterface].annotatedWithName("Default").toInstance(Player("Default 2"))
     bind[PlayerInterface].annotatedWith(Names.named("DefaultPlayer1")).toInstance(Player(defaultPlayer1.getName, defaultPlayer1.getHand, defaultPlayer1.getFightField, defaultPlayer1.getLp))
-    //bind[PlayerInterface].annotatedWith(Names.named("DefaultPlayer")).toInstance(Player(defaultPlayer2.getName, defaultPlayer2.getHand, defaultPlayer2.getFightField, defaultPlayer2.getLp))
+    bind[PlayerInterface].annotatedWith(Names.named("DefaultPlayer2")).toInstance(Player(defaultPlayer2.getName, defaultPlayer2.getHand, defaultPlayer2.getFightField, defaultPlayer2.getLp))
     //bind[PlayerInterface].toInstance(Player(defaultPlayer2.getName, defaultPlayer2.getHand, defaultPlayer2.getFightField, defaultPlayer2.getLp))
     //bind[PlayerInterface].to[Player]
 

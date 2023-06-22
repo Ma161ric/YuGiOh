@@ -18,7 +18,7 @@ import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl._
 @main def run: Unit =
 
   //val rnd = new Random
-  var input = ""
+  //var input = ""
 
   println("Welcome to my game!")
 
@@ -27,9 +27,9 @@ import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl._
   while (input.toInt < 4 || input.toInt > 10) {
     print("Size of game (min 4): ")
     input = readLine()
-  } to do: fürs erste auskommentiert damits nicht zu kompliziert wird*/
+  } to do: fürs erste auskommentiert damits nicht zu kompliziert wird
 
-  //val size = input.toInt
+  val size = input.toInt
   val size = 6
 
   println("Please enter your names: ")
@@ -44,10 +44,11 @@ import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl._
     print("Player 2 Name: ")
     input = readLine()
   }
-  val secondName = input
+  val secondName = input*/
   // to do: playername input should be try option. dont forget this sarah!
 
-  val field = StartingGame.prepare(firstName, secondName)
+  //val field = StartingGame.prepare(firstName, secondName)
+
 
   val injector = Guice.createInjector(new Module)
   val controller: ControllerInterface = injector.getInstance(classOf[ControllerInterface])

@@ -10,6 +10,8 @@ import de.htwg.se.yuGiOh.util.{Event, Observer}
 import javax.swing.ImageIcon
 import javax.swing.BorderFactory
 import javax.swing.border.{CompoundBorder, EmptyBorder, LineBorder}
+import scala.swing.Dialog._
+import scala.swing.Dialog
 import javax.swing.SwingUtilities
 import javax.swing.UIManager
 import java.awt.Color
@@ -62,6 +64,10 @@ class Gui(controller: ControllerInterface) extends Frame with Observer{
     contents += new Menu("") {
       icon = menuImage
       borderPainted = false
+      contents += new MenuItem(Action("Restart") {
+        controller.restart()
+        highlightHandCardsEnabled = false
+      })
       contents += new MenuItem(Action("New Game") {
         controller.newGame()
         highlightHandCardsEnabled = false
@@ -111,6 +117,12 @@ class Gui(controller: ControllerInterface) extends Frame with Observer{
     case Event.NewGame =>
       contents = updateContent()
       repaint()
+    case Event.Restart =>
+      contents = updateContent()
+      repaint()
+    case Event.StartingGame =>
+      val (player1: Option[String], player2: Option[String]) = getGraphicalInput()
+      controller.newStartingGame(player1, player2)
     case Event.Next =>
       highlightHandCardsEnabled = false
       contents = updateContent()
@@ -321,29 +333,6 @@ class Gui(controller: ControllerInterface) extends Frame with Observer{
     }
   }
 
-  private def newRound(): Unit =
-    val newRound: Int = controller.getField.getRound + 1
-    controller.roundIncrement(newRound)
-    roundLabel.text = s"Round: ${controller.getField.getRound}"
-  //weird: if the upper line is gone nothing works anymore, seems suspicious
-  //solved: because roundlabel is a val and not a def, to do: change that
-
-  private def setButtonLookAndFeel(): Unit = {
-    val lookAndFeel = UIManager.getLookAndFeelDefaults()
-    lookAndFeel.put("Button.background", lightBrown)
-    lookAndFeel.put("Button.foreground", borderColor)
-    lookAndFeel.put("Button.border", brownBorder)
-    lookAndFeel.put("Button.preferredSize", buttonSize)
-    UIManager.put("Button.select", highlightColor)
-  }
-
-  def setMenuLookAndFeel(): Unit = {
-    val lookAndFeel = UIManager.getLookAndFeelDefaults()
-    lookAndFeel.put("MenuItem.background", barBrown)
-    lookAndFeel.put("MenuItem.foreground", borderColor)
-    //doesnt work, it needs to be customised menu working with 2dgraphics
-  }
-
   private def actionsBar: GridPanel =
     new GridPanel(1, 4):
       background = barBrown
@@ -352,7 +341,7 @@ class Gui(controller: ControllerInterface) extends Frame with Observer{
       contents += Button("Attack") {
         background = barBrown
         highlightHandCardsEnabled = true
-        controller.attack(1,2)
+        controller.attack(1, 2)
         //to do: attack function machen
         //to do: attack parameter sind hardcoded noch
         //newRound()
@@ -370,13 +359,53 @@ class Gui(controller: ControllerInterface) extends Frame with Observer{
         //newRound()
       }
       contents += Button("Draw") {
-          controller.drawCard()
-          deckLabel.text = s"Deck: ${controller.getField.getDeck.getDeckCount}"
+        controller.drawCard()
+        deckLabel.text = s"Deck: ${controller.getField.getDeck.getDeckCount}"
       }
       contents += Button("Next") {
         newRound()
       }
       border = Swing.EmptyBorder(10, 10, 10, 10)
+
+  private def newRound(): Unit =
+    val newRound: Int = controller.getField.getRound + 1
+    controller.roundIncrement(newRound)
+    roundLabel.text = s"Round: ${controller.getField.getRound}"
+  //weird: if the upper line is gone nothing works anymore, seems suspicious
+  //solved: because roundlabel is a val and not a def, to do: change that ?
+
+  def init(): Unit = {
+    val (player1: Option[String], player2: Option[String]) = getGraphicalInput()
+    controller.newStartingGame(player1, player2)
+  }
+  def getGraphicalInput(): (Option[String], Option[String]) = {
+    val playerName1 = showInput(null, "Enter Name Player 1", "Input Dialog", Dialog.Message.Question, null, Seq.empty[String], "Default")
+    val playerName2 = showInput(null, "Enter Name Player 2", "Input Dialog", Dialog.Message.Question, null, Seq.empty[String], "Default")
+
+    //StartingGame.player1 = Player(playerName1.getOrElse("DefaultPlayer1"))
+    //StartingGame.player2 = Player(playerName1.getOrElse("DefaultPlayer2"))
+
+    (Option(playerName1.getOrElse("Default")), Option(playerName2.getOrElse("Default")))
+    //(playerName1, playerName2)
+  }
+
+  private def setButtonLookAndFeel(): Unit = {
+    val lookAndFeel = UIManager.getLookAndFeelDefaults()
+    lookAndFeel.put("Button.background", lightBrown)
+    lookAndFeel.put("Button.foreground", borderColor)
+    lookAndFeel.put("Button.border", brownBorder)
+    lookAndFeel.put("Button.preferredSize", buttonSize)
+    UIManager.put("Button.select", highlightColor)
+  }
+
+  def setMenuLookAndFeel(): Unit = {
+    val lookAndFeel = UIManager.getLookAndFeelDefaults()
+    lookAndFeel.put("MenuItem.background", barBrown)
+    lookAndFeel.put("MenuItem.foreground", borderColor)
+    //doesnt work, it needs to be customised menu working with 2dgraphics
+  }
+
+
 
   /*private val startButton = new Button("Start YuGiOh") {
     background = mediumBrown
@@ -423,4 +452,6 @@ class Gui(controller: ControllerInterface) extends Frame with Observer{
   centerOnScreen
   pack
   open()
+
+  init()
 }
