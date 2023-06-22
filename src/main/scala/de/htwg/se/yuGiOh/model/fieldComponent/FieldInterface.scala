@@ -3,12 +3,12 @@ package de.htwg.se.yuGiOh.model.fieldComponent
 import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl._
 //to do: check if it would be better to player instead of playerinterface
 trait FieldInterface {
-  def copy(size: Int = this.getSize, round: Int = this.getRound, deck: Deck = this.getDeck, player1: PlayerInterfaceOld = this.getPlayer1, player2: PlayerInterfaceOld = this.getPlayer2): FieldInterface
-  def getCurrentPlayer(): PlayerInterfaceOld
+  def copy(size: Int = this.getSize, round: Int = this.getRound, deck: Deck = this.getDeck, player1: PlayerInterface = this.getPlayer1, player2: PlayerInterface = this.getPlayer2): FieldInterface
+  def getCurrentPlayer(): PlayerInterface
   def nextPlayer(): Unit
   def getSize: Int
-  def getPlayer1: PlayerInterfaceOld
-  def getPlayer2: PlayerInterfaceOld
+  def getPlayer1: PlayerInterface
+  def getPlayer2: PlayerInterface
   def getRound: Int
   def getDeck: Deck
   def outerBar(cellWidth: Int, cellNum: Int): String
@@ -41,7 +41,7 @@ trait DeckInterface {
 }
 
 trait PlayerInterface {
-  def copy(name: String = this.getName, hand: Hand = this.getHand, fightField: FightField = this.getFightField, lp: Int = this.getLp): PlayerInterfaceOld
+  def copy(name: String = this.getName, hand: Hand = this.getHand, fightField: FightField = this.getFightField, lp: Int = this.getLp): PlayerInterface
   def iterateHand(): Unit
   def startTurn(): Unit
   def endTurn(): Unit

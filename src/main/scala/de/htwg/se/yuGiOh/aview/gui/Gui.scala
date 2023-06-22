@@ -4,7 +4,7 @@ package de.htwg.se.yuGiOh.aview.gui
 import de.htwg.se.yuGiOh.controller.controllerComponent.ControllerInterface
 import de.htwg.se.yuGiOh.controller.controllerComponent.controllerBaseImpl._
 import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl._
-import de.htwg.se.yuGiOh.model.fieldComponent.{FieldInterface, PlayerInterfaceOld}
+import de.htwg.se.yuGiOh.model.fieldComponent.{FieldInterface, PlayerInterface}
 import de.htwg.se.yuGiOh.util.{Event, Observer}
 
 import javax.swing.ImageIcon
@@ -124,13 +124,13 @@ class Gui(controller: ControllerInterface) extends Frame with Observer{
     //else if (controller.player2Won) println("Spieler 1 hat das Spiel gewonnen!")
     case Event.Quit => sys.exit
 
-  private def playerLabel(player: PlayerInterfaceOld) = new Label {
+  private def playerLabel(player: PlayerInterface) = new Label {
     text = s"Player: ${player.toString}"
     background = lightBrown
     border =  BorderFactory.createEmptyBorder(5, 10, 5, 10) // Empty border with 5 pixels padding
     opaque = true
   }
-  private def playerLpLabel(player: PlayerInterfaceOld) = new Label {
+  private def playerLpLabel(player: PlayerInterface) = new Label {
     text = s"LP: ${player.getLp}"
     border = new EmptyBorder(5, 10, 5, 10)
     background = lightBrown
@@ -215,7 +215,7 @@ class Gui(controller: ControllerInterface) extends Frame with Observer{
     }
   }
 
-  private def playerHandCards(player: PlayerInterfaceOld): FlowPanel = new FlowPanel() {
+  private def playerHandCards(player: PlayerInterface): FlowPanel = new FlowPanel() {
     background = darkBrown
     preferredSize = fieldSize
     minimumSize = fieldSize
@@ -238,7 +238,7 @@ class Gui(controller: ControllerInterface) extends Frame with Observer{
     })
   }
 
-  private def playerHandField(player: PlayerInterfaceOld): BoxPanel = new BoxPanel(Orientation.Horizontal) {
+  private def playerHandField(player: PlayerInterface): BoxPanel = new BoxPanel(Orientation.Horizontal) {
       border = brownBorder
       preferredSize = fieldSize
       minimumSize = fieldSize
@@ -247,7 +247,7 @@ class Gui(controller: ControllerInterface) extends Frame with Observer{
       contents += playerHandCards(player)
     }
 
-  private def playerFightCards(player: PlayerInterfaceOld): FlowPanel = new FlowPanel() {
+  private def playerFightCards(player: PlayerInterface): FlowPanel = new FlowPanel() {
     background = darkBrown
     preferredSize = fieldSize
     minimumSize = fieldSize
@@ -260,7 +260,7 @@ class Gui(controller: ControllerInterface) extends Frame with Observer{
     })
   }
 
-  private def playerFightField(player: PlayerInterfaceOld): BoxPanel = new BoxPanel(Orientation.Horizontal) {
+  private def playerFightField(player: PlayerInterface): BoxPanel = new BoxPanel(Orientation.Horizontal) {
     border = brownBorder
     preferredSize = fieldSize
     minimumSize = fieldSize
@@ -269,7 +269,7 @@ class Gui(controller: ControllerInterface) extends Frame with Observer{
     contents += playerFightCards(player)
   }
 
-  private def playerStats(player: PlayerInterfaceOld): BoxPanel = new BoxPanel(Orientation.Horizontal) {
+  private def playerStats(player: PlayerInterface): BoxPanel = new BoxPanel(Orientation.Horizontal) {
     background = mediumBrown
     opaque = true
     border = new EmptyBorder(0, 20, 0, 20)
@@ -289,8 +289,8 @@ class Gui(controller: ControllerInterface) extends Frame with Observer{
 
   private def playField: BoxPanel = new BoxPanel(Orientation.Vertical) {
     val currentRound: Int = controller.getField.getRound
-    val player1: PlayerInterfaceOld = controller.getField.getPlayer1
-    val player2: PlayerInterfaceOld = controller.getField.getPlayer2
+    val player1: PlayerInterface = controller.getField.getPlayer1
+    val player2: PlayerInterface = controller.getField.getPlayer2
 
     border = brownBorder
 

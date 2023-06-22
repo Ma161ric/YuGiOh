@@ -1,6 +1,6 @@
 package de.htwg.se.yuGiOh.controller.controllerComponent.controllerBaseImpl
 
-import de.htwg.se.yuGiOh.model.fieldComponent.{FieldInterface, PlayerInterfaceOld}
+import de.htwg.se.yuGiOh.model.fieldComponent.{FieldInterface, PlayerInterface}
 import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl.Deck
 import de.htwg.se.yuGiOh.util.Command
 
@@ -12,8 +12,8 @@ class DrawCommand (var field: FieldInterface) extends Command[FieldInterface]:
       case Nil => /* case failure*/ throw new NoSuchElementException("Deck is empty")
       case head :: tail => (head, Deck(tail))
     }
-    var player1: PlayerInterfaceOld = field.getPlayer1
-    var player2: PlayerInterfaceOld = field.getPlayer2
+    var player1: PlayerInterface = field.getPlayer1
+    var player2: PlayerInterface = field.getPlayer2
 
     if (field.getRound % 2 == 0) {
       var hand = player2.getHand

@@ -3,13 +3,13 @@ package de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl
 import com.google.inject.Inject
 
 //import de.htwg.se.yuGiOh.model.*
-import de.htwg.se.yuGiOh.model.fieldComponent.PlayerInterfaceOld
+import de.htwg.se.yuGiOh.model.fieldComponent.PlayerInterface
 
-case class Player @Inject()(name: String, hand: Hand, fightField: FightField, lp: Int = 1000) extends PlayerInterfaceOld:
+case class Player @Inject()(name: String, hand: Hand, fightField: FightField, lp: Int = 1000) extends PlayerInterface:
   override def toString: String = name
   private var gameState: GameState = new PlayerTurnState()
 
-  def copy(name: String = this.name, hand: Hand = this.hand, fightField: FightField = this.fightField, lp: Int = this.lp): PlayerInterfaceOld =
+  def copy(name: String = this.name, hand: Hand = this.hand, fightField: FightField = this.fightField, lp: Int = this.lp): PlayerInterface =
     Player(name, hand, fightField, lp)
 
   def iterateHand(): Unit = {

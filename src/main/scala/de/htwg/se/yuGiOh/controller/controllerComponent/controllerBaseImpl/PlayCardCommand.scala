@@ -1,14 +1,14 @@
 package de.htwg.se.yuGiOh.controller.controllerComponent.controllerBaseImpl
 
 import de.htwg.se.yuGiOh.util._
-import de.htwg.se.yuGiOh.model.fieldComponent.{FieldInterface, PlayerInterfaceOld}
+import de.htwg.se.yuGiOh.model.fieldComponent.{FieldInterface, PlayerInterface}
 import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl._
 //{Card, CardLastName, CardName, FightField}
 //to do: card momentan noch hardgecoded aber soll später übergeben werden von der gui
 class PlayCardCommand (var field: FieldInterface, chosenCard: Card = Card(CardName.weisser, CardLastName.Drache, 2000, 3000)) extends Command[FieldInterface]:
   override def doStep(field: FieldInterface): FieldInterface =
-    var player1: PlayerInterfaceOld = field.getPlayer1
-    var player2: PlayerInterfaceOld = field.getPlayer2
+    var player1: PlayerInterface = field.getPlayer1
+    var player2: PlayerInterface = field.getPlayer2
 
     if (field.getRound % 2 == 0) {
       var fightField: FightField = player2.getFightField
