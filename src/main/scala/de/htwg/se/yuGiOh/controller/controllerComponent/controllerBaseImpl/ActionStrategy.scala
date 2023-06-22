@@ -1,25 +1,24 @@
-package de.htwg.se.yuGiOh
-package model
+package de.htwg.se.yuGiOh.controller.controllerComponent.controllerBaseImpl
 
-import util.{Event, Move, Observable, UndoManager}
-import controller.DoCommand
+import de.htwg.se.yuGiOh.model.fieldComponent.FieldInterface
+import de.htwg.se.yuGiOh.util._
 
-trait ActionStrategy {
-  val undoManager = new UndoManager[Field]
-  def performAction(field: Field): Field
+trait ActionStrategy /*extends StrategyInterface*/ {
+  val undoManager = new UndoManager[FieldInterface]
+  def performAction(field: FieldInterface): FieldInterface
 }
 
 object DrawStrategy extends ActionStrategy {
-  override def performAction(field: Field): Field = {
+  override def performAction(field: FieldInterface): FieldInterface = {
     println("Karte ziehen...")
-    val updatedField = undoManager.doStep(field, DoCommand(Move("draw"), field)) // to do: für jedes draw, attack, etc ein eigenes command anstatt move übergeben und case ausprobiere
+    val updatedField = undoManager.doStep(field, DrawCommand(field))
     updatedField
   }
 }
 
 // angriff
 object AttStrategy extends ActionStrategy {
-  override def performAction(field: Field): Field = {
+  override def performAction(field: FieldInterface): FieldInterface = {
     println("Angreifen...")
     // AttStrategy.attack(field, playersCard, opponentsCard)
     field
@@ -27,18 +26,18 @@ object AttStrategy extends ActionStrategy {
 }
 
 object PlayStrategy extends ActionStrategy {
-  override def performAction(field: Field): Field = {
+  override def performAction(field: FieldInterface): FieldInterface = {
     //to do: hier müsste als parameter noch reinkommen die card die gelegt wird
     // Implementiere die Logik für das Legen einer Karte
     println("Karte legen...")
+    val updatedField = undoManager.doStep(field, PlayCardCommand(field))
     //val updatedField = undoManager.doStep(field, DoCommand(Move("playCard"), field, card))
-    //updatedField
-    field
+    updatedField
   }
 }
 
 object NextStrategy extends ActionStrategy {
-  override def performAction(field: Field): Field = {
+  override def performAction(field: FieldInterface): FieldInterface = {
     println("Zug beenden...")
     field.nextPlayer()
     val newRound = field.getRound + 1

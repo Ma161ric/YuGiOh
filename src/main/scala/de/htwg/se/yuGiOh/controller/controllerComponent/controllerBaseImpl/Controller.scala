@@ -1,17 +1,21 @@
-package de.htwg.se.yuGiOh
-package controller
-
-import model._
-import util.{Event, Move, Observable, UndoManager}
+package de.htwg.se.yuGiOh.controller.controllerComponent.controllerBaseImpl
 
 import scala.collection.mutable.ListBuffer
 import scala.util.Random
+import net.codingwell.scalaguice.InjectorExtensions._
+import net.codingwell.scalaguice.InjectorExtensions.ScalaInjector
+import com.google.inject.{AbstractModule, Guice, Inject}
+
+import de.htwg.se.yuGiOh.util.*
+import de.htwg.se.yuGiOh.controller.controllerComponent.ControllerInterface
+import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl.StartingGame
+import de.htwg.se.yuGiOh.model.fieldComponent.{FieldInterface, CardInterface, StartingGameInterface}
 
 // Singelton Pattern
 object Controller {
   private var instance: Controller = _
 
-  def getInstance(field: Field): Controller = {
+  def getInstance(field: FieldInterface): Controller = {
     if (instance == null) {
       instance = new Controller(field)
     }
@@ -24,14 +28,20 @@ val EXIT: Int = 0
 val SUCCESS: Int = 1
 
 //remember: controller changed from case class to class
-class Controller(var field: Field) extends Observable {
+class Controller @Inject()(var field: FieldInterface) extends ControllerInterface with Observable {
+
+  field = StartingGame.prepare(field.getPlayer2.getName, field.getPlayer2.getName) // for default player just switch to ...prepare()
+
   override def toString: String = field.toString
   var attStrategy: AttackStrategy = AttackStrategyAttDef
   // hardcoded for now
   var actStrategy: ActionStrategy = DrawStrategy
   //val this.field = field
 
-  private val undoManager = new UndoManager[Field]
+  private val undoManager = new UndoManager[FieldInterface]
+  private val startingGameInterface: StartingGameInterface = StartingGame
+
+  def getField: FieldInterface = field
 
   def save(): Unit = {
     val fileIo = new FileIOXml(field)
@@ -94,7 +104,7 @@ class Controller(var field: Field) extends Observable {
     }
 
   //remember: drawCard doesnt return field anymore
-  def drawCard(moveString: String): Boolean =
+  def drawCard(): Boolean =
     actStrategy = DrawStrategy // to do: hardgecodede strategy zuweisung ist ein no no
     if (actStrategy == DrawStrategy) {
       field = actStrategy.performAction(field)
@@ -110,17 +120,27 @@ class Controller(var field: Field) extends Observable {
       false
     }
 
+  def restart(): Unit =
+    field = StartingGame.prepare(field.getPlayer1.getName, field.getPlayer2.getName)
+    notifyObservers(Event.Restart)
+
   def newGame(): Unit =
-    field = StartingGame.prepare(field.getPlayer1.name, field.getPlayer2.name)
+    field = StartingGame.prepare(field.getPlayer1.getName, field.getPlayer2.getName)
+    notifyObservers(Event.StartingGame)
+
+  def newStartingGame(optionStringPlayer1: Option[String], optionStringPlayer2: Option[String]): Unit =
+    val stringPlayer1: String = optionStringPlayer1.getOrElse("Default")
+    val stringPlayer2: String = optionStringPlayer2.getOrElse("Default")
+
+    field = StartingGame.prepare(stringPlayer1, stringPlayer2)
     notifyObservers(Event.NewGame)
 
-  def playCard(card: Card, moveString: String): Boolean =
+  def playCard(): Boolean = //to do: hier nachher karte übergeben, am besten den index oder so davon
     //if (actStrategy == AttStrategy) {
       //actStrategy = NextStrategy
-    actStrategy = PlayStrategy
-      //val move = Move(moveString) //
-      //field = actStrategy.performAction(field)
-      field = undoManager.doStep(field, DoCommand(Move("playCard"), field, card)) //
+      actStrategy = PlayStrategy
+      field = actStrategy.performAction(field) //to do: hier muss auch igrnedwie karte die gewählt wurde mit übergeben werden
+      //field = PlayCardCommand(field, card)
       notifyObservers(Event.PlayCard) // Notify the observers about the state change in the field
       true
     //} else {
@@ -145,16 +165,14 @@ class Controller(var field: Field) extends Observable {
   def quit(): Unit =
     System.exit(0)
 
-  def redo: Field =
+  def redo: Unit = //remember: used to return field
     field = undoManager.redoStep(field)
-    field
 
-  def undo: Field =
+  def undo: Unit = //remember: used to return field
     field = undoManager.undoStep(field)
     //print("field after undoManager" + field)
     notifyObservers(Event.Move)
-
-    field
+  
 
   //to do: change name roundIncrement to smth like nextRound
   def roundIncrement(newRound: Int): Boolean = {

@@ -3,16 +3,22 @@ package de.htwg.se.yuGiOh
 import scala.io.StdIn.readLine
 import scala.collection.mutable.ListBuffer
 import scala.util.Random
+import com.google.inject.{AbstractModule, Guice, Inject}
+import com.google.inject.name.Names
+import net.codingwell.scalaguice.InjectorExtensions._
 
 import aview.Tui
 import aview.gui.Gui
-import controller.Controller
-import model.{Card, CardLastName, CardName, Deck, Field, FightField, Hand, Player, StartingGame}
+
+import de.htwg.se.yuGiOh.controller.controllerComponent.ControllerInterface
+import de.htwg.se.yuGiOh.controller.controllerComponent.controllerBaseImpl._
+import de.htwg.se.yuGiOh.model.fieldComponent.FieldInterface
+import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl._
 
 @main def run: Unit =
 
   //val rnd = new Random
-  var input = ""
+  //var input = ""
 
   println("Welcome to my game!")
 
@@ -21,9 +27,9 @@ import model.{Card, CardLastName, CardName, Deck, Field, FightField, Hand, Playe
   while (input.toInt < 4 || input.toInt > 10) {
     print("Size of game (min 4): ")
     input = readLine()
-  } to do: fürs erste auskommentiert damits nicht zu kompliziert wird*/
+  } to do: fürs erste auskommentiert damits nicht zu kompliziert wird
 
-  //val size = input.toInt
+  val size = input.toInt
   val size = 6
 
   println("Please enter your names: ")
@@ -38,13 +44,16 @@ import model.{Card, CardLastName, CardName, Deck, Field, FightField, Hand, Playe
     print("Player 2 Name: ")
     input = readLine()
   }
-  val secondName = input
+  val secondName = input*/
   // to do: playername input should be try option. dont forget this sarah!
 
-  val field = StartingGame.prepare(firstName, secondName)
+  //val field = StartingGame.prepare(firstName, secondName)
+
+
+  val injector = Guice.createInjector(new Module)
+  val controller: ControllerInterface = injector.getInstance(classOf[ControllerInterface])
 
   //val controller = Controller(field)
-  val controller = Controller.getInstance(field)
   val gui = Gui(controller)
   val tui = new Tui(controller)
 

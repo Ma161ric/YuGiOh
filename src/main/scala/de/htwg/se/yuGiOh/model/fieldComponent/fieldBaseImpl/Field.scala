@@ -1,19 +1,25 @@
-package de.htwg.se.yuGiOh
-package model
+package de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl
 
-import de.htwg.se.yuGiOh.model.Player
+import de.htwg.se.yuGiOh.model.fieldComponent.{FieldInterface,PlayerInterface}
+//to do: check if player or playerinterface is better here
+case class Field (
+                   size: Int,
+                   round: Int,
+                   deck: Deck,
+                   player1: PlayerInterface,
+                   player2: PlayerInterface
+) extends FieldInterface :
 
-case class Field(
-    size: Int,
-    round: Int,
-    deck: Deck,
-    player1: Player,
-    player2: Player
-):
   val eol: String = sys.props("line.separator")
   var currentPlayer: Int = 1
 
-  def getCurrentPlayer(): Player =
+  /*def this(size: Int, round: Int) =
+    this(size, round, deck, player1, player2)*/
+
+  def copy(size: Int = this.size, round: Int = this.round, deck: Deck = this.deck, player1: PlayerInterface = this.player1, player2: PlayerInterface = this.player2): FieldInterface =
+    Field(size, round, deck, player1, player2)
+
+  def getCurrentPlayer(): PlayerInterface =
     currentPlayer match
       case 1 => player1
       case 2 => player2
@@ -24,8 +30,8 @@ case class Field(
       case 2 => currentPlayer = 1
 
   def getSize: Int = size
-  def getPlayer1: Player = player1
-  def getPlayer2: Player = player2
+  def getPlayer1: PlayerInterface = player1
+  def getPlayer2: PlayerInterface = player2
   def getRound: Int = round
   def getDeck: Deck = deck
 
@@ -62,7 +68,7 @@ case class Field(
   private def playerStatsRow(
       cellWidth: Int,
       cellNum: Int,
-      player: Player
+      player: PlayerInterface
   ): String =
     "| " + playerName(cellWidth, player.toString) + playerLp(
       cellWidth,
@@ -70,10 +76,10 @@ case class Field(
     ) + (" " * cellWidth) * (cellNum - 4) + " " * (cellNum - 4) + "|" + eol
 
   private def mesh(
-      cellWidth: Int,
-      cellNum: Int,
-      player1: Player,
-      player2: Player
+                    cellWidth: Int,
+                    cellNum: Int,
+                    player1: PlayerInterface,
+                    player2: PlayerInterface
   ): String =
     outerOuterBar(cellWidth, cellNum)
       + playerStatsRow(cellWidth, cellNum, player2)

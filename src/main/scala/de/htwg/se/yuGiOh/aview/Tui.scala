@@ -1,14 +1,15 @@
 package de.htwg.se.yuGiOh
 package aview
 
-import controller.Controller
-import util.{Event, Observer}
+import de.htwg.se.yuGiOh.controller.controllerComponent.ControllerInterface
+import de.htwg.se.yuGiOh.controller.controllerComponent._
+import de.htwg.se.yuGiOh.util.{Event, Observer}
 
 import scala.annotation.tailrec
 import scala.io.StdIn.readLine
 import scala.util.{Failure, Success, Try}
 
-class Tui(controller: Controller) extends Observer:
+class Tui(controller: ControllerInterface) extends Observer:
   controller.add(this)
 
   val ERROR: Int = -1
