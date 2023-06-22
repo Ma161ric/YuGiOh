@@ -1,25 +1,25 @@
 package de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl
 
-import de.htwg.se.yuGiOh.model.fieldComponent.FieldInterface
-import de.htwg.se.yuGiOh.model.playerComponent._
-
+import de.htwg.se.yuGiOh.model.fieldComponent.{FieldInterface,PlayerInterfaceOld}
+//to do: check if player or playerinterface is better here
 case class Field (
-    size: Int,
-    round: Int,
-    deck: Deck,
-    player1: Player,
-    player2: Player
+                   size: Int,
+                   round: Int,
+                   deck: Deck,
+                   player1: PlayerInterfaceOld,
+                   player2: PlayerInterfaceOld
 ) extends FieldInterface :
 
   val eol: String = sys.props("line.separator")
   var currentPlayer: Int = 1
 
-  def copy(size: Int = this.size, round: Int = this.round, deck: Deck = this.deck, player1: Player = this.player1, player2: Player = this.player2): FieldInterface =
+  /*def this(size: Int, round: Int) =
+    this(size, round, deck, player1, player2)*/
+
+  def copy(size: Int = this.size, round: Int = this.round, deck: Deck = this.deck, player1: PlayerInterfaceOld = this.player1, player2: PlayerInterfaceOld = this.player2): FieldInterface =
     Field(size, round, deck, player1, player2)
 
-
-
-  def getCurrentPlayer(): Player =
+  def getCurrentPlayer(): PlayerInterfaceOld =
     currentPlayer match
       case 1 => player1
       case 2 => player2
@@ -30,8 +30,8 @@ case class Field (
       case 2 => currentPlayer = 1
 
   def getSize: Int = size
-  def getPlayer1: Player = player1
-  def getPlayer2: Player = player2
+  def getPlayer1: PlayerInterfaceOld = player1
+  def getPlayer2: PlayerInterfaceOld = player2
   def getRound: Int = round
   def getDeck: Deck = deck
 
@@ -68,7 +68,7 @@ case class Field (
   private def playerStatsRow(
       cellWidth: Int,
       cellNum: Int,
-      player: Player
+      player: PlayerInterfaceOld
   ): String =
     "| " + playerName(cellWidth, player.toString) + playerLp(
       cellWidth,
@@ -76,10 +76,10 @@ case class Field (
     ) + (" " * cellWidth) * (cellNum - 4) + " " * (cellNum - 4) + "|" + eol
 
   private def mesh(
-      cellWidth: Int,
-      cellNum: Int,
-      player1: Player,
-      player2: Player
+                    cellWidth: Int,
+                    cellNum: Int,
+                    player1: PlayerInterfaceOld,
+                    player2: PlayerInterfaceOld
   ): String =
     outerOuterBar(cellWidth, cellNum)
       + playerStatsRow(cellWidth, cellNum, player2)

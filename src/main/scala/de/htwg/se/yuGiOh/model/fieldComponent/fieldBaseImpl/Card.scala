@@ -4,6 +4,7 @@ import de.htwg.se.yuGiOh.model.fieldComponent.CardInterface
 
 import scala.util.{Random, Try}
 import scala.collection.mutable.ListBuffer
+import com.google.inject.Inject
 
 enum CardName(firstName: String):
   override def toString: String = firstName
@@ -27,7 +28,7 @@ enum CardLastName(lastName: String):
   case Krieger extends CardLastName("Krieger")
   case emptyLastName extends CardLastName(" ")
 
-case class Card(
+case class Card @Inject() (
     firstName: CardName,
     lastName: CardLastName,
     atk: Int,

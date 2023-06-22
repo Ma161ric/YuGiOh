@@ -1,11 +1,16 @@
-package de.htwg.se.yuGiOh.model.playerComponent
+package de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl
 
-import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl._
-import de.htwg.se.yuGiOh.model._
+import com.google.inject.Inject
 
-case class Player(name: String, hand: Hand, fightField: FightField, lp: Int = 1000):
+//import de.htwg.se.yuGiOh.model.*
+import de.htwg.se.yuGiOh.model.fieldComponent.PlayerInterfaceOld
+
+case class Player @Inject()(name: String, hand: Hand, fightField: FightField, lp: Int = 1000) extends PlayerInterfaceOld:
   override def toString: String = name
   private var gameState: GameState = new PlayerTurnState()
+
+  def copy(name: String = this.name, hand: Hand = this.hand, fightField: FightField = this.fightField, lp: Int = this.lp): PlayerInterfaceOld =
+    Player(name, hand, fightField, lp)
 
   def iterateHand(): Unit = {
     val handIterator = hand.iterator
@@ -22,8 +27,8 @@ case class Player(name: String, hand: Hand, fightField: FightField, lp: Int = 10
     gameState.endTurn()
   }
 
-  def playCard(card: Card): Unit = {
-    gameState.playCard(card)
+  def playCard(): Unit = { //to do: bekommt noch eine karte übergeben
+    gameState.playCard()
   }
 
   def changeState(newState: GameState): Unit = {
@@ -47,6 +52,7 @@ case class Player(name: String, hand: Hand, fightField: FightField, lp: Int = 10
   }
    */
 
+  def getName: String = name
   def getHand: Hand = hand
   def getFightField: FightField = fightField
   def getLp: Int = lp

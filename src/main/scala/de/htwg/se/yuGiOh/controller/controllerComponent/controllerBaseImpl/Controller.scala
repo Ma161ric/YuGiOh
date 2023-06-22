@@ -1,12 +1,15 @@
 package de.htwg.se.yuGiOh.controller.controllerComponent.controllerBaseImpl
 
+import scala.collection.mutable.ListBuffer
+import scala.util.Random
+import net.codingwell.scalaguice.InjectorExtensions._
+import net.codingwell.scalaguice.InjectorExtensions.ScalaInjector
+import com.google.inject.{AbstractModule, Guice, Inject}
+
 import de.htwg.se.yuGiOh.util.*
 import de.htwg.se.yuGiOh.controller.controllerComponent.ControllerInterface
 import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl.StartingGame
 import de.htwg.se.yuGiOh.model.fieldComponent.{FieldInterface, CardInterface, StartingGameInterface}
-
-import scala.collection.mutable.ListBuffer
-import scala.util.Random
 
 // Singelton Pattern
 object Controller {
@@ -25,7 +28,8 @@ val EXIT: Int = 0
 val SUCCESS: Int = 1
 
 //remember: controller changed from case class to class
-class Controller(var field: FieldInterface) extends ControllerInterface with Observable {
+class Controller @Inject()(var field: FieldInterface) extends ControllerInterface with Observable {
+  field = StartingGame.prepare()
   override def toString: String = field.toString
   var attStrategy: AttackStrategy = AttackStrategyAttDef
   // hardcoded for now
@@ -84,7 +88,7 @@ class Controller(var field: FieldInterface) extends ControllerInterface with Obs
     }
 
   def newGame(): Unit =
-    field = StartingGame.prepare(field.getPlayer1.name, field.getPlayer2.name)
+    field = StartingGame.prepare(field.getPlayer1.getName, field.getPlayer2.getName)
     notifyObservers(Event.NewGame)
 
   def playCard(): Boolean = //to do: hier nachher karte übergeben, am besten den index oder so davon

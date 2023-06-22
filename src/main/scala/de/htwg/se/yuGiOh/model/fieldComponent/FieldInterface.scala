@@ -1,21 +1,21 @@
 package de.htwg.se.yuGiOh.model.fieldComponent
 
 import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl._
-import de.htwg.se.yuGiOh.model.playerComponent.Player
-
+//to do: check if it would be better to player instead of playerinterface
 trait FieldInterface {
-  def copy(size: Int = this.getSize, round: Int = this.getRound, deck: Deck = this.getDeck, player1: Player = this.getPlayer1, player2: Player = this.getPlayer2): FieldInterface
-  def getCurrentPlayer(): Player
+  def copy(size: Int = this.getSize, round: Int = this.getRound, deck: Deck = this.getDeck, player1: PlayerInterfaceOld = this.getPlayer1, player2: PlayerInterfaceOld = this.getPlayer2): FieldInterface
+  def getCurrentPlayer(): PlayerInterfaceOld
   def nextPlayer(): Unit
   def getSize: Int
-  def getPlayer1: Player
-  def getPlayer2: Player
+  def getPlayer1: PlayerInterfaceOld
+  def getPlayer2: PlayerInterfaceOld
   def getRound: Int
   def getDeck: Deck
   def outerBar(cellWidth: Int, cellNum: Int): String
   def outerOuterBar(cellWidth: Int, cellNum: Int): String
   def playerHandRow(cellWidth: Int, cellNum: Int, hand: Hand): String
   //to do: check if outerbar etc could be made private
+  def toString: String
 }
 
 trait CardInterface {
@@ -40,3 +40,15 @@ trait DeckInterface {
   def startingHand(size: Int): (Hand, Deck)
 }
 
+trait PlayerInterface {
+  def copy(name: String = this.getName, hand: Hand = this.getHand, fightField: FightField = this.getFightField, lp: Int = this.getLp): PlayerInterfaceOld
+  def iterateHand(): Unit
+  def startTurn(): Unit
+  def endTurn(): Unit
+  def playCard(): Unit
+  def changeState(newState: GameState): Unit
+  def getName: String
+  def getHand: Hand
+  def getFightField: FightField
+  def getLp: Int
+}

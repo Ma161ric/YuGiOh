@@ -3,7 +3,7 @@ package de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl
 trait GameState {
   def startTurn(): Unit
   def endTurn(): Unit
-  def playCard(card: Card): Unit
+  def playCard(): Unit
 }
 
 class PlayerTurnState extends GameState {
@@ -15,7 +15,7 @@ class PlayerTurnState extends GameState {
     // Implementierung für das Beenden des Spielers
   }
 
-  override def playCard(card: Card): Unit = {
+  override def playCard(): Unit = {
     // Implementierung für das Spielen einer Karte während des Spielerzugs
   }
 }
@@ -29,7 +29,7 @@ class OpponentTurnState extends GameState {
     // Implementierung für das Beenden des Gegners
   }
 
-  override def playCard(card: Card): Unit = {
+  override def playCard(): Unit = {
     // Implementierung für das Spielen einer Karte während des Gegnerzugs
   }
 }

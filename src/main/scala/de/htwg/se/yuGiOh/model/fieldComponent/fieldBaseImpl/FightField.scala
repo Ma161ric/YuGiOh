@@ -1,6 +1,8 @@
 package de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl
 
-case class FightField(fightField: List[Card]):
+import com.google.inject.Inject
+
+case class FightField @Inject() (fightField: List[Card]):
   val eol: String = sys.props("line.separator")
 
   def getCards: List[Card] = fightField

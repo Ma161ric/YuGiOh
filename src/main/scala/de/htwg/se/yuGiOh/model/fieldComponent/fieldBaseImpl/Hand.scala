@@ -1,6 +1,8 @@
 package de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl
 
-case class Hand(hand: List[Card]):
+import com.google.inject.Inject
+
+case class Hand @Inject() (hand: List[Card]):
   val eol: String = sys.props("line.separator")
 
   def iterator: Iterator[Card] = hand.iterator

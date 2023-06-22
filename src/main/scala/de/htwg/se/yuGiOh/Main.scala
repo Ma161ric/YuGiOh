@@ -3,6 +3,9 @@ package de.htwg.se.yuGiOh
 import scala.io.StdIn.readLine
 import scala.collection.mutable.ListBuffer
 import scala.util.Random
+import com.google.inject.{AbstractModule, Guice, Inject}
+import com.google.inject.name.Names
+import net.codingwell.scalaguice.InjectorExtensions._
 
 import aview.Tui
 import aview.gui.Gui
@@ -11,7 +14,6 @@ import de.htwg.se.yuGiOh.controller.controllerComponent.ControllerInterface
 import de.htwg.se.yuGiOh.controller.controllerComponent.controllerBaseImpl._
 import de.htwg.se.yuGiOh.model.fieldComponent.FieldInterface
 import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl._
-import de.htwg.se.yuGiOh.model.playerComponent.Player
 
 @main def run: Unit =
 
@@ -47,9 +49,10 @@ import de.htwg.se.yuGiOh.model.playerComponent.Player
 
   val field = StartingGame.prepare(firstName, secondName)
 
+  val injector = Guice.createInjector(new Module)
+  val controller: ControllerInterface = injector.getInstance(classOf[ControllerInterface])
+
   //val controller = Controller(field)
-  val controller = Controller(field)
-  //val controller = injector.getInstance(classOf[ControllerInterface])
   val gui = Gui(controller)
   val tui = new Tui(controller)
 
