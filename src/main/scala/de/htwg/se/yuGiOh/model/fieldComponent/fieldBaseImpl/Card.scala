@@ -50,3 +50,12 @@ case class Card @Inject() (
       firstName.trim.isEmpty
     )
 
+  def toXml(): scala.xml.Elem = {
+    <card>
+      <firstName>{firstName}</firstName>
+      <lastName>{lastName}</lastName>
+      <atk>{atk}</atk>
+      <defe>{defe}</defe>
+      <position>{position}</position>
+    </card>
+  }

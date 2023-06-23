@@ -75,3 +75,9 @@ case class Hand @Inject() (hand: List[Card]):
       cardsAtk(cellWidth, hand) +
       cardsDefe(cellWidth, hand) +
       cardsPosition(cellWidth, hand)
+
+  def toXml(): scala.xml.Elem = {
+    <hand>
+      {for (card <- hand) yield card.toXml()}
+    </hand>
+  }
