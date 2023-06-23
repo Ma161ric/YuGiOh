@@ -3,14 +3,6 @@ package de.htwg.se.yuGiOh.model.fileIOComponent.FileIOJSON
 import java.io.{File, FileWriter, PrintWriter}
 import play.api.libs.json._
 
-import scala.io.Source
-import scala.util.Using
-import de.htwg.se.yuGiOh.model._
-
-import org.json4s._
-import org.json4s.JsonDSL._
-import org.json4s.native.JsonMethods._
-
 import com.google.inject.name.{Named, Names}
 import com.google.inject.{AbstractModule, Guice, Inject, Injector, Provides}
 import com.google.inject.Key
@@ -19,6 +11,14 @@ import de.htwg.se.yuGiOh.model.fileIOComponent._
 import de.htwg.se.yuGiOh.model.fieldComponent._
 import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl._
 import de.htwg.se.yuGiOh.model.playerComponent._
+
+import scala.io.Source
+import scala.util.{Using, Try}
+import de.htwg.se.yuGiOh.model._
+
+import play.api.libs.json._
+
+import net.codingwell.scalaguice.InjectorExtensions._
 
 class FileIO extends FileIOInterface {
 
@@ -29,15 +29,18 @@ class FileIO extends FileIOInterface {
     }
   }
 
-  override def save(
-      field: FieldInterface,
-      playStrategy: PlayerInterface
-  ): Unit = {
+  override def save(field: FieldInterface): Boolean = {
+    import java.io._
     createDirectory("JSON")
+    // val pw = new PrintWriter(new File("field.json"))
+    // val res = Try(pw.write(Json.prettyPrint(saveField(field))))
     saveField(field)
     saveDeck(field.getDeck)
     savePlayer(field.getPlayer1, "player1.json")
     savePlayer(field.getPlayer2, "player2.json")
+    // pw.close()
+    // res.isSuccess
+    true
   }
 
   def saveField(field: FieldInterface): Unit = {
@@ -72,12 +75,11 @@ class FileIO extends FileIOInterface {
 
   def cardToJson(card: Card): JsObject = {
     Json.obj(
-      "firstName" -> card.firstName,
-      "lastName" -> card.lastName,
+      "firstName" -> card.firstName.toString,
+      "lastName" -> card.lastName.toString,
       "atk" -> card.atk,
       "defe" -> card.defe,
-      "position" -> card.position,
-      "isEmpty" -> card.isEmpty
+      "position" -> card.position
     )
   }
 
@@ -104,7 +106,8 @@ class FileIO extends FileIOInterface {
 
   def loadJsonFromFile(fileName: String): JsValue = {
     val file = new File(fileName)
-    val content = Json.parse(file)
+    val inputStream = new java.io.FileInputStream(file)
+    val content = Json.parse(inputStream)
     content
   }
 
@@ -137,7 +140,6 @@ class FileIO extends FileIOInterface {
     val atk = (json \ "atk").as[Int]
     val defe = (json \ "defe").as[Int]
     val position = (json \ "position").as[String]
-    val isEmpty = (json \ "isEmpty").as[Boolean]
     Card(CardName(firstName), CardLastName(lastName), atk, defe, position)
   }
 }

@@ -2,7 +2,7 @@ package de.htwg.se.yuGiOh.model.fileIOComponent.FileIOXML
 
 import java.io.{File, FileWriter, PrintWriter}
 
-import scala.util.Using
+import scala.util.{Using, Try}
 import scala.xml.{Elem, XML, Node}
 
 import de.htwg.se.yuGiOh.model.fileIOComponent._
@@ -16,6 +16,8 @@ import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl.{
   FightField
 }
 import java.io.{File, FileWriter, PrintWriter}
+import play.api.libs.json._
+import scala.xml.PrettyPrinter
 
 class FileIO extends FileIOInterface {
 
@@ -25,15 +27,19 @@ class FileIO extends FileIOInterface {
       directory.mkdir()
     }
 
-  override def save(
-      field: FieldInterface,
-      playStrategy: PlayerInterface
-  ): Unit =
+  override def save(field: FieldInterface): Boolean =
+    import java.io._
     createDirectory("XML")
+    val pw = new PrintWriter(new File("field.xml"))
+    val prettyPrinter = new PrettyPrinter(120, 4)
+    val xml = prettyPrinter.format(fieldToXml(field))
+    val res = Try(pw.write(xml))
     saveField(field) // to do
     saveDeck(field.getDeck)
     savePlayer(field.getPlayer1, "player1.xml")
     savePlayer(field.getPlayer2, "player2.xml")
+    pw.close()
+    res.isSuccess
 
   def saveField(field: FieldInterface): Unit = {
     scala.xml.XML.save("field.xml", fieldToXml(field))
@@ -109,25 +115,25 @@ class FileIO extends FileIOInterface {
         <atk>{card.atk}</atk>
         <defe>{card.defe}</defe>
         <position>{card.position}</position>
-        <isEmpty>{card.isEmpty}</isEmpty>
-        </card>
+    </card>
   }
 
   override def load: (FieldInterface /* , PlayerInterface */ ) = {
+    val res = Try(scala.xml.XML.loadFile("field.xml"))
+    println("res: " + res)
+    if (res.isFailure) {
+      println("Could not load file")
+      return (null /* , null */ )
+    }
     val field = loadField()
+    println("field: " + field)
     // val playerStrategy = loadPlayerStrategy()
     (field /* , playerStrategy */ )
   }
 
-  // not done yet
-  /*   def loadPlayerStrategy(): PlayerInterface = {
-    val file = scala.xml.XML.loadFile("playerstrategy.xml")
-    xmlToPlayerStrategy(file)
-  }
-   */
-
   def loadField(): Field = {
     val fieldFile = scala.xml.XML.loadFile("field.xml")
+    println("load field sucess!")
     val deckFile = scala.xml.XML.loadFile("deck.xml")
     val player1File = scala.xml.XML.loadFile("player1.xml")
     val player2File = scala.xml.XML.loadFile("player2.xml")
@@ -139,16 +145,6 @@ class FileIO extends FileIOInterface {
     Field(size, round, deck, player1, player2)
   }
 
-  def xmlToCard(xml: Node): Card = {
-    val firstName = (xml \ "firstName").text
-    val lastName = (xml \ "lastName").text
-    val atk = (xml \ "atk").text.toInt
-    val defe = (xml \ "defe").text.toInt
-    val position = (xml \ "position").text
-    val isEmpty = (xml \ "isEmpty").text.toBoolean
-    Card(CardName(firstName), CardLastName(lastName), atk, defe, position)
-  }
-
   def getDeckFromFile(file: Node): Deck = {
     val cards = (file \ "card").map { card =>
       val firstName = (card \ "firstName").text
@@ -156,7 +152,6 @@ class FileIO extends FileIOInterface {
       val atk = (card \ "atk").text.toInt
       val defe = (card \ "defe").text.toInt
       val position = (card \ "position").text
-      val isEmpty = (card \ "isEmpty").text.toBoolean
       Card(CardName(firstName), CardLastName(lastName), atk, defe, position)
     }.toList
     Deck(cards)
@@ -177,7 +172,6 @@ class FileIO extends FileIOInterface {
       val atk = (card \ "atk").text.toInt
       val defe = (card \ "defe").text.toInt
       val position = (card \ "position").text
-      val isEmpty = (card \ "isEmpty").text.toBoolean
       Card(CardName(firstName), CardLastName(lastName), atk, defe, position)
     }.toList
     Hand(cards)
@@ -190,7 +184,6 @@ class FileIO extends FileIOInterface {
       val atk = (card \ "atk").text.toInt
       val defe = (card \ "defe").text.toInt
       val position = (card \ "position").text
-      val isEmpty = (card \ "isEmpty").text.toBoolean
       Card(CardName(firstName), CardLastName(lastName), atk, defe, position)
     }.toList
     FightField(cards)
@@ -202,7 +195,6 @@ class FileIO extends FileIOInterface {
     val atk = (xml \ "atk").text.toInt
     val defe = (xml \ "defe").text.toInt
     val position = (xml \ "position").text
-    val isEmpty = (xml \ "isEmpty").text.toBoolean
     Card(CardName(firstName), CardLastName(lastName), atk, defe, position)
   }
 

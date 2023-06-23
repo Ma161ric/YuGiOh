@@ -1,0 +1,82 @@
+<player>
+      <name>Default</name>
+      <hand><hand>
+        <card>
+        <firstName>Fieser</firstName>
+        <lastName>Magier</lastName>
+        <atk>2200</atk>
+        <defe>2800</defe>
+        <position>deck</position>
+    </card><card>
+        <firstName>Weisser</firstName>
+        <lastName>Hexer</lastName>
+        <atk>1900</atk>
+        <defe>2900</defe>
+        <position>deck</position>
+    </card><card>
+        <firstName>Blauer</firstName>
+        <lastName>Hexer</lastName>
+        <atk>300</atk>
+        <defe>900</defe>
+        <position>deck</position>
+    </card><card>
+        <firstName>Roter</firstName>
+        <lastName>Drache</lastName>
+        <atk>400</atk>
+        <defe>300</defe>
+        <position>deck</position>
+    </card><card>
+        <firstName> </firstName>
+        <lastName> </lastName>
+        <atk>0</atk>
+        <defe>0</defe>
+        <position></position>
+    </card><card>
+        <firstName> </firstName>
+        <lastName> </lastName>
+        <atk>0</atk>
+        <defe>0</defe>
+        <position></position>
+    </card>
+        </hand></hand>
+      <fightfield><fightfield>
+        <card>
+        <firstName>Weisser</firstName>
+        <lastName>Drache</lastName>
+        <atk>2000</atk>
+        <defe>3000</defe>
+        <position> </position>
+    </card><card>
+        <firstName> </firstName>
+        <lastName> </lastName>
+        <atk>0</atk>
+        <defe>0</defe>
+        <position></position>
+    </card><card>
+        <firstName> </firstName>
+        <lastName> </lastName>
+        <atk>0</atk>
+        <defe>0</defe>
+        <position></position>
+    </card><card>
+        <firstName> </firstName>
+        <lastName> </lastName>
+        <atk>0</atk>
+        <defe>0</defe>
+        <position></position>
+    </card><card>
+        <firstName> </firstName>
+        <lastName> </lastName>
+        <atk>0</atk>
+        <defe>0</defe>
+        <position></position>
+    </card><card>
+        <firstName> </firstName>
+        <lastName> </lastName>
+        <atk>0</atk>
+        <defe>0</defe>
+        <position></position>
+    </card>
+        </fightfield></fightfield>
+      <lp>1000</lp>
+    </player>

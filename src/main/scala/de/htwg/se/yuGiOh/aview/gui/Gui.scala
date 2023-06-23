@@ -1,6 +1,5 @@
 package de.htwg.se.yuGiOh.aview.gui
 
-
 import de.htwg.se.yuGiOh.controller.controllerComponent.ControllerInterface
 import de.htwg.se.yuGiOh.controller.controllerComponent.controllerBaseImpl._
 import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl._
@@ -23,7 +22,7 @@ import java.io.File
 import scala.swing
 import scala.swing.Panel
 
-class Gui(controller: ControllerInterface) extends Frame with Observer{
+class Gui(controller: ControllerInterface) extends Frame with Observer {
   controller.add(this)
 
   title = "Yu-Gi-Oh"
@@ -37,13 +36,15 @@ class Gui(controller: ControllerInterface) extends Frame with Observer{
   private val fieldSize = new Dimension(600, 135)
   private val sideBarSize = new Dimension(100, 405)
   private val statsSize = new Dimension(800, 57)
-  
-  //private val nameLabel = new Label("Welcome to Yu-Gi-Oh!")
+
+  // private val nameLabel = new Label("Welcome to Yu-Gi-Oh!")
 
   private var highlightHandCardsEnabled: Boolean = false
 
   private val menuImage = ImageIcon("src/main/resources/Logo.png")
-  private val cardImage: ImageIcon = new ImageIcon("src/main/resources/Card.png")
+  private val cardImage: ImageIcon = new ImageIcon(
+    "src/main/resources/Card.png"
+  )
 
   private val barBrown = new Color(147, 123, 97)
   private val borderColor = new Color(66, 44, 23)
@@ -56,7 +57,7 @@ class Gui(controller: ControllerInterface) extends Frame with Observer{
   private val brownBorder = Swing.LineBorder(borderColor)
   private val highlightBorder = Swing.LineBorder(highlightColor)
 
-  //private val roundPlayer2: Boolean = round % 2 == 0
+  // private val roundPlayer2: Boolean = round % 2 == 0
 
   menuBar = new MenuBar {
     background = barBrown
@@ -75,14 +76,36 @@ class Gui(controller: ControllerInterface) extends Frame with Observer{
       contents += new Menu("Edit") {
         contents += new MenuItem(Action("Undo") {
           controller.undo
-          //val updatedField = controller.field
-          //println(controller.getField)
-          //updateContent()
+          // val updatedField = controller.field
+          // println(controller.getField)
+          // updateContent()
         })
         contents += new MenuItem(Action("Redo") {
           controller.redo
         })
       }
+      contents += new MenuItem(Action("Save") {
+        if (controller.save())
+          Dialog.showMessage(
+            null,
+            "Game saved successfully!",
+            title = "Save"
+          )
+        else
+          Dialog.showMessage(
+            null,
+            "Game could not be saved!",
+            title = "Error"
+          )
+      })
+      contents += new MenuItem(Action("Load") {
+        if (!controller.load())
+          Dialog.showMessage(
+            null,
+            "Game could not be loaded!",
+            title = "Error"
+          )
+      })
       contents += new MenuItem(Action("Help") {
         controller.printHelp()
       })
@@ -121,7 +144,8 @@ class Gui(controller: ControllerInterface) extends Frame with Observer{
       contents = updateContent()
       repaint()
     case Event.StartingGame =>
-      val (player1: Option[String], player2: Option[String]) = getGraphicalInput()
+      val (player1: Option[String], player2: Option[String]) =
+        getGraphicalInput()
       controller.newStartingGame(player1, player2)
     case Event.Next =>
       highlightHandCardsEnabled = false
@@ -132,14 +156,19 @@ class Gui(controller: ControllerInterface) extends Frame with Observer{
       repaint()
     case Event.GameOver =>
       println("Game over!")
-    //if (controller.player1Won) println("Spieler 1 hat das Spiel gewonnen!")
-    //else if (controller.player2Won) println("Spieler 1 hat das Spiel gewonnen!")
+    // if (controller.player1Won) println("Spieler 1 hat das Spiel gewonnen!")
+    // else if (controller.player2Won) println("Spieler 1 hat das Spiel gewonnen!")
     case Event.Quit => sys.exit
 
   private def playerLabel(player: PlayerInterface) = new Label {
     text = s"Player: ${player.toString}"
     background = lightBrown
-    border =  BorderFactory.createEmptyBorder(5, 10, 5, 10) // Empty border with 5 pixels padding
+    border = BorderFactory.createEmptyBorder(
+      5,
+      10,
+      5,
+      10
+    ) // Empty border with 5 pixels padding
     opaque = true
   }
   private def playerLpLabel(player: PlayerInterface) = new Label {
@@ -187,7 +216,9 @@ class Gui(controller: ControllerInterface) extends Frame with Observer{
     border = new EmptyBorder(205, 8, 205, 0)
   }
 
-  private def cardPanel(card: Card): BoxPanel = new BoxPanel(Orientation.Vertical) {
+  private def cardPanel(card: Card): BoxPanel = new BoxPanel(
+    Orientation.Vertical
+  ) {
     opaque = true
     preferredSize = cardSize
     minimumSize = cardSize
@@ -227,61 +258,69 @@ class Gui(controller: ControllerInterface) extends Frame with Observer{
     }
   }
 
-  private def playerHandCards(player: PlayerInterface): FlowPanel = new FlowPanel() {
-    background = darkBrown
-    preferredSize = fieldSize
-    minimumSize = fieldSize
-    maximumSize = fieldSize
-    opaque = true
-
-    val cardList: List[Card] = player.getHand.getCards
-
-    cardList.foreach({ card =>
-      if (highlightHandCardsEnabled && !card.isEmpty(card)) {
-        val highlightedCardPanel = cardPanel(card) //but with different border
-        highlightedCardPanel.border = new CompoundBorder(
-          highlightBorder,
-          Swing.EmptyBorder(5, 5, 5, 5)
-        )
-        contents += highlightedCardPanel
-      } else {
-        contents += cardPanel(card)
-      }
-    })
-  }
-
-  private def playerHandField(player: PlayerInterface): BoxPanel = new BoxPanel(Orientation.Horizontal) {
-      border = brownBorder
+  private def playerHandCards(player: PlayerInterface): FlowPanel =
+    new FlowPanel() {
+      background = darkBrown
       preferredSize = fieldSize
       minimumSize = fieldSize
       maximumSize = fieldSize
+      opaque = true
 
-      contents += playerHandCards(player)
+      val cardList: List[Card] = player.getHand.getCards
+
+      cardList.foreach({ card =>
+        if (highlightHandCardsEnabled && !card.isEmpty(card)) {
+          val highlightedCardPanel =
+            cardPanel(card) // but with different border
+          highlightedCardPanel.border = new CompoundBorder(
+            highlightBorder,
+            Swing.EmptyBorder(5, 5, 5, 5)
+          )
+          contents += highlightedCardPanel
+        } else {
+          contents += cardPanel(card)
+        }
+      })
     }
 
-  private def playerFightCards(player: PlayerInterface): FlowPanel = new FlowPanel() {
-    background = darkBrown
-    preferredSize = fieldSize
-    minimumSize = fieldSize
-    maximumSize = fieldSize
-    opaque = true
-    val cardList: List[Card] = player.getFightField.getCards
-
-    cardList.foreach({ card =>
-      contents += cardPanel(card)
-    })
-  }
-
-  private def playerFightField(player: PlayerInterface): BoxPanel = new BoxPanel(Orientation.Horizontal) {
+  private def playerHandField(player: PlayerInterface): BoxPanel = new BoxPanel(
+    Orientation.Horizontal
+  ) {
     border = brownBorder
     preferredSize = fieldSize
     minimumSize = fieldSize
     maximumSize = fieldSize
 
-    contents += playerFightCards(player)
+    contents += playerHandCards(player)
   }
 
-  private def playerStats(player: PlayerInterface): BoxPanel = new BoxPanel(Orientation.Horizontal) {
+  private def playerFightCards(player: PlayerInterface): FlowPanel =
+    new FlowPanel() {
+      background = darkBrown
+      preferredSize = fieldSize
+      minimumSize = fieldSize
+      maximumSize = fieldSize
+      opaque = true
+      val cardList: List[Card] = player.getFightField.getCards
+
+      cardList.foreach({ card =>
+        contents += cardPanel(card)
+      })
+    }
+
+  private def playerFightField(player: PlayerInterface): BoxPanel =
+    new BoxPanel(Orientation.Horizontal) {
+      border = brownBorder
+      preferredSize = fieldSize
+      minimumSize = fieldSize
+      maximumSize = fieldSize
+
+      contents += playerFightCards(player)
+    }
+
+  private def playerStats(player: PlayerInterface): BoxPanel = new BoxPanel(
+    Orientation.Horizontal
+  ) {
     background = mediumBrown
     opaque = true
     border = new EmptyBorder(0, 20, 0, 20)
@@ -342,21 +381,21 @@ class Gui(controller: ControllerInterface) extends Frame with Observer{
         background = barBrown
         highlightHandCardsEnabled = true
         controller.attack(1, 2)
-        //to do: attack function machen
-        //to do: attack parameter sind hardcoded noch
-        //newRound()
+        // to do: attack function machen
+        // to do: attack parameter sind hardcoded noch
+        // newRound()
       }
       contents += Button("Play Card") {
         highlightHandCardsEnabled = true
-        //to do: player should be able to click on the cards he wants to play
-        //choose card to play and pass chosen card as argument for playCard function
-        //momentan nur default card playable als bsp um zu prüfung obs geht
-        //val defaultCard: Card = Card(CardName.weisser, CardLastName.Drache, 2000, 3000)
+        // to do: player should be able to click on the cards he wants to play
+        // choose card to play and pass chosen card as argument for playCard function
+        // momentan nur default card playable als bsp um zu prüfung obs geht
+        // val defaultCard: Card = Card(CardName.weisser, CardLastName.Drache, 2000, 3000)
 
         controller.playCard()
 
         deckLabel.text = s"Deck: ${controller.getField.getDeck.getDeckCount}"
-        //newRound()
+        // newRound()
       }
       contents += Button("Draw") {
         controller.drawCard()
@@ -371,22 +410,41 @@ class Gui(controller: ControllerInterface) extends Frame with Observer{
     val newRound: Int = controller.getField.getRound + 1
     controller.roundIncrement(newRound)
     roundLabel.text = s"Round: ${controller.getField.getRound}"
-  //weird: if the upper line is gone nothing works anymore, seems suspicious
-  //solved: because roundlabel is a val and not a def, to do: change that ?
+  // weird: if the upper line is gone nothing works anymore, seems suspicious
+  // solved: because roundlabel is a val and not a def, to do: change that ?
 
   def init(): Unit = {
     val (player1: Option[String], player2: Option[String]) = getGraphicalInput()
     controller.newStartingGame(player1, player2)
   }
   def getGraphicalInput(): (Option[String], Option[String]) = {
-    val playerName1 = showInput(null, "Enter Name Player 1", "Input Dialog", Dialog.Message.Question, null, Seq.empty[String], "Default")
-    val playerName2 = showInput(null, "Enter Name Player 2", "Input Dialog", Dialog.Message.Question, null, Seq.empty[String], "Default")
+    val playerName1 = showInput(
+      null,
+      "Enter Name Player 1",
+      "Input Dialog",
+      Dialog.Message.Question,
+      null,
+      Seq.empty[String],
+      "Default"
+    )
+    val playerName2 = showInput(
+      null,
+      "Enter Name Player 2",
+      "Input Dialog",
+      Dialog.Message.Question,
+      null,
+      Seq.empty[String],
+      "Default"
+    )
 
-    //StartingGame.player1 = Player(playerName1.getOrElse("DefaultPlayer1"))
-    //StartingGame.player2 = Player(playerName1.getOrElse("DefaultPlayer2"))
+    // StartingGame.player1 = Player(playerName1.getOrElse("DefaultPlayer1"))
+    // StartingGame.player2 = Player(playerName1.getOrElse("DefaultPlayer2"))
 
-    (Option(playerName1.getOrElse("Default")), Option(playerName2.getOrElse("Default")))
-    //(playerName1, playerName2)
+    (
+      Option(playerName1.getOrElse("Default")),
+      Option(playerName2.getOrElse("Default"))
+    )
+    // (playerName1, playerName2)
   }
 
   private def setButtonLookAndFeel(): Unit = {
@@ -402,10 +460,8 @@ class Gui(controller: ControllerInterface) extends Frame with Observer{
     val lookAndFeel = UIManager.getLookAndFeelDefaults()
     lookAndFeel.put("MenuItem.background", barBrown)
     lookAndFeel.put("MenuItem.foreground", borderColor)
-    //doesnt work, it needs to be customised menu working with 2dgraphics
+    // doesnt work, it needs to be customised menu working with 2dgraphics
   }
-
-
 
   /*private val startButton = new Button("Start YuGiOh") {
     background = mediumBrown
@@ -434,7 +490,7 @@ class Gui(controller: ControllerInterface) extends Frame with Observer{
   }*/
 
   setButtonLookAndFeel()
-  //setMenuLookAndFeel() geht noch nicht lol
+  // setMenuLookAndFeel() geht noch nicht lol
   contents = updateContent()
 
   listenTo()
@@ -447,7 +503,7 @@ class Gui(controller: ControllerInterface) extends Frame with Observer{
       mainPanel.repaint()
       println("Game started!")
   }
-  */
+   */
 
   centerOnScreen
   pack

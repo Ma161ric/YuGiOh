@@ -23,6 +23,6 @@ trait ControllerInterface extends Observable {
   def undo: Unit
   def restart(): Unit
   def roundIncrement(newRound: Int): Boolean
-  def save(): Unit
-  def load(): Unit
+  def save(): Boolean
+  def load(): Boolean
 }

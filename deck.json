@@ -1,0 +1,219 @@
+{
+  "deck" : [ {
+    "firstName" : "Roter",
+    "lastName" : "Drache",
+    "atk" : 2400,
+    "defe" : 600,
+    "position" : "deck"
+  }, {
+    "firstName" : "Roter",
+    "lastName" : "Magier",
+    "atk" : 2100,
+    "defe" : 400,
+    "position" : "deck"
+  }, {
+    "firstName" : "Roter",
+    "lastName" : "Hexer",
+    "atk" : 2500,
+    "defe" : 1500,
+    "position" : "deck"
+  }, {
+    "firstName" : "Roter",
+    "lastName" : "Gnom",
+    "atk" : 2200,
+    "defe" : 900,
+    "position" : "deck"
+  }, {
+    "firstName" : "Roter",
+    "lastName" : "Krieger",
+    "atk" : 1700,
+    "defe" : 900,
+    "position" : "deck"
+  }, {
+    "firstName" : "Roter",
+    "lastName" : "Reiter",
+    "atk" : 2200,
+    "defe" : 700,
+    "position" : "deck"
+  }, {
+    "firstName" : "Schwarzer",
+    "lastName" : "Drache",
+    "atk" : 2700,
+    "defe" : 1700,
+    "position" : "deck"
+  }, {
+    "firstName" : "Schwarzer",
+    "lastName" : "Magier",
+    "atk" : 900,
+    "defe" : 1900,
+    "position" : "deck"
+  }, {
+    "firstName" : "Schwarzer",
+    "lastName" : "Hexer",
+    "atk" : 1400,
+    "defe" : 2300,
+    "position" : "deck"
+  }, {
+    "firstName" : "Schwarzer",
+    "lastName" : "Gnom",
+    "atk" : 800,
+    "defe" : 1700,
+    "position" : "deck"
+  }, {
+    "firstName" : "Schwarzer",
+    "lastName" : "Krieger",
+    "atk" : 1200,
+    "defe" : 1000,
+    "position" : "deck"
+  }, {
+    "firstName" : "Schwarzer",
+    "lastName" : "Reiter",
+    "atk" : 2200,
+    "defe" : 1000,
+    "position" : "deck"
+  }, {
+    "firstName" : "Blauer",
+    "lastName" : "Drache",
+    "atk" : 1000,
+    "defe" : 900,
+    "position" : "deck"
+  }, {
+    "firstName" : "Blauer",
+    "lastName" : "Magier",
+    "atk" : 1200,
+    "defe" : 1900,
+    "position" : "deck"
+  }, {
+    "firstName" : "Blauer",
+    "lastName" : "Hexer",
+    "atk" : 2500,
+    "defe" : 900,
+    "position" : "deck"
+  }, {
+    "firstName" : "Blauer",
+    "lastName" : "Gnom",
+    "atk" : 2100,
+    "defe" : 400,
+    "position" : "deck"
+  }, {
+    "firstName" : "Blauer",
+    "lastName" : "Krieger",
+    "atk" : 1200,
+    "defe" : 1300,
+    "position" : "deck"
+  }, {
+    "firstName" : "Blauer",
+    "lastName" : "Reiter",
+    "atk" : 1700,
+    "defe" : 1000,
+    "position" : "deck"
+  }, {
+    "firstName" : "Weisser",
+    "lastName" : "Drache",
+    "atk" : 1000,
+    "defe" : 600,
+    "position" : "deck"
+  }, {
+    "firstName" : "Weisser",
+    "lastName" : "Magier",
+    "atk" : 1500,
+    "defe" : 1100,
+    "position" : "deck"
+  }, {
+    "firstName" : "Weisser",
+    "lastName" : "Hexer",
+    "atk" : 2900,
+    "defe" : 600,
+    "position" : "deck"
+  }, {
+    "firstName" : "Weisser",
+    "lastName" : "Gnom",
+    "atk" : 400,
+    "defe" : 300,
+    "position" : "deck"
+  }, {
+    "firstName" : "Weisser",
+    "lastName" : "Krieger",
+    "atk" : 1000,
+    "defe" : 400,
+    "position" : "deck"
+  }, {
+    "firstName" : "Weisser",
+    "lastName" : "Reiter",
+    "atk" : 2500,
+    "defe" : 2800,
+    "position" : "deck"
+  }, {
+    "firstName" : "Fieser",
+    "lastName" : "Drache",
+    "atk" : 1900,
+    "defe" : 1400,
+    "position" : "deck"
+  }, {
+    "firstName" : "Fieser",
+    "lastName" : "Magier",
+    "atk" : 2000,
+    "defe" : 1800,
+    "position" : "deck"
+  }, {
+    "firstName" : "Fieser",
+    "lastName" : "Hexer",
+    "atk" : 600,
+    "defe" : 1100,
+    "position" : "deck"
+  }, {
+    "firstName" : "Fieser",
+    "lastName" : "Gnom",
+    "atk" : 2400,
+    "defe" : 1300,
+    "position" : "deck"
+  }, {
+    "firstName" : "Fieser",
+    "lastName" : "Krieger",
+    "atk" : 600,
+    "defe" : 2400,
+    "position" : "deck"
+  }, {
+    "firstName" : "Fieser",
+    "lastName" : "Reiter",
+    "atk" : 1400,
+    "defe" : 2800,
+    "position" : "deck"
+  }, {
+    "firstName" : "Guter",
+    "lastName" : "Drache",
+    "atk" : 1100,
+    "defe" : 1900,
+    "position" : "deck"
+  }, {
+    "firstName" : "Guter",
+    "lastName" : "Magier",
+    "atk" : 800,
+    "defe" : 2600,
+    "position" : "deck"
+  }, {
+    "firstName" : "Guter",
+    "lastName" : "Hexer",
+    "atk" : 2700,
+    "defe" : 2400,
+    "position" : "deck"
+  }, {
+    "firstName" : "Guter",
+    "lastName" : "Gnom",
+    "atk" : 1900,
+    "defe" : 800,
+    "position" : "deck"
+  }, {
+    "firstName" : "Guter",
+    "lastName" : "Krieger",
+    "atk" : 1000,
+    "defe" : 800,
+    "position" : "deck"
+  }, {
+    "firstName" : "Guter",
+    "lastName" : "Reiter",
+    "atk" : 2200,
+    "defe" : 900,
+    "position" : "deck"
+  } ]
+}

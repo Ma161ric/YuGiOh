@@ -1,0 +1,78 @@
+{
+  "name" : "Default",
+  "hand" : [ {
+    "firstName" : "Weisser",
+    "lastName" : "Hexer",
+    "atk" : 2900,
+    "defe" : 600,
+    "position" : "deck"
+  }, {
+    "firstName" : "Fieser",
+    "lastName" : "Drache",
+    "atk" : 1900,
+    "defe" : 1400,
+    "position" : "deck"
+  }, {
+    "firstName" : "Weisser",
+    "lastName" : "Magier",
+    "atk" : 1500,
+    "defe" : 1100,
+    "position" : "deck"
+  }, {
+    "firstName" : " ",
+    "lastName" : " ",
+    "atk" : 0,
+    "defe" : 0,
+    "position" : ""
+  }, {
+    "firstName" : " ",
+    "lastName" : " ",
+    "atk" : 0,
+    "defe" : 0,
+    "position" : ""
+  }, {
+    "firstName" : " ",
+    "lastName" : " ",
+    "atk" : 0,
+    "defe" : 0,
+    "position" : ""
+  } ],
+  "fightfield" : [ {
+    "firstName" : "Weisser",
+    "lastName" : "Drache",
+    "atk" : 2000,
+    "defe" : 3000,
+    "position" : " "
+  }, {
+    "firstName" : " ",
+    "lastName" : " ",
+    "atk" : 0,
+    "defe" : 0,
+    "position" : ""
+  }, {
+    "firstName" : " ",
+    "lastName" : " ",
+    "atk" : 0,
+    "defe" : 0,
+    "position" : ""
+  }, {
+    "firstName" : " ",
+    "lastName" : " ",
+    "atk" : 0,
+    "defe" : 0,
+    "position" : ""
+  }, {
+    "firstName" : " ",
+    "lastName" : " ",
+    "atk" : 0,
+    "defe" : 0,
+    "position" : ""
+  }, {
+    "firstName" : " ",
+    "lastName" : " ",
+    "atk" : 0,
+    "defe" : 0,
+    "position" : ""
+  } ],
+  "lp" : 1000
+}
