@@ -13,7 +13,7 @@ import aview.gui.Gui
 import de.htwg.se.yuGiOh.controller.controllerComponent.ControllerInterface
 import de.htwg.se.yuGiOh.controller.controllerComponent.controllerBaseImpl._
 import de.htwg.se.yuGiOh.model.fieldComponent.FieldInterface
-import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl._
+//import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl._
 
 @main def run: Unit =
 
