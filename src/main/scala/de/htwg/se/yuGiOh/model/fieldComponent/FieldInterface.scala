@@ -27,6 +27,7 @@ trait CardInterface {
   def getDefe: Int
   def getPosition: String
   def isEmpty(card: Card): Boolean
+  def toXml(): scala.xml.Elem
 }
 
 trait StartingGameInterface {
@@ -51,4 +52,5 @@ trait PlayerInterface {
   def getHand: Hand
   def getFightField: FightField
   def getLp: Int
+  def toXml(): scala.xml.Elem
 }

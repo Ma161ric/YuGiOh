@@ -1,7 +1,7 @@
 package de.htwg.se.yuGiOh.model.fileIOComponent.FileIOJSON
 
 import java.io.{File, FileWriter, PrintWriter}
-import play.api.libs.json._
+//import play.api.libs.json._
 
 import com.google.inject.name.{Named, Names}
 import com.google.inject.{AbstractModule, Guice, Inject, Injector, Provides}
@@ -10,7 +10,6 @@ import com.google.inject.Key
 import de.htwg.se.yuGiOh.model.fileIOComponent._
 import de.htwg.se.yuGiOh.model.fieldComponent._
 import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl._
-import de.htwg.se.yuGiOh.model.playerComponent._
 
 import scala.io.Source
 import scala.util.{Using, Try}

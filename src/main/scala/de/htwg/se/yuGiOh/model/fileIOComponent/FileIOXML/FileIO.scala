@@ -6,9 +6,8 @@ import scala.util.{Using, Try}
 import scala.xml.{Elem, XML, Node}
 
 import de.htwg.se.yuGiOh.model.fileIOComponent._
-import de.htwg.se.yuGiOh.model.fieldComponent._
+import de.htwg.se.yuGiOh.model.fieldComponent.{FieldInterface, PlayerInterface}
 import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl._
-import de.htwg.se.yuGiOh.model.playerComponent._
 import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl.{
   Card,
   CardName,
@@ -16,7 +15,7 @@ import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl.{
   FightField
 }
 import java.io.{File, FileWriter, PrintWriter}
-import play.api.libs.json._
+//import play.api.libs.json._
 import scala.xml.PrettyPrinter
 
 class FileIO extends FileIOInterface {
