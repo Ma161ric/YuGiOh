@@ -3,7 +3,7 @@ package de.htwg.se.yuGiOh.controller.controllerComponent.controllerBaseImpl
 import de.htwg.se.yuGiOh.model.fieldComponent.FieldInterface
 import de.htwg.se.yuGiOh.util._
 
-trait ActionStrategy /*extends StrategyInterface*/ {
+trait ActionStrategy {
   val undoManager = new UndoManager[FieldInterface]
   def performAction(field: FieldInterface): FieldInterface
 }
@@ -16,7 +16,6 @@ object DrawStrategy extends ActionStrategy {
   }
 }
 
-// angriff
 object AttStrategy extends ActionStrategy {
   override def performAction(field: FieldInterface): FieldInterface = {
     println("Angreifen...")

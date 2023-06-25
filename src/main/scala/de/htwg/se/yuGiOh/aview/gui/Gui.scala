@@ -58,7 +58,7 @@ class Gui(controller: ControllerInterface) extends Frame with Observer {
 
   private val brownBorder = Swing.LineBorder(borderColor)
   private val highlightBorder = Swing.LineBorder(highlightColor)
-  
+
   menuBar = new MenuBar {
     background = barBrown
     opaque = true
@@ -166,7 +166,7 @@ class Gui(controller: ControllerInterface) extends Frame with Observer {
       10,
       5,
       10
-    ) 
+    )
     opaque = true
   }
   private def playerLpLabel(player: PlayerInterface) = new Label {
@@ -269,7 +269,7 @@ class Gui(controller: ControllerInterface) extends Frame with Observer {
       cardList.foreach({ card =>
         if (highlightHandCardsEnabled && !card.isEmpty(card)) {
           val highlightedCardPanel =
-            cardPanel(card) 
+            cardPanel(card)
           highlightedCardPanel.border = new CompoundBorder(
             highlightBorder,
             Swing.EmptyBorder(5, 5, 5, 5)
@@ -408,7 +408,7 @@ class Gui(controller: ControllerInterface) extends Frame with Observer {
     val newRound: Int = controller.getField.getRound + 1
     controller.newRound(newRound)
     roundLabel.text = s"Round: ${controller.getField.getRound}"
-    
+
   private def init(): Unit = {
     val (player1: Option[String], player2: Option[String]) = getGraphicalInput()
     controller.newStartingGame(player1, player2)

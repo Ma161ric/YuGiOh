@@ -82,7 +82,8 @@ class Tui(controller: ControllerInterface) extends Observer:
     val inputStrings: Try[Array[String]] = input.map(_.split(" "))
     val inputStringIndex0Option: Option[String] = inputStrings.toOption.flatMap(_.headOption)
     val inputIndex1Option: Option[String] = inputStrings.toOption.flatMap(_.lift(1))
-    val inputIndex2Option: Option[String] = inputStrings.toOption.flatMap(_.lift(2))
+    val inputIndex2Option: Option[String] =
+      inputStrings.toOption.flatMap(_.lift(2))
     val inputStringIndex0: String = inputStringIndex0Option.getOrElse("")
     val inputIndex1String: String = inputIndex1Option.getOrElse("")
     val inputIndex2String: String = inputIndex2Option.getOrElse("")
