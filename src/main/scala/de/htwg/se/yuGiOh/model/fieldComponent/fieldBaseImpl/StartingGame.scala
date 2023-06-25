@@ -45,8 +45,6 @@ object StartingGame extends StartingGameInterface {
       field
     }
 
-  // def preparePlayer()
-
   private def generateDeck(): List[Card] = {
     val cardNames = List(
       CardName.Roter,

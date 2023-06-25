@@ -8,28 +8,28 @@ trait GameState {
 
 class PlayerTurnState extends GameState {
   override def startTurn(): Unit = {
-    // Implementierung für den Start des Spielers
+    // to do: Implementierung für den Start des Spielers
   }
 
   override def endTurn(): Unit = {
-    // Implementierung für das Beenden des Spielers
+    // to do: Implementierung für das Beenden des Spielers
   }
 
   override def playCard(): Unit = {
-    // Implementierung für das Spielen einer Karte während des Spielerzugs
+    // to do: Implementierung für das Spielen einer Karte während des Spielerzugs
   }
 }
 
 class OpponentTurnState extends GameState {
   override def startTurn(): Unit = {
-    // Implementierung für den Start des Gegners
+    // to do: Implementierung für den Start des Gegners
   }
 
   override def endTurn(): Unit = {
-    // Implementierung für das Beenden des Gegners
+    // to do: Implementierung für das Beenden des Gegners
   }
 
   override def playCard(): Unit = {
-    // Implementierung für das Spielen einer Karte während des Gegnerzugs
+    // to do: Implementierung für das Spielen einer Karte während des Gegnerzugs
   }
 }

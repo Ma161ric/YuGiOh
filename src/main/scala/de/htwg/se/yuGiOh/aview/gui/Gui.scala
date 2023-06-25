@@ -39,7 +39,7 @@ class Gui(controller: ControllerInterface) extends Frame with Observer {
   private val sideBarSize = new Dimension(100, 405)
   private val statsSize = new Dimension(800, 57)
 
-  // private val nameLabel = new Label("Welcome to Yu-Gi-Oh!")
+  private val nameLabel = new Label("Welcome to Yu-Gi-Oh!")
 
   private var highlightHandCardsEnabled: Boolean = false
 
@@ -58,9 +58,7 @@ class Gui(controller: ControllerInterface) extends Frame with Observer {
 
   private val brownBorder = Swing.LineBorder(borderColor)
   private val highlightBorder = Swing.LineBorder(highlightColor)
-
-  // private val roundPlayer2: Boolean = round % 2 == 0
-
+  
   menuBar = new MenuBar {
     background = barBrown
     opaque = true
@@ -78,9 +76,6 @@ class Gui(controller: ControllerInterface) extends Frame with Observer {
       contents += new Menu("Edit") {
         contents += new MenuItem(Action("Undo") {
           controller.undo
-          // val updatedField = controller.field
-          // println(controller.getField)
-          // updateContent()
         })
         contents += new MenuItem(Action("Redo") {
           controller.redo
@@ -118,7 +113,8 @@ class Gui(controller: ControllerInterface) extends Frame with Observer {
   }
 
   private def updateContent() =
-    /*new BorderPanel:
+    /* to do: startbildschirm
+    new BorderPanel:
       add(mainPanel, BorderPanel.Position.Center)
       mainPanel.revalidate()
       repaint()*/
@@ -158,7 +154,7 @@ class Gui(controller: ControllerInterface) extends Frame with Observer {
       repaint()
     case Event.GameOver =>
       println("Game over!")
-    // if (controller.player1Won) println("Spieler 1 hat das Spiel gewonnen!")
+    // to do: if (controller.player1Won) println("Spieler 1 hat das Spiel gewonnen!")
     // else if (controller.player2Won) println("Spieler 1 hat das Spiel gewonnen!")
     case Event.Quit => sys.exit
 
@@ -170,7 +166,7 @@ class Gui(controller: ControllerInterface) extends Frame with Observer {
       10,
       5,
       10
-    ) // Empty border with 5 pixels padding
+    ) 
     opaque = true
   }
   private def playerLpLabel(player: PlayerInterface) = new Label {
@@ -273,7 +269,7 @@ class Gui(controller: ControllerInterface) extends Frame with Observer {
       cardList.foreach({ card =>
         if (highlightHandCardsEnabled && !card.isEmpty(card)) {
           val highlightedCardPanel =
-            cardPanel(card) // but with different border
+            cardPanel(card) 
           highlightedCardPanel.border = new CompoundBorder(
             highlightBorder,
             Swing.EmptyBorder(5, 5, 5, 5)
@@ -410,16 +406,14 @@ class Gui(controller: ControllerInterface) extends Frame with Observer {
 
   private def newRound(): Unit =
     val newRound: Int = controller.getField.getRound + 1
-    controller.roundIncrement(newRound)
+    controller.newRound(newRound)
     roundLabel.text = s"Round: ${controller.getField.getRound}"
-  // weird: if the upper line is gone nothing works anymore, seems suspicious
-  // solved: because roundlabel is a val and not a def, to do: change that ?
-
-  def init(): Unit = {
+    
+  private def init(): Unit = {
     val (player1: Option[String], player2: Option[String]) = getGraphicalInput()
     controller.newStartingGame(player1, player2)
   }
-  def getGraphicalInput(): (Option[String], Option[String]) = {
+  private def getGraphicalInput(): (Option[String], Option[String]) = {
     val playerName1 = showInput(
       null,
       "Enter Name Player 1",
@@ -438,15 +432,10 @@ class Gui(controller: ControllerInterface) extends Frame with Observer {
       Seq.empty[String],
       "Default"
     )
-
-    // StartingGame.player1 = Player(playerName1.getOrElse("DefaultPlayer1"))
-    // StartingGame.player2 = Player(playerName1.getOrElse("DefaultPlayer2"))
-
     (
       Option(playerName1.getOrElse("Default")),
       Option(playerName2.getOrElse("Default"))
     )
-    // (playerName1, playerName2)
   }
 
   private def setButtonLookAndFeel(): Unit = {
@@ -462,10 +451,11 @@ class Gui(controller: ControllerInterface) extends Frame with Observer {
     val lookAndFeel = UIManager.getLookAndFeelDefaults()
     lookAndFeel.put("MenuItem.background", barBrown)
     lookAndFeel.put("MenuItem.foreground", borderColor)
-    // doesnt work, it needs to be customised menu working with 2dgraphics
+    //  to do: style menubar
   }
 
-  /*private val startButton = new Button("Start YuGiOh") {
+  /* to do: Startbildschirm
+  private val startButton = new Button("Start YuGiOh") {
     background = mediumBrown
   }
   private val startPanel = new BoxPanel(Orientation.NoOrientation) {contents += startButton}
@@ -492,11 +482,12 @@ class Gui(controller: ControllerInterface) extends Frame with Observer {
   }*/
 
   setButtonLookAndFeel()
-  // setMenuLookAndFeel() geht noch nicht lol
+  // setMenuLookAndFeel()  to do: Startbildschirm
   contents = updateContent()
 
   listenTo()
-  /*reactions += {
+  /* to do: Startbildschirm
+  reactions += {
     case ButtonClicked("startButton") =>
       startPanel.visible = false
       playField.visible = true

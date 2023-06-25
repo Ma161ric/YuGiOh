@@ -24,22 +24,23 @@ class Tui(controller: ControllerInterface) extends Observer:
   override def update(e: Event): Unit = e match
     case Event.Attack =>
       println("Attack!")
-    // println(controller.field.toString)
     case Event.GameOver =>
       println("Game over!")
+    // to do:
     // if (controller.player1Won) println("Spieler 1 hat das Spiel gewonnen!")
     // else if (controller.player2Won) println("Spieler 1 hat das Spiel gewonnen!")
     case Event.Quit => sys.exit
     case _          =>
 
   def run(): Unit =
-    println(controller.toString) // remember: was controller.field.tostring
+    println(controller.toString)
     controller.printHelp()
     inputLoop()
 
   private def inputLoop(): Unit =
     val inputQueue = new LinkedBlockingQueue[String]()
 
+    //for gui docker
     /*Future {
       while (true) {
         val input = readLine()
@@ -62,36 +63,31 @@ class Tui(controller: ControllerInterface) extends Observer:
       }
     }*/
 
-    /*processInputLine(readLineTry()) match {
+    processInputLine(readLineTry()) match {
       case ERROR => controller.printHelp()
       case EXIT =>
         print("bye\n")
         System.exit(0)
       case SUCCESS => print("\n\n")
-    }*/
-    inputLoop() //to do: if this commented out, recursion with docker and always "no input!"
+    }
+    //remember: comment out processInputLine if using docker gui!"
+    inputLoop()
 
   def readLineTry(): Try[String] = Try(readLine())
 
-  //def stringLength(input: Try[String]): Option[Int] = input.toOption.map(_.length)
+  def stringLength(input: Try[String]): Option[Int] = input.toOption.map(_.length)
 
   def processInputLine(input: Try[String]): Int =
-    /*if (input.isEmpty)
-          print("no input!\n")
-          return ERROR*/ // to do
     val inputString = input.getOrElse("")
     val inputStrings: Try[Array[String]] = input.map(_.split(" "))
-    val inputStringIndex0Option: Option[String] =
-      inputStrings.toOption.flatMap(_.headOption)
-    val inputIndex1Option: Option[String] =
-      inputStrings.toOption.flatMap(_.lift(1))
-    val inputIndex2Option: Option[String] =
-      inputStrings.toOption.flatMap(_.lift(2))
-    // val inputStringIndex0: String = inputStringIndex0Option.getOrElse("")
+    val inputStringIndex0Option: Option[String] = inputStrings.toOption.flatMap(_.headOption)
+    val inputIndex1Option: Option[String] = inputStrings.toOption.flatMap(_.lift(1))
+    val inputIndex2Option: Option[String] = inputStrings.toOption.flatMap(_.lift(2))
+    val inputStringIndex0: String = inputStringIndex0Option.getOrElse("")
     val inputIndex1String: String = inputIndex1Option.getOrElse("")
     val inputIndex2String: String = inputIndex2Option.getOrElse("")
 
-    //val inputLength: Option[Int] = stringLength(input)
+    val inputLength: Option[Int] = stringLength(input)
 
     input match {
       case Success("exit" | "q") =>
@@ -106,26 +102,22 @@ class Tui(controller: ControllerInterface) extends Observer:
         SUCCESS
       case Success("draw" | "d") =>
         println("draw card")
-        // to do: joa mal gucken das es wieder läuft
-        // if (!controller.drawCard()) {
-        //  println("already drew a card")
-        //  return ERROR
-        // }
-        // hier einfach state updaten welcher spieler dran ist
+        if (!controller.drawCard()) {
+          println("already drew a card")
+          return ERROR
+         }
+        // to do: state updaten welcher spieler dran ist
         // und dann einfach nur sagen das der spieler zieht also ist dann klar wer ziehen muss
         SUCCESS
       case Success("play" | "p") =>
         println("play card")
         SUCCESS
-      /*case Success("attack" | "a") =>
+      case Success("attack" | "a") =>
         if (inputLength.exists(_ >= 3)) {
           val opponentsCard = inputIndex1String
-          // sollen wir hier das als index machen?
-          //to do: klingt gut! wenn die zeit reicht machen wir das noch, es ist auf der to do liste
           val playersCard = inputIndex2String
-          // hier auch index, also nur eine zahl übergeben
           println(s"Attack with $playersCard on $opponentsCard")
-          if (controller.attack(playersCard, opponentsCard)) {
+          if (controller.attack(1, 2)) { //to do: only index is given
             println("attack successful")
             SUCCESS
           } else {
@@ -137,16 +129,15 @@ class Tui(controller: ControllerInterface) extends Observer:
             "Invalid attack command. Provide both the card to attack and the card used to attack."
           )
           ERROR
-        }*/
-      // to do: case success wieder zum laufen kriegen dass controll.attack richtig funkt hier
+        }
       case Success("next" | "n") =>
         println("next player")
-        /*if (controller.roundIncrement()) {
+        val nextRound: Int = controller.getField.getRound + 1
+        if (controller.newRound(nextRound)) {
           println("already drew a card")
           return ERROR
-        }*/
-        // to do: rounincrement funkt nicht hier
-        // hier einfach state updaten welcher spieler dran ist
+        }
+        // to do: state updaten welcher spieler dran ist
         // und dann einfach nur sagen das der spieler zieht also ist dann klar wer ziehen muss
         SUCCESS
       case Success("save" | "s") =>
@@ -166,92 +157,3 @@ class Tui(controller: ControllerInterface) extends Observer:
         ERROR
     }
 
-  /*
-  def chooseCardToPlayPlayer1(hand: Hand, fightField: FightField): Unit =
-    println(
-      "Choose which Card to Play: \n" +
-        "1: " + hand.getCard(1) +
-        "2: " + hand.getCard(2) +
-        "3: " + hand.getCard(3) +
-        "4: " + hand.getCard(4) +
-        "5: " + hand.getCard(5) +
-        "6: " + hand.getCard(6)
-    )
-    val input = readLine
-    val chars = input.toCharArray
-    chars(0) match
-      case '1' => {
-        val updatedFightField = fightField.addCard(hand.getCard(1))
-        controller.setFightFieldPlayer1(updatedFightField)
-      }
-      case '2' => {
-        val updatedFightField = fightField.addCard(hand.getCard(2))
-        controller.setFightFieldPlayer1(updatedFightField)
-      }
-      case '3' => {
-        val updatedFightField = fightField.addCard(hand.getCard(3))
-        controller.setFightFieldPlayer1(updatedFightField)
-      }
-      case '4' => {
-        val updatedFightField = fightField.addCard(hand.getCard(4))
-        controller.setFightFieldPlayer1(updatedFightField)
-      }
-      case '5' => {
-        val updatedFightField = fightField.addCard(hand.getCard(5))
-        controller.setFightFieldPlayer1(updatedFightField)
-      }
-      case '6' => {
-        val updatedFightField = fightField.addCard(hand.getCard(6))
-        controller.setFightFieldPlayer1(updatedFightField)
-      }
-      case _ => {
-        val updatedFightField = fightField.addCard(hand.getCard(1))
-        controller.setFightFieldPlayer1(updatedFightField)
-      }
-
-  def chooseCardToPlayPlayer2(hand: Hand, fightField: FightField): Unit =
-    println(
-      "Choose which Card to Play: \n" +
-        "1: " + hand.getCard(1) +
-        "2: " + hand.getCard(2) +
-        "3: " + hand.getCard(3) +
-        "4: " + hand.getCard(4) +
-        "5: " + hand.getCard(5) +
-        "6: " + hand.getCard(6)
-    )
-    val input = readLine
-    val chars = input.toCharArray
-    chars(0) match
-      case '1' => {
-        val updatedFightField = fightField.addCard(hand.getCard(1))
-        controller.setFightFieldPlayer2(updatedFightField)
-      }
-      case '2' => {
-        val updatedFightField = fightField.addCard(hand.getCard(2))
-        controller.setFightFieldPlayer2(updatedFightField)
-      }
-      case '3' => {
-        val updatedFightField = fightField.addCard(hand.getCard(3))
-        controller.setFightFieldPlayer2(updatedFightField)
-      }
-      case '4' => {
-        val updatedFightField = fightField.addCard(hand.getCard(4))
-        controller.setFightFieldPlayer2(updatedFightField)
-      }
-      case '5' => {
-        val updatedFightField = fightField.addCard(hand.getCard(5))
-        controller.setFightFieldPlayer2(updatedFightField)
-      }
-      case '6' => {
-        val updatedFightField = fightField.addCard(hand.getCard(6))
-        controller.setFightFieldPlayer2(updatedFightField)
-      }
-      case _ => {
-        // player doesn't want to or cant play a card
-      }
-
-  def setPlayerStats(player1: Player, player2: Player): Unit =
-    controller.setNamePlayer1(player1.toString)
-    controller.setLpPlayer1(player1.getLp)
-    controller.setNamePlayer2(player2.toString)
-    controller.setLpPlayer2(player2.getLp)*/

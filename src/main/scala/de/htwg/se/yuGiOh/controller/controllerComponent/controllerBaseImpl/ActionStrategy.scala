@@ -20,7 +20,7 @@ object DrawStrategy extends ActionStrategy {
 object AttStrategy extends ActionStrategy {
   override def performAction(field: FieldInterface): FieldInterface = {
     println("Angreifen...")
-    // AttStrategy.attack(field, playersCard, opponentsCard)
+    //  to do: implement attack
     field
   }
 }

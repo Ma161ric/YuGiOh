@@ -5,11 +5,10 @@ import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl.Deck
 import de.htwg.se.yuGiOh.util.Command
 
 class DrawCommand (var field: FieldInterface) extends Command[FieldInterface]:
-  //val controller: Controller = Controller(field)
 
   override def doStep(field: FieldInterface): FieldInterface =
     val (firstCard, updatedDeck) = field.getDeck.deck match {
-      case Nil => /* case failure*/ throw new NoSuchElementException("Deck is empty")
+      case Nil => throw new NoSuchElementException("Deck is empty")
       case head :: tail => (head, Deck(tail))
     }
     var player1: PlayerInterface = field.getPlayer1
@@ -45,10 +44,10 @@ class DrawCommand (var field: FieldInterface) extends Command[FieldInterface]:
       })
       player1 = player1.copy(hand = updatedHand)
     }
-    /*case success*/ field.copy(deck = updatedDeck, player1 = player1, player2 = player2) //->Option und so immer nutzen bei zB: prüfung ob karte leer ist, wenn das deck leer ist, man nicht mehr  ziehen kann weil hand voll ist
+    field.copy(deck = updatedDeck, player1 = player1, player2 = player2) //->Option und so immer nutzen bei zB: prüfung ob karte leer ist, wenn das deck leer ist, man nicht mehr  ziehen kann weil hand voll ist
 
   override def undoStep(field: FieldInterface): FieldInterface =
-    val temp = this.field //to do: ausführliches undo und redo
+    val temp = this.field //to do
     this.field = field
     temp
 

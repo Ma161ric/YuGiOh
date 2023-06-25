@@ -1,7 +1,6 @@
 package de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl
 
 import de.htwg.se.yuGiOh.model.fieldComponent.{FieldInterface,PlayerInterface}
-//to do: check if player or playerinterface is better here
 case class Field (
                    size: Int,
                    round: Int,
@@ -12,10 +11,7 @@ case class Field (
 
   val eol: String = sys.props("line.separator")
   var currentPlayer: Int = 1
-
-  /*def this(size: Int, round: Int) =
-    this(size, round, deck, player1, player2)*/
-
+  
   def copy(size: Int = this.size, round: Int = this.round, deck: Deck = this.deck, player1: PlayerInterface = this.player1, player2: PlayerInterface = this.player2): FieldInterface =
     Field(size, round, deck, player1, player2)
 

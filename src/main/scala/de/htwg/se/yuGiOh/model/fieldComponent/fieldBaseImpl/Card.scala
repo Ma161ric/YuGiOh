@@ -12,7 +12,6 @@ sealed trait CardName {
 }
 
 object CardName:
-  // override def toString: String = firstName
 
   case object Roter extends CardName {
     val firstName = "Roter"
@@ -43,13 +42,6 @@ object CardName:
   def apply(name: String): CardName = new CardName {
     val firstName: String = name
   }
-  /*case roter extends CardName("Roter")
-  case schwarzer extends CardName("Schwarzer")
-  case blauer extends CardName("Blauer")
-  case weisser extends CardName("Weisser")
-  case boeser extends CardName("Fieser")
-  case guter extends CardName("Guter")
-  case emptyName extends CardName(" ")*/
 
 sealed trait CardLastName {
   def lastName: String
@@ -88,15 +80,6 @@ object CardLastName:
   def apply(name: String): CardLastName = new CardLastName {
     val lastName: String = name
   }
-  /*override def toString: String = lastName
-
-  case Drache extends CardLastName("Drache")
-  case Magier extends CardLastName("Magier")
-  case Hexer extends CardLastName("Hexer")
-  case Gnom extends CardLastName("Gnom")
-  case Reiter extends CardLastName("Reiter")
-  case Krieger extends CardLastName("Krieger")
-  case emptyLastName extends CardLastName(" ")*/
 
 case class Card @Inject() (
     firstName: CardName,

@@ -1,7 +1,6 @@
 package de.htwg.se.yuGiOh.model.fieldComponent
 
 import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl._
-//to do: check if it would be better to player instead of playerinterface
 trait FieldInterface {
   def copy(size: Int = this.getSize, round: Int = this.getRound, deck: Deck = this.getDeck, player1: PlayerInterface = this.getPlayer1, player2: PlayerInterface = this.getPlayer2): FieldInterface
   def getCurrentPlayer(): PlayerInterface

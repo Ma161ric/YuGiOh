@@ -15,7 +15,6 @@ import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl.{
   FightField
 }
 import java.io.{File, FileWriter, PrintWriter}
-//import play.api.libs.json._
 import scala.xml.PrettyPrinter
 
 class FileIO extends FileIOInterface {
@@ -117,17 +116,14 @@ class FileIO extends FileIOInterface {
     </card>
   }
 
-  override def load: (FieldInterface /* , PlayerInterface */ ) = {
+  override def load: (FieldInterface) = {
     val res = Try(scala.xml.XML.loadFile("field.xml"))
-    println("res: " + res)
     if (res.isFailure) {
       println("Could not load file")
-      return (null /* , null */ )
+      return (null)
     }
     val field = loadField()
-    println("field: " + field)
-    // val playerStrategy = loadPlayerStrategy()
-    (field /* , playerStrategy */ )
+    (field)
   }
 
   def loadField(): Field = {
@@ -197,7 +193,6 @@ class FileIO extends FileIOInterface {
     Card(CardName(firstName), CardLastName(lastName), atk, defe, position)
   }
 
-  // not done yet
-  // bracuht man das hier überhaupt?
-  def xmlToPlayerStrategy(xml: Node): Unit /* PlayerInterface */ = {}
+  // to do
+  // def xmlToPlayerStrategy(xml: Node): Unit /* PlayerInterface */ = {}
 }

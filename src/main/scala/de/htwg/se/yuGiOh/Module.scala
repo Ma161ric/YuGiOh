@@ -12,9 +12,6 @@ import de.htwg.se.yuGiOh.controller.controllerComponent.ControllerInterface
 import de.htwg.se.yuGiOh.model.fileIOComponent._
 
 class Module extends AbstractModule with ScalaModule {
-  private val defaultSize: Int = 6
-  private val defaultRound: Int = 1
-
   private val defaultName: String = "Default"
 
   override def configure(): Unit =
@@ -22,13 +19,6 @@ class Module extends AbstractModule with ScalaModule {
     val defaultPlayer1 = defaultStartingGame.getPlayer1
     val defaultPlayer2 = defaultStartingGame.getPlayer2
 
-    // bindConstant().annotatedWith(Names.named("DefaultSize")).to(defaultSize, defaultRound)
-    // bindConstant().annotatedWith(Names.named("DefaultName")).to(defaultName)
-
-    // bind[FieldInterface].to[Field]
-    // bind[FieldInterface].toInstance(Field())
-
-    // bind[PlayerInterface].annotatedWithName("Default").toInstance(Player("Default 2"))
     bind[PlayerInterface]
       .annotatedWith(Names.named("DefaultPlayer1"))
       .toInstance(
@@ -49,11 +39,7 @@ class Module extends AbstractModule with ScalaModule {
           defaultPlayer2.getLp
         )
       )
-    // bind[PlayerInterface].toInstance(Player(defaultPlayer2.getName, defaultPlayer2.getHand, defaultPlayer2.getFightField, defaultPlayer2.getLp))
-    // bind[PlayerInterface].to[Player]
-
-    // val defaultPlayer =
-
+    
     bind[FieldInterface].toInstance(
       Field(
         defaultStartingGame.getSize,

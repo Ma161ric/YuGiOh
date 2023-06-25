@@ -6,24 +6,9 @@ case class FightField @Inject() (fightField: List[Card]):
   val eol: String = sys.props("line.separator")
 
   def getCards: List[Card] = fightField
-
   def getSize: Int = fightField.size
-
-  /*def addCard(card: Card): FightField =
-    val (left, right) = fightField.zipWithIndex.partition { case (noCard, _) =>
-      noCard.toString != "No Card"
-    }
-    val firstZeroIndex = right.headOption.map(_._2)
-    val updatedFightFieldList = firstZeroIndex match {
-      case Some(index) =>
-        left.map { case (c, _) => c } ++ Seq(card) ++ right.tail.map {
-          case (c, _) => c
-        }
-      case None => fightField :+ card
-    }
-    val updatedFightField = FightField(updatedFightFieldList)
-    updatedFightField*/
-
+  
+  
   private def roundCounterCell(cellWidth: Int, round: Int) =
     "|" + "Round: " + round + (" " * (cellWidth - (round.toString.length + 8))) + " "
 

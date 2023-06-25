@@ -8,5 +8,4 @@ import de.htwg.se.yuGiOh.model.fieldComponent.FieldInterface
 
 
 class Field @Inject() (@Named("DefaultSize") size: Int, round: Int, deck: Deck, player1: Player, player2: Player) extends BaseField(size, round, deck, player1 , player2) {
-  //to do: basefield(size,round,deck,player1,player2)
 }
