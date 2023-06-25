@@ -56,10 +56,12 @@ case class Deck(deck: List[Card]) extends DeckInterface:
   } */
 
   def startingHand(size: Int): (Hand, Deck) =
-    val emptyHandList: List[Card] = List.fill(size - 3)(Card(CardName.emptyName, CardLastName.emptyLastName,0,0,""))
+    val emptyHandList: List[Card] = List.fill(size - 3)(
+      Card(CardName.EmptyName, CardLastName.EmptyLastName, 0, 0, "")
+    )
     val startingHandList: List[Card] = Random.shuffle(deck).take(3)
     val startingHand: Hand = Hand(startingHandList ++ emptyHandList)
     val updatedDeck: List[Card] = deck.filterNot(startingHandList.contains)
     (startingHand, Deck(updatedDeck))
-    //to do: update deck and remove the three cards that have been drawn
-    //-> i think that the to do has been done because it works in the game but i dont remember anything
+    // to do: update deck and remove the three cards that have been drawn
+    // -> i think that the to do has been done because it works in the game but i dont remember anything

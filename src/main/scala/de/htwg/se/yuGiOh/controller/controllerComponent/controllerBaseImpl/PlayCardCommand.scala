@@ -5,7 +5,10 @@ import de.htwg.se.yuGiOh.model.fieldComponent.{FieldInterface, PlayerInterface}
 import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl.{Card, CardName, CardLastName}
 //{Card, CardLastName, CardName, FightField}
 //to do: card momentan noch hardgecoded aber soll später übergeben werden von der gui
-class PlayCardCommand (var field: FieldInterface, chosenCard: Card = Card(CardName.weisser, CardLastName.Drache, 2000, 3000)) extends Command[FieldInterface]:
+class PlayCardCommand(
+    var field: FieldInterface,
+    chosenCard: Card = Card(CardName.Weisser, CardLastName.Drache, 2000, 3000)
+) extends Command[FieldInterface]:
   override def doStep(field: FieldInterface): FieldInterface =
     var player1: PlayerInterface = field.getPlayer1
     var player2: PlayerInterface = field.getPlayer2
@@ -44,7 +47,7 @@ class PlayCardCommand (var field: FieldInterface, chosenCard: Card = Card(CardNa
     field.copy(player1 = player1, player2 = player2)
 
   override def undoStep(field: FieldInterface): FieldInterface =
-    val temp = this.field //to do: ausführliches undo und redo
+    val temp = this.field // to do: ausführliches undo und redo
     this.field = field
     temp
 

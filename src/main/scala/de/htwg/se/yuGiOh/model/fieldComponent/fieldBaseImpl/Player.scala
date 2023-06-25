@@ -5,11 +5,21 @@ import com.google.inject.Inject
 //import de.htwg.se.yuGiOh.model.*
 import de.htwg.se.yuGiOh.model.fieldComponent.PlayerInterface
 
-case class Player @Inject()(name: String, hand: Hand, fightField: FightField, lp: Int = 1000) extends PlayerInterface:
+case class Player @Inject() (
+    name: String,
+    hand: Hand,
+    fightField: FightField,
+    lp: Int = 1000
+) extends PlayerInterface:
   override def toString: String = name
   private var gameState: GameState = new PlayerTurnState()
 
-  def copy(name: String = this.name, hand: Hand = this.hand, fightField: FightField = this.fightField, lp: Int = this.lp): PlayerInterface =
+  def copy(
+      name: String = this.name,
+      hand: Hand = this.hand,
+      fightField: FightField = this.fightField,
+      lp: Int = this.lp
+  ): PlayerInterface =
     Player(name, hand, fightField, lp)
 
   def iterateHand(): Unit = {
@@ -27,7 +37,7 @@ case class Player @Inject()(name: String, hand: Hand, fightField: FightField, lp
     gameState.endTurn()
   }
 
-  def playCard(): Unit = { //to do: bekommt noch eine karte übergeben
+  def playCard(): Unit = { // to do: bekommt noch eine karte übergeben
     gameState.playCard()
   }
 
@@ -58,3 +68,12 @@ case class Player @Inject()(name: String, hand: Hand, fightField: FightField, lp
   def getLp: Int = lp
 
   // to do: def changeName(playerName: String) = playerName
+
+  def toXml(): scala.xml.Elem = {
+    <player>
+      <name>{name}</name>
+      <hand>{hand.toXml()}</hand>
+      <fightField>{fightField.toXml()}</fightField>
+      <lp>{lp}</lp>
+    </player>
+  }

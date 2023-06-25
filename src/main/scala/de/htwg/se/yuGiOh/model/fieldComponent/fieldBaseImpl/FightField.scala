@@ -119,3 +119,9 @@ case class FightField @Inject() (fightField: List[Card]):
       cardsAtk(cellWidth, fightFieldCards) +
       cardsDefe(cellWidth, fightFieldCards) +
       cardsPosition(cellWidth, fightFieldCards)
+
+  def toXml(): scala.xml.Elem = {
+    <fightField>
+      {fightField.map(_.toXml())}
+    </fightField>
+  }

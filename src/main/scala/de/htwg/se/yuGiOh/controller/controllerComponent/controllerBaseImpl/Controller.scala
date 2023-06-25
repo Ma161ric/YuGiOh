@@ -9,7 +9,13 @@ import com.google.inject.{AbstractModule, Guice, Inject}
 import de.htwg.se.yuGiOh.util.*
 import de.htwg.se.yuGiOh.controller.controllerComponent.ControllerInterface
 import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl.StartingGame
-import de.htwg.se.yuGiOh.model.fieldComponent.{FieldInterface, CardInterface, StartingGameInterface}
+import de.htwg.se.yuGiOh.model.fieldComponent.{
+  FieldInterface,
+  CardInterface,
+  StartingGameInterface
+}
+import de.htwg.se.yuGiOh.model.fileIOComponent._
+import de.htwg.se.yuGiOh.Module
 
 // Singelton Pattern
 object Controller {
@@ -28,20 +34,67 @@ val EXIT: Int = 0
 val SUCCESS: Int = 1
 
 //remember: controller changed from case class to class
-class Controller @Inject()(var field: FieldInterface) extends ControllerInterface with Observable {
+class Controller @Inject() (var field: FieldInterface)
+    extends ControllerInterface
+    with Observable {
 
-  field = StartingGame.prepare(field.getPlayer2.getName, field.getPlayer2.getName) // for default player just switch to ...prepare()
+  field = StartingGame.prepare(
+    field.getPlayer2.getName,
+    field.getPlayer2.getName
+  ) // for default player just switch to ...prepare()
 
   override def toString: String = field.toString
   var attStrategy: AttackStrategy = AttackStrategyAttDef
   // hardcoded for now
   var actStrategy: ActionStrategy = DrawStrategy
-  //val this.field = field
+  // val this.field = field
 
   private val undoManager = new UndoManager[FieldInterface]
   private val startingGameInterface: StartingGameInterface = StartingGame
 
   def getField: FieldInterface = field
+
+  def save(): Boolean = {
+    val injector = Guice.createInjector(new Module)
+    val fileIo: FileIOInterface = injector.getInstance(classOf[FileIOInterface])
+    val res = fileIo.save(field)
+    res
+    // gameStatus = SAVED
+    // publish(new CellChanged)
+    // notifyObserver(Event.?)
+  }
+
+  /*für später wenn dependency inj da ist
+  def save(): Unit = {
+    fileIo.save(field) //val fileIO oben definiert dann
+    notifyObserver(Event.?)
+  }
+   */
+
+  def load(): Boolean = {
+    val injector = Guice.createInjector(new Module)
+    val fileIo: FileIOInterface = injector.getInstance(classOf[FileIOInterface])
+    val newField = fileIo.load
+
+    if (newField == null)
+      print(newField)
+      print("new field is null")
+      return false
+    field = newField
+    notifyObservers(Event.Restart)
+    true
+    // gameStatus = LOADED
+    // publish(new CellChanged)
+  }
+
+  /*für später wenn dependency inj da ist
+  def load(): Unit = {
+    val (f, p) = fileIO.load
+    field = f
+    playerstrategy = p
+    notifyObservers(Event.??)
+  }
+   */
 
   def setAttackStrategy(strategy: AttackStrategy): Unit = {
     this.attStrategy = strategy
@@ -63,7 +116,9 @@ class Controller @Inject()(var field: FieldInterface) extends ControllerInterfac
       actStrategy = NextStrategy
       attStrategy = AttackStrategyAttDef
       attStrategy.attack(field, playersCard, opponentsCard)
-      notifyObservers(Event.Attack) // Notify the observers about the state change in the field
+      notifyObservers(
+        Event.Attack
+      ) // Notify the observers about the state change in the field
       true
     } else {
       println(
@@ -72,15 +127,18 @@ class Controller @Inject()(var field: FieldInterface) extends ControllerInterfac
       false
     }
 
-  //remember: drawCard doesnt return field anymore
+  // remember: drawCard doesnt return field anymore
   def drawCard(): Boolean =
-    actStrategy = DrawStrategy // to do: hardgecodede strategy zuweisung ist ein no no
+    actStrategy =
+      DrawStrategy // to do: hardgecodede strategy zuweisung ist ein no no
     if (actStrategy == DrawStrategy) {
       field = actStrategy.performAction(field)
-      //actStrategy = AttStrategy
-      //val move = Move(moveString) //
-      //field = undoManager.doStep(field, DoCommand(move, field)) // to do: für jedes draw, attack, etc ein eigenes command anstatt move übergeben und case ausprobiere
-      notifyObservers(Event.Draw) // Notify the observers about the state change in the field
+      // actStrategy = AttStrategy
+      // val move = Move(moveString) //
+      // field = undoManager.doStep(field, DoCommand(move, field)) // to do: für jedes draw, attack, etc ein eigenes command anstatt move übergeben und case ausprobiere
+      notifyObservers(
+        Event.Draw
+      ) // Notify the observers about the state change in the field
       true
     } else {
       println(
@@ -90,38 +148,47 @@ class Controller @Inject()(var field: FieldInterface) extends ControllerInterfac
     }
 
   def restart(): Unit =
-    field = StartingGame.prepare(field.getPlayer1.getName, field.getPlayer2.getName)
+    field =
+      StartingGame.prepare(field.getPlayer1.getName, field.getPlayer2.getName)
     notifyObservers(Event.Restart)
 
   def newGame(): Unit =
-    field = StartingGame.prepare(field.getPlayer1.getName, field.getPlayer2.getName)
+    field =
+      StartingGame.prepare(field.getPlayer1.getName, field.getPlayer2.getName)
     notifyObservers(Event.StartingGame)
 
-  def newStartingGame(optionStringPlayer1: Option[String], optionStringPlayer2: Option[String]): Unit =
+  def newStartingGame(
+      optionStringPlayer1: Option[String],
+      optionStringPlayer2: Option[String]
+  ): Unit =
     val stringPlayer1: String = optionStringPlayer1.getOrElse("Default")
     val stringPlayer2: String = optionStringPlayer2.getOrElse("Default")
 
     field = StartingGame.prepare(stringPlayer1, stringPlayer2)
     notifyObservers(Event.NewGame)
 
-  def playCard(): Boolean = //to do: hier nachher karte übergeben, am besten den index oder so davon
-    //if (actStrategy == AttStrategy) {
-      //actStrategy = NextStrategy
-      actStrategy = PlayStrategy
-      field = actStrategy.performAction(field) //to do: hier muss auch igrnedwie karte die gewählt wurde mit übergeben werden
-      //field = PlayCardCommand(field, card)
-      notifyObservers(Event.PlayCard) // Notify the observers about the state change in the field
-      true
-    //} else {
-      //println(
-      //  "No attack strategy set. Please set an attack strategy before attacking."
-      //)
-      //false
-    //}
+  def playCard()
+      : Boolean = // to do: hier nachher karte übergeben, am besten den index oder so davon
+    // if (actStrategy == AttStrategy) {
+    // actStrategy = NextStrategy
+    actStrategy = PlayStrategy
+    field = actStrategy.performAction(
+      field
+    ) // to do: hier muss auch igrnedwie karte die gewählt wurde mit übergeben werden
+    // field = PlayCardCommand(field, card)
+    notifyObservers(
+      Event.PlayCard
+    ) // Notify the observers about the state change in the field
+    true
+  // } else {
+  // println(
+  //  "No attack strategy set. Please set an attack strategy before attacking."
+  // )
+  // false
+  // }
 
   def printHelp(): Unit =
-    print(
-      """
+    print("""
       Befehlsuebersicht:
       - help | h                  : this help comment
       - exit | q                  : leaves the game
@@ -134,37 +201,38 @@ class Controller @Inject()(var field: FieldInterface) extends ControllerInterfac
   def quit(): Unit =
     System.exit(0)
 
-  def redo: Unit = //remember: used to return field
+  def redo: Unit = // remember: used to return field
     field = undoManager.redoStep(field)
 
-  def undo: Unit = //remember: used to return field
+  def undo: Unit = // remember: used to return field
     field = undoManager.undoStep(field)
-    //print("field after undoManager" + field)
+    // print("field after undoManager" + field)
     notifyObservers(Event.Move)
-  
 
-  //to do: change name roundIncrement to smth like nextRound
+  // to do: change name roundIncrement to smth like nextRound
   def roundIncrement(newRound: Int): Boolean = {
-    //to do: auskommentierte strategy hier rein verheiraten
-    //if (actStrategy == NextStrategy) {
+    // to do: auskommentierte strategy hier rein verheiraten
+    // if (actStrategy == NextStrategy) {
 
     actStrategy = NextStrategy
 
     field = actStrategy.performAction(field)
-      //field = field.copy(round = newRound)
-      notifyObservers(Event.Next) // Notify the observers about the state change in the field
-      true
-    //} else {
-     // println(
+    // field = field.copy(round = newRound)
+    notifyObservers(
+      Event.Next
+    ) // Notify the observers about the state change in the field
+    true
+    // } else {
+    // println(
     //   "No next strategy set. Please set an next strategy before switching to the next player."
     //  )
-   //   false
-  //  }
-    //actStrategy = DrawStrategy
-    //notifyObservers() // Notify the observers about the state change in the field
-    //return true
+    //   false
+    //  }
+    // actStrategy = DrawStrategy
+    // notifyObservers() // Notify the observers about the state change in the field
+    // return true
   }
-  
+
   // def setNamePlayer1(name: String) =
   //   field.playerName(10, name)
   //   notifyObservers
@@ -180,5 +248,5 @@ class Controller @Inject()(var field: FieldInterface) extends ControllerInterfac
   // def setLpPlayer2(lp: String) =
   //   field.playerLp(10, lp)
   //   notifyObservers
-  
+
 }

@@ -6,19 +6,89 @@ import scala.util.{Random, Try}
 import scala.collection.mutable.ListBuffer
 import com.google.inject.Inject
 
-enum CardName(firstName: String):
+sealed trait CardName {
+  def firstName: String
   override def toString: String = firstName
+}
 
-  case roter extends CardName("Roter")
+object CardName:
+  // override def toString: String = firstName
+
+  case object Roter extends CardName {
+    val firstName = "Roter"
+  }
+
+  case object Schwarzer extends CardName {
+    val firstName = "Schwarzer"
+  }
+
+  case object Blauer extends CardName {
+    val firstName = "Blauer"
+  }
+
+  case object Weisser extends CardName {
+    val firstName = "Weisser"
+  }
+
+  case object Boeser extends CardName {
+    val firstName = "Fieser"
+  }
+
+  case object Guter extends CardName {
+    val firstName = "Guter"
+  }
+  case object EmptyName extends CardName {
+    val firstName = " "
+  }
+  def apply(name: String): CardName = new CardName {
+    val firstName: String = name
+  }
+  /*case roter extends CardName("Roter")
   case schwarzer extends CardName("Schwarzer")
   case blauer extends CardName("Blauer")
   case weisser extends CardName("Weisser")
   case boeser extends CardName("Fieser")
   case guter extends CardName("Guter")
-  case emptyName extends CardName(" ")
+  case emptyName extends CardName(" ")*/
 
-enum CardLastName(lastName: String):
+sealed trait CardLastName {
+  def lastName: String
   override def toString: String = lastName
+}
+
+object CardLastName:
+  case object Drache extends CardLastName {
+    val lastName = "Drache"
+  }
+
+  case object Magier extends CardLastName {
+    val lastName = "Magier"
+  }
+
+  case object Hexer extends CardLastName {
+    val lastName = "Hexer"
+  }
+
+  case object Gnom extends CardLastName {
+    val lastName = "Gnom"
+  }
+
+  case object Reiter extends CardLastName {
+    val lastName = "Reiter"
+  }
+
+  case object Krieger extends CardLastName {
+    val lastName = "Krieger"
+  }
+
+  case object EmptyLastName extends CardLastName {
+    val lastName = " "
+  }
+
+  def apply(name: String): CardLastName = new CardLastName {
+    val lastName: String = name
+  }
+  /*override def toString: String = lastName
 
   case Drache extends CardLastName("Drache")
   case Magier extends CardLastName("Magier")
@@ -26,7 +96,7 @@ enum CardLastName(lastName: String):
   case Gnom extends CardLastName("Gnom")
   case Reiter extends CardLastName("Reiter")
   case Krieger extends CardLastName("Krieger")
-  case emptyLastName extends CardLastName(" ")
+  case emptyLastName extends CardLastName(" ")*/
 
 case class Card @Inject() (
     firstName: CardName,
@@ -50,3 +120,12 @@ case class Card @Inject() (
       firstName.trim.isEmpty
     )
 
+  def toXml(): scala.xml.Elem = {
+    <card>
+      <firstName>{firstName}</firstName>
+      <lastName>{lastName}</lastName>
+      <atk>{atk}</atk>
+      <defe>{defe}</defe>
+      <position>{position}</position>
+    </card>
+  }

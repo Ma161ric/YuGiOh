@@ -24,13 +24,13 @@ class Tui(controller: ControllerInterface) extends Observer:
   override def update(e: Event): Unit = e match
     case Event.Attack =>
       println("Attack!")
-      //println(controller.field.toString)
+    // println(controller.field.toString)
     case Event.GameOver =>
       println("Game over!")
-      //if (controller.player1Won) println("Spieler 1 hat das Spiel gewonnen!")
-      //else if (controller.player2Won) println("Spieler 1 hat das Spiel gewonnen!")
+    // if (controller.player1Won) println("Spieler 1 hat das Spiel gewonnen!")
+    // else if (controller.player2Won) println("Spieler 1 hat das Spiel gewonnen!")
     case Event.Quit => sys.exit
-    case _ =>
+    case _          =>
 
   def run(): Unit =
     println(controller.toString) // remember: was controller.field.tostring
@@ -76,12 +76,18 @@ class Tui(controller: ControllerInterface) extends Observer:
   //def stringLength(input: Try[String]): Option[Int] = input.toOption.map(_.length)
 
   def processInputLine(input: Try[String]): Int =
+    /*if (input.isEmpty)
+          print("no input!\n")
+          return ERROR*/ // to do
     val inputString = input.getOrElse("")
     val inputStrings: Try[Array[String]] = input.map(_.split(" "))
-    val inputStringIndex0Option: Option[String] = inputStrings.toOption.flatMap(_.headOption)
-    val inputIndex1Option: Option[String] = inputStrings.toOption.flatMap(_.lift(1))
-    val inputIndex2Option: Option[String] = inputStrings.toOption.flatMap(_.lift(2))
-    //val inputStringIndex0: String = inputStringIndex0Option.getOrElse("")
+    val inputStringIndex0Option: Option[String] =
+      inputStrings.toOption.flatMap(_.headOption)
+    val inputIndex1Option: Option[String] =
+      inputStrings.toOption.flatMap(_.lift(1))
+    val inputIndex2Option: Option[String] =
+      inputStrings.toOption.flatMap(_.lift(2))
+    // val inputStringIndex0: String = inputStringIndex0Option.getOrElse("")
     val inputIndex1String: String = inputIndex1Option.getOrElse("")
     val inputIndex2String: String = inputIndex2Option.getOrElse("")
 
@@ -100,11 +106,11 @@ class Tui(controller: ControllerInterface) extends Observer:
         SUCCESS
       case Success("draw" | "d") =>
         println("draw card")
-        //to do: joa mal gucken das es wieder läuft
-        //if (!controller.drawCard()) {
+        // to do: joa mal gucken das es wieder läuft
+        // if (!controller.drawCard()) {
         //  println("already drew a card")
         //  return ERROR
-        //}
+        // }
         // hier einfach state updaten welcher spieler dran ist
         // und dann einfach nur sagen das der spieler zieht also ist dann klar wer ziehen muss
         SUCCESS
@@ -132,20 +138,28 @@ class Tui(controller: ControllerInterface) extends Observer:
           )
           ERROR
         }*/
-      //to do: case success wieder zum laufen kriegen dass controll.attack richtig funkt hier
-      case Success("next") =>
+      // to do: case success wieder zum laufen kriegen dass controll.attack richtig funkt hier
+      case Success("next" | "n") =>
         println("next player")
         /*if (controller.roundIncrement()) {
           println("already drew a card")
           return ERROR
         }*/
-        //to do: rounincrement funkt nicht hier
+        // to do: rounincrement funkt nicht hier
         // hier einfach state updaten welcher spieler dran ist
         // und dann einfach nur sagen das der spieler zieht also ist dann klar wer ziehen muss
         SUCCESS
+      case Success("save" | "s") =>
+        print("Save Game!\n")
+        controller.save()
+        SUCCESS
+      case Success("load" | "l") =>
+        print("Load Game!\n")
+        controller.load()
+        SUCCESS
       case Success(_) =>
         print("no input!\n")
-        //controller.printHelp()
+        controller.printHelp()
         SUCCESS
       case Failure(_) =>
         print("input error!\n")
