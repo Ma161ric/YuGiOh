@@ -3,21 +3,13 @@ package de.htwg.se.yuGiOh.model.fileIOComponent.FileIOXML
 import java.io.{File, FileWriter, PrintWriter}
 
 import scala.util.{Using, Try}
-import scala.xml.{Elem, XML, Node}
+import scala.xml.{Elem, XML, Node, NodeSeq, PrettyPrinter}
+import play.api.libs.json._
 
 import de.htwg.se.yuGiOh.model.fileIOComponent._
 import de.htwg.se.yuGiOh.model.fieldComponent._
 import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl._
 import de.htwg.se.yuGiOh.model.playerComponent._
-import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl.{
-  Card,
-  CardName,
-  CardLastName,
-  FightField
-}
-import java.io.{File, FileWriter, PrintWriter}
-import play.api.libs.json._
-import scala.xml.PrettyPrinter
 
 class FileIO extends FileIOInterface {
 
@@ -30,43 +22,34 @@ class FileIO extends FileIOInterface {
   override def save(field: FieldInterface): Boolean =
     import java.io._
     createDirectory("XML")
-    val pw = new PrintWriter(new File("field.xml"))
+    val pw = new PrintWriter(new File("XML/game_data.xml"))
     val prettyPrinter = new PrettyPrinter(120, 4)
     val xml = prettyPrinter.format(fieldToXml(field))
     val res = Try(pw.write(xml))
-    saveField(field) // to do
-    saveDeck(field.getDeck)
-    savePlayer(field.getPlayer1, "player1.xml")
-    savePlayer(field.getPlayer2, "player2.xml")
     pw.close()
     res.isSuccess
 
-  def saveField(field: FieldInterface): Unit = {
-    scala.xml.XML.save("field.xml", fieldToXml(field))
+  override def load: FieldInterface = {
+    val xml = loadFromFile("XML/game_data.xml")
+    xmlToField(xml)
   }
 
-  def saveDeck(deck: Deck): Unit = {
-    scala.xml.XML.save("deck.xml", deckToXml(deck))
+  private def loadFromFile(filePath: String): Elem = {
+    scala.xml.XML.loadFile(filePath)
   }
 
-  def savePlayer(player: PlayerInterface, fileName: String): Unit = {
-    saveHand(player.getHand, fileName) // noch checken
-    scala.xml.XML.save(fileName, playerToXml(player))
-  }
-
-  def saveHand(hand: Hand, fileName: String): Unit = {
-    scala.xml.XML.save(fileName, handToXml(hand))
-  }
-
-  def saveFightField(fightField: FightField, fileName: String): Unit = {
-    scala.xml.XML.save(fileName, fightFieldToXml(fightField))
-  }
-
-  def fieldToXml(field: FieldInterface): Node = {
-    <field>
-      <size>{field.getSize}</size>
-      <round>{field.getRound}</round>
-    </field>
+  private def fieldToXml(field: FieldInterface): Elem = {
+    <game>
+      <field>
+        <size>{field.getSize}</size>
+        <round>{field.getRound}</round>
+      </field>
+      <deck>{deckToXml(field.getDeck)}</deck>
+      <players>
+        {playerToXml(field.getPlayer1)}
+        {playerToXml(field.getPlayer2)}
+      </players>
+    </game>
   }
 
   def deckToXml(deck: Deck): Node = {
@@ -79,7 +62,7 @@ class FileIO extends FileIOInterface {
         </deck>
   }
 
-  def playerToXml(player: PlayerInterface): Elem = {
+  private def playerToXml(player: PlayerInterface): Elem = {
     <player>
       <name>{player.getName}</name>
       <hand>{handToXml(player.getHand)}</hand>
@@ -88,117 +71,79 @@ class FileIO extends FileIOInterface {
     </player>
   }
 
-  def handToXml(hand: Hand): Elem = {
-    <hand>
-        {
-      hand.getCards.map { card =>
-        cardToXml(card)
-      }
-    }
-        </hand>
+  private def handToXml(hand: Hand): Elem = {
+    <cards>
+      {hand.getCards.map(cardToXml)}
+    </cards>
   }
 
-  def fightFieldToXml(fightField: FightField): Elem = {
-    <fightfield>
-        {
-      fightField.getCards.map { card =>
-        cardToXml(card)
-      }
-    }
-        </fightfield>
+  private def fightFieldToXml(fightField: FightField): Elem = {
+    <cards>
+      {fightField.getCards.map(cardToXml)}
+    </cards>
   }
 
-  def cardToXml(card: Card): Elem = {
+  private def cardToXml(card: Card): Elem = {
     <card>
-        <firstName>{card.firstName}</firstName>
-        <lastName>{card.lastName}</lastName>
-        <atk>{card.atk}</atk>
-        <defe>{card.defe}</defe>
-        <position>{card.position}</position>
+      <firstName>{card.firstName}</firstName>
+      <lastName>{card.lastName}</lastName>
+      <atk>{card.atk}</atk>
+      <defe>{card.defe}</defe>
+      <position>{card.position}</position>
     </card>
   }
 
-  override def load: (FieldInterface /* , PlayerInterface */ ) = {
-    val res = Try(scala.xml.XML.loadFile("field.xml"))
-    println("res: " + res)
-    if (res.isFailure) {
-      println("Could not load file")
-      return (null /* , null */ )
-    }
-    val field = loadField()
-    println("field: " + field)
-    // val playerStrategy = loadPlayerStrategy()
-    (field /* , playerStrategy */ )
-  }
-
-  def loadField(): Field = {
-    val fieldFile = scala.xml.XML.loadFile("field.xml")
-    println("load field sucess!")
-    val deckFile = scala.xml.XML.loadFile("deck.xml")
-    val player1File = scala.xml.XML.loadFile("player1.xml")
-    val player2File = scala.xml.XML.loadFile("player2.xml")
-    val size = (fieldFile \ "size").text.toInt
-    val round = (fieldFile \ "round").text.toInt
-    val deck = getDeckFromFile(deckFile)
-    val player1 = getPlayerFromFile(player1File)
-    val player2 = getPlayerFromFile(player2File)
+  private def xmlToField(xml: Elem): Field = {
+    val size = (xml \ "field" \ "size").text.toInt
+    val round = (xml \ "field" \ "round").text.toInt
+    val deck = getDeckFromXml(xml \ "deck")
+    val playerElements = xml \ "players" \ "player"
+    val player1 = getPlayerFromXml(playerElements(0))
+    val player2 = getPlayerFromXml(playerElements(1))
     Field(size, round, deck, player1, player2)
   }
 
-  def getDeckFromFile(file: Node): Deck = {
-    val cards = (file \ "card").map { card =>
-      val firstName = (card \ "firstName").text
-      val lastName = (card \ "lastName").text
-      val atk = (card \ "atk").text.toInt
-      val defe = (card \ "defe").text.toInt
-      val position = (card \ "position").text
+  private def getDeckFromXml(deckXml: NodeSeq): Deck = {
+    val cards = (deckXml \ "cards" \ "card").map { cardXml =>
+      val firstName = (cardXml \ "firstName").text
+      val lastName = (cardXml \ "lastName").text
+      val atk = (cardXml \ "atk").text.toInt
+      val defe = (cardXml \ "defe").text.toInt
+      val position = (cardXml \ "position").text
       Card(CardName(firstName), CardLastName(lastName), atk, defe, position)
     }.toList
     Deck(cards)
   }
 
-  def getPlayerFromFile(file: Node): Player = {
-    val name = (file \ "name").text
-    val hand = getHandFromFile(file)
-    val fightField = getFightFieldFromFile(file)
-    val lp = (file \ "lp").text.toInt
+  private def getPlayerFromXml(playerXml: NodeSeq): Player = {
+    val name = (playerXml \ "name").text
+    val hand = getHandFromXml(playerXml \ "hand")
+    val fightField = getFightFieldFromXml(playerXml \ "fightfield")
+    val lp = (playerXml \ "lp").text.toInt
     Player(name, hand, fightField, lp)
   }
 
-  def getHandFromFile(file: Node): Hand = {
-    val cards = (file \ "card").map { card =>
-      val firstName = (card \ "firstName").text
-      val lastName = (card \ "lastName").text
-      val atk = (card \ "atk").text.toInt
-      val defe = (card \ "defe").text.toInt
-      val position = (card \ "position").text
+  private def getHandFromXml(handXml: NodeSeq): Hand = {
+    val cards = (handXml \ "cards" \ "card").map { cardXml =>
+      val firstName = (cardXml \ "firstName").text
+      val lastName = (cardXml \ "lastName").text
+      val atk = (cardXml \ "atk").text.toInt
+      val defe = (cardXml \ "defe").text.toInt
+      val position = (cardXml \ "position").text
       Card(CardName(firstName), CardLastName(lastName), atk, defe, position)
     }.toList
     Hand(cards)
   }
 
-  def getFightFieldFromFile(file: Node): FightField = {
-    val cards = (file \ "card").map { card =>
-      val firstName = (card \ "firstName").text.toString
-      val lastName = (card \ "lastName").text.toString
-      val atk = (card \ "atk").text.toInt
-      val defe = (card \ "defe").text.toInt
-      val position = (card \ "position").text
+  private def getFightFieldFromXml(fightFieldXml: NodeSeq): FightField = {
+    val cards = (fightFieldXml \ "cards" \ "card").map { cardXml =>
+      val firstName = (cardXml \ "firstName").text
+      val lastName = (cardXml \ "lastName").text
+      val atk = (cardXml \ "atk").text.toInt
+      val defe = (cardXml \ "defe").text.toInt
+      val position = (cardXml \ "position").text
       Card(CardName(firstName), CardLastName(lastName), atk, defe, position)
     }.toList
     FightField(cards)
   }
-
-  def xmlToCard(xml: Node): Card = {
-    val firstName = (xml \ "firstName").text
-    val lastName = (xml \ "lastName").text
-    val atk = (xml \ "atk").text.toInt
-    val defe = (xml \ "defe").text.toInt
-    val position = (xml \ "position").text
-    Card(CardName(firstName), CardLastName(lastName), atk, defe, position)
-  }
-
-  // not done yet
-  // bracuht man das hier überhaupt?
-  def xmlToPlayerStrategy(xml: Node): Unit /* PlayerInterface */ = {}
 }
