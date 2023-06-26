@@ -20,3 +20,5 @@ projects/metals.sbt
 .metals
 .tastyv
 null/
+/XML/
+/JSON/

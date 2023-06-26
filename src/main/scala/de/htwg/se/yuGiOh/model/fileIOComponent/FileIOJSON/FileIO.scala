@@ -1,6 +1,8 @@
 package de.htwg.se.yuGiOh.model.fileIOComponent.FileIOJSON
 
-import java.io.{File, FileWriter, PrintWriter}
+import java.io.{File, PrintWriter}
+import play.api.libs.json._
+
 import com.google.inject.name.{Named, Names}
 import com.google.inject.{AbstractModule, Guice, Inject, Injector, Provides}
 import com.google.inject.Key
@@ -25,38 +27,32 @@ class FileIO extends FileIOInterface {
   override def save(field: FieldInterface): Boolean = {
     import java.io._
     createDirectory("JSON")
-    // val pw = new PrintWriter(new File("field.json"))
-    // val res = Try(pw.write(Json.prettyPrint(saveField(field))))
     saveField(field)
-    saveDeck(field.getDeck)
-    savePlayer(field.getPlayer1, "player1.json")
-    savePlayer(field.getPlayer2, "player2.json")
-    // pw.close()
-    // res.isSuccess
     true
   }
 
   def saveField(field: FieldInterface): Unit = {
+    val deckJson = Json.obj("deck" -> field.getDeck.getDeck.map(cardToJson))
+    val player1Json = Json.obj(
+      "name" -> field.getPlayer1.getName,
+      "hand" -> field.getPlayer1.getHand.getCards.map(cardToJson),
+      "fightfield" -> field.getPlayer1.getFightField.getCards.map(cardToJson),
+      "lp" -> field.getPlayer1.getLp
+    )
+    val player2Json = Json.obj(
+      "name" -> field.getPlayer2.getName,
+      "hand" -> field.getPlayer2.getHand.getCards.map(cardToJson),
+      "fightfield" -> field.getPlayer2.getFightField.getCards.map(cardToJson),
+      "lp" -> field.getPlayer2.getLp
+    )
     val json = Json.obj(
       "size" -> field.getSize,
-      "round" -> field.getRound
+      "round" -> field.getRound,
+      "deck" -> deckJson,
+      "player1" -> player1Json,
+      "player2" -> player2Json
     )
-    saveJsonToFile(json, "field.json")
-  }
-
-  def saveDeck(deck: Deck): Unit = {
-    val json = Json.obj("deck" -> deck.getDeck.map(cardToJson))
-    saveJsonToFile(json, "deck.json")
-  }
-
-  def savePlayer(player: PlayerInterface, fileName: String): Unit = {
-    val json = Json.obj(
-      "name" -> player.getName,
-      "hand" -> player.getHand.getCards.map(cardToJson),
-      "fightfield" -> player.getFightField.getCards.map(cardToJson),
-      "lp" -> player.getLp
-    )
-    saveJsonToFile(json, fileName)
+    saveJsonToFile(json, "JSON/game.json")
   }
 
   def saveJsonToFile(json: JsValue, fileName: String): Unit = {
@@ -76,25 +72,9 @@ class FileIO extends FileIOInterface {
     )
   }
 
-  override def load: (FieldInterface /* , PlayerInterface */ ) = {
-    val field = loadField()
-    // val playerStrategy = loadPlayerStrategy()
-    (field /* , playerStrategy */ )
-  }
-
-  def loadField(): Field = {
-    val fieldJson = loadJsonFromFile("field.json")
-    val deckJson = loadJsonFromFile("deck.json")
-    val player1Json = loadJsonFromFile("player1.json")
-    val player2Json = loadJsonFromFile("player2.json")
-
-    val size = (fieldJson \ "size").as[Int]
-    val round = (fieldJson \ "round").as[Int]
-    val deck = getDeckFromJson(deckJson)
-    val player1 = getPlayerFromJson(player1Json)
-    val player2 = getPlayerFromJson(player2Json)
-
-    Field(size, round, deck, player1, player2)
+  override def load: FieldInterface = {
+    val json = loadJsonFromFile("JSON/game.json")
+    getFieldFromJson(json)
   }
 
   def loadJsonFromFile(fileName: String): JsValue = {
@@ -102,6 +82,15 @@ class FileIO extends FileIOInterface {
     val inputStream = new java.io.FileInputStream(file)
     val content = Json.parse(inputStream)
     content
+  }
+
+  def getFieldFromJson(json: JsValue): Field = {
+    val size = (json \ "size").as[Int]
+    val round = (json \ "round").as[Int]
+    val deck = getDeckFromJson((json \ "deck").get)
+    val player1 = getPlayerFromJson((json \ "player1").get)
+    val player2 = getPlayerFromJson((json \ "player2").get)
+    Field(size, round, deck, player1, player2)
   }
 
   def getDeckFromJson(json: JsValue): Deck = {
