@@ -1,4 +1,4 @@
-package de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl
+package main.scala.de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl
 
 import com.google.inject.Inject
 
@@ -7,8 +7,7 @@ case class FightField @Inject() (fightField: List[Card]):
 
   def getCards: List[Card] = fightField
   def getSize: Int = fightField.size
-  
-  
+
   private def roundCounterCell(cellWidth: Int, round: Int) =
     "|" + "Round: " + round + (" " * (cellWidth - (round.toString.length + 8))) + " "
 

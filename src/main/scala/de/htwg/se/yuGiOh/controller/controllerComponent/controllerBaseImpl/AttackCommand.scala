@@ -1,11 +1,11 @@
-package de.htwg.se.yuGiOh.controller.controllerComponent.controllerBaseImpl
+package main.scala.de.htwg.se.yuGiOh.controller.controllerComponent.controllerBaseImpl
 
-import de.htwg.se.yuGiOh.model.fieldComponent.FieldInterface
-import de.htwg.se.yuGiOh.util.Command
+import main.scala.de.htwg.se.yuGiOh.model.fieldComponent.FieldInterface
+import main.scala.de.htwg.se.yuGiOh.util.Command
 
 class AttackCommand(var field: FieldInterface) extends Command[FieldInterface] {
   override def doStep(field: FieldInterface): FieldInterface = {
-    //to do
+    // to do
     field
   }
 

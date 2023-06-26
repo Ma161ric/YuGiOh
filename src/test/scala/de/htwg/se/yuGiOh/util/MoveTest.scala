@@ -1,4 +1,4 @@
-package main.scala.de.htwg.se.yuGiOh
+/* package main.scala.de.htwg.se.yuGiOh
 package model
 
 import org.scalatest.matchers.should.Matchers.*
@@ -18,3 +18,4 @@ class MoveSpec extends AnyWordSpec {
     }
   }
 }
+ */

@@ -1,6 +1,6 @@
-package de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl
+package main.scala.de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl
 
-import de.htwg.se.yuGiOh.model.fieldComponent.DeckInterface
+import main.scala.de.htwg.se.yuGiOh.model.fieldComponent.DeckInterface
 
 import scala.util.Random
 import scala.collection.Iterator
@@ -22,7 +22,7 @@ case class Deck(deck: List[Card]) extends DeckInterface:
   def getDeckCount: Int = deck.length
 
   def createIterator: DeckIterator = DeckIterator(this)
-  
+
   def startingHand(size: Int): (Hand, Deck) =
     val emptyHandList: List[Card] = List.fill(size - 3)(
       Card(CardName.EmptyName, CardLastName.EmptyLastName, 0, 0, "")
@@ -31,3 +31,11 @@ case class Deck(deck: List[Card]) extends DeckInterface:
     val startingHand: Hand = Hand(startingHandList ++ emptyHandList)
     val updatedDeck: List[Card] = deck.filterNot(startingHandList.contains)
     (startingHand, Deck(updatedDeck))
+
+  def toXml(): scala.xml.Elem = {
+    <deck>
+    {
+      { for (card <- deck) yield card.toXml() }
+    }
+  </deck>
+  }

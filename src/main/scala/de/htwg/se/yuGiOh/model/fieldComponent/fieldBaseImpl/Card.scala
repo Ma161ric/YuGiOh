@@ -1,6 +1,6 @@
-package de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl
+package main.scala.de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl
 
-import de.htwg.se.yuGiOh.model.fieldComponent.CardInterface
+import main.scala.de.htwg.se.yuGiOh.model.fieldComponent.CardInterface
 
 import scala.util.{Random, Try}
 import scala.collection.mutable.ListBuffer

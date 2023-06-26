@@ -1,4 +1,4 @@
-package de.htwg.se.yuGiOh.util
+package main.scala.de.htwg.se.yuGiOh.util
 
 trait Command[T]:
   def doStep(t: T): T
@@ -16,7 +16,7 @@ class UndoManager[T] {
   def undoStep(t: T): T =
     undoStack match {
       case Nil => t
-      case head :: stack => 
+      case head :: stack =>
         val result = head.undoStep(t)
         undoStack = stack
         redoStack = head :: redoStack
@@ -26,7 +26,7 @@ class UndoManager[T] {
   def redoStep(t: T): T =
     redoStack match {
       case Nil => t
-      case head :: stack => 
+      case head :: stack =>
         val result = head.redoStep(t)
         redoStack = stack
         undoStack = head :: undoStack

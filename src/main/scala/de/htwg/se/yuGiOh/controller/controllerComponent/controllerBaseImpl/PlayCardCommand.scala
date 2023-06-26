@@ -1,8 +1,15 @@
-package de.htwg.se.yuGiOh.controller.controllerComponent.controllerBaseImpl
+package main.scala.de.htwg.se.yuGiOh.controller.controllerComponent.controllerBaseImpl
 
-import de.htwg.se.yuGiOh.util._
-import de.htwg.se.yuGiOh.model.fieldComponent.{FieldInterface, PlayerInterface}
-import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl.{Card, CardName, CardLastName}
+import main.scala.de.htwg.se.yuGiOh.util._
+import main.scala.de.htwg.se.yuGiOh.model.fieldComponent.{
+  FieldInterface,
+  PlayerInterface
+}
+import main.scala.de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl.{
+  Card,
+  CardName,
+  CardLastName
+}
 
 class PlayCardCommand(
     var field: FieldInterface,
@@ -29,7 +36,7 @@ class PlayCardCommand(
       player2 = player2.copy(fightField = updatedFightField)
     } else {
       player1 = field.getPlayer1
-      var fightField = player1.getFightField 
+      var fightField = player1.getFightField
       val updatedFightField = fightField.copy(fightField = {
         var replacementDone = false
         fightField.fightField.map { card =>

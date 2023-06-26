@@ -1,8 +1,8 @@
-package de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl
+package main.scala.de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl
 
 import com.google.inject.Inject
 
-import de.htwg.se.yuGiOh.model.fieldComponent.PlayerInterface
+import main.scala.de.htwg.se.yuGiOh.model.fieldComponent.PlayerInterface
 
 case class Player @Inject() (
     name: String,
@@ -65,7 +65,7 @@ case class Player @Inject() (
   def getHand: Hand = hand
   def getFightField: FightField = fightField
   def getLp: Int = lp
-  
+
   def toXml(): scala.xml.Elem = {
     <player>
       <name>{name}</name>

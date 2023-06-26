@@ -1,9 +1,9 @@
-package de.htwg.se.yuGiOh.controller.controllerComponent
+package main.scala.de.htwg.se.yuGiOh.controller.controllerComponent
 
-import de.htwg.se.yuGiOh.controller.controllerComponent.controllerBaseImpl._
-import de.htwg.se.yuGiOh.model.fieldComponent.FieldInterface
-import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl.*
-import de.htwg.se.yuGiOh.util.Observable
+import main.scala.de.htwg.se.yuGiOh.controller.controllerComponent.controllerBaseImpl._
+import main.scala.de.htwg.se.yuGiOh.model.fieldComponent.FieldInterface
+import main.scala.de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl.*
+import main.scala.de.htwg.se.yuGiOh.util.Observable
 
 trait ControllerInterface extends Observable {
   def getField: FieldInterface

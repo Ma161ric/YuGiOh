@@ -1,4 +1,4 @@
-package de.htwg.se.yuGiOh.controller.controllerComponent.controllerBaseImpl
+package main.scala.de.htwg.se.yuGiOh.controller.controllerComponent.controllerBaseImpl
 
 import scala.collection.mutable.ListBuffer
 import scala.util.Random
@@ -6,16 +6,16 @@ import net.codingwell.scalaguice.InjectorExtensions._
 import net.codingwell.scalaguice.InjectorExtensions.ScalaInjector
 import com.google.inject.{AbstractModule, Guice, Inject}
 
-import de.htwg.se.yuGiOh.util.*
-import de.htwg.se.yuGiOh.controller.controllerComponent.ControllerInterface
-import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl.StartingGame
-import de.htwg.se.yuGiOh.model.fieldComponent.{
+import main.scala.de.htwg.se.yuGiOh.util.*
+import main.scala.de.htwg.se.yuGiOh.controller.controllerComponent.ControllerInterface
+import main.scala.de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl.StartingGame
+import main.scala.de.htwg.se.yuGiOh.model.fieldComponent.{
   FieldInterface,
   CardInterface,
   StartingGameInterface
 }
-import de.htwg.se.yuGiOh.model.fileIOComponent._
-import de.htwg.se.yuGiOh.Module
+import main.scala.de.htwg.se.yuGiOh.model.fileIOComponent._
+import main.scala.de.htwg.se.yuGiOh.Module
 
 object Controller {
   private var instance: Controller = _
@@ -104,11 +104,12 @@ class Controller @Inject() (var field: FieldInterface)
     }
 
   def drawCard(): Boolean =
-    actStrategy =
-      DrawStrategy // to do: hardgecodede strategy
+    actStrategy = DrawStrategy // to do: hardgecodede strategy
     if (actStrategy == DrawStrategy) {
       field = actStrategy.performAction(field)
-      notifyObservers(Event.Draw) // to do: also notify the observers about the state change in the field
+      notifyObservers(
+        Event.Draw
+      ) // to do: also notify the observers about the state change in the field
       true
     } else {
       println(
@@ -139,12 +140,17 @@ class Controller @Inject() (var field: FieldInterface)
 
   def playCard(): Boolean =
     // to do: hier nachher karte index übergeben
-    actStrategy = PlayStrategy //to do: hardcoded strategy
+    actStrategy = PlayStrategy // to do: hardcoded strategy
     if (actStrategy == PlayStrategy) {
-      field = actStrategy.performAction(field) // to do: chosen card index übergeben
-      notifyObservers(Event.PlayCard) // Notify the observers about the state change in the field
+      field =
+        actStrategy.performAction(field) // to do: chosen card index übergeben
+      notifyObservers(
+        Event.PlayCard
+      ) // Notify the observers about the state change in the field
     } else {
-      println("No attack strategy set. Please set an attack strategy before attacking.")
+      println(
+        "No attack strategy set. Please set an attack strategy before attacking."
+      )
       false
     }
     true
@@ -176,13 +182,15 @@ class Controller @Inject() (var field: FieldInterface)
     if (actStrategy == NextStrategy) {
       field = actStrategy.performAction(field)
     } else {
-       println(
-         "No next strategy set. Please set an next strategy before switching to the next player."
-        )
-       false
+      println(
+        "No next strategy set. Please set an next strategy before switching to the next player."
+      )
+      false
     }
     actStrategy = DrawStrategy
-    notifyObservers(Event.Next) //  to do: also notify the observers about the state change in the field
+    notifyObservers(
+      Event.Next
+    ) //  to do: also notify the observers about the state change in the field
     true
   }
 }

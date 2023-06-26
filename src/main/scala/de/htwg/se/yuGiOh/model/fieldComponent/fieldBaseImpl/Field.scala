@@ -1,18 +1,27 @@
-package de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl
+package main.scala.de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl
 
-import de.htwg.se.yuGiOh.model.fieldComponent.{FieldInterface,PlayerInterface}
-case class Field (
-                   size: Int,
-                   round: Int,
-                   deck: Deck,
-                   player1: PlayerInterface,
-                   player2: PlayerInterface
-) extends FieldInterface :
+import main.scala.de.htwg.se.yuGiOh.model.fieldComponent.{
+  FieldInterface,
+  PlayerInterface
+}
+case class Field(
+    size: Int,
+    round: Int,
+    deck: Deck,
+    player1: PlayerInterface,
+    player2: PlayerInterface
+) extends FieldInterface:
 
   val eol: String = sys.props("line.separator")
   var currentPlayer: Int = 1
-  
-  def copy(size: Int = this.size, round: Int = this.round, deck: Deck = this.deck, player1: PlayerInterface = this.player1, player2: PlayerInterface = this.player2): FieldInterface =
+
+  def copy(
+      size: Int = this.size,
+      round: Int = this.round,
+      deck: Deck = this.deck,
+      player1: PlayerInterface = this.player1,
+      player2: PlayerInterface = this.player2
+  ): FieldInterface =
     Field(size, round, deck, player1, player2)
 
   def getCurrentPlayer(): PlayerInterface =
@@ -30,7 +39,6 @@ case class Field (
   def getPlayer2: PlayerInterface = player2
   def getRound: Int = round
   def getDeck: Deck = deck
-
 
   def outerBar(cellWidth: Int, cellNum: Int): String =
     ("+" + "-" * cellWidth) * (cellNum + 1) + "+" + eol
@@ -72,10 +80,10 @@ case class Field (
     ) + (" " * cellWidth) * (cellNum - 4) + " " * (cellNum - 4) + "|" + eol
 
   private def mesh(
-                    cellWidth: Int,
-                    cellNum: Int,
-                    player1: PlayerInterface,
-                    player2: PlayerInterface
+      cellWidth: Int,
+      cellNum: Int,
+      player1: PlayerInterface,
+      player2: PlayerInterface
   ): String =
     outerOuterBar(cellWidth, cellNum)
       + playerStatsRow(cellWidth, cellNum, player2)
@@ -88,3 +96,17 @@ case class Field (
       + outerOuterBar(cellWidth, cellNum)
 
   override def toString: String = mesh(10, size, player1, player2)
+
+  def toXml(): scala.xml.Elem = {
+    <game>
+      <field>
+        <size>{getSize}</size>
+        <round>{getRound}</round>
+      </field>
+      <deck>{deck.toXml()}</deck>
+      <players>
+        {player1.toXml()}
+        {player2.toXml()}
+      </players>
+    </game>
+  }

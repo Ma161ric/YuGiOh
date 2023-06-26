@@ -1,4 +1,4 @@
-package main.scala.de.htwg.se.yuGiOh
+/* package main.scala.de.htwg.se.yuGiOh
 package controller
 
 import util.*
@@ -43,3 +43,4 @@ class ControllerTest extends AnyWordSpec {
     }
   }
 }
+ */

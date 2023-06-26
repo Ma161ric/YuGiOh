@@ -1,6 +1,6 @@
-package de.htwg.se.yuGiOh.controller.controllerComponent.controllerBaseImpl
+package main.scala.de.htwg.se.yuGiOh.controller.controllerComponent.controllerBaseImpl
 
-import de.htwg.se.yuGiOh.model.fieldComponent.FieldInterface
+import main.scala.de.htwg.se.yuGiOh.model.fieldComponent.FieldInterface
 
 trait AttackStrategy {
   def attack(field: FieldInterface, opponentsCard: Int, playersCard: Int): Unit

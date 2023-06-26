@@ -1,7 +1,7 @@
-package de.htwg.se.yuGiOh.controller.controllerComponent.controllerBaseImpl
+package main.scala.de.htwg.se.yuGiOh.controller.controllerComponent.controllerBaseImpl
 
-import de.htwg.se.yuGiOh.model.fieldComponent.FieldInterface
-import de.htwg.se.yuGiOh.util._
+import main.scala.de.htwg.se.yuGiOh.model.fieldComponent.FieldInterface
+import main.scala.de.htwg.se.yuGiOh.util._
 
 trait ActionStrategy {
   val undoManager = new UndoManager[FieldInterface]
@@ -26,11 +26,11 @@ object AttStrategy extends ActionStrategy {
 
 object PlayStrategy extends ActionStrategy {
   override def performAction(field: FieldInterface): FieldInterface = {
-    //to do: hier müsste als parameter noch reinkommen die card die gelegt wird
+    // to do: hier müsste als parameter noch reinkommen die card die gelegt wird
     // Implementiere die Logik für das Legen einer Karte
     println("Karte legen...")
     val updatedField = undoManager.doStep(field, PlayCardCommand(field))
-    //val updatedField = undoManager.doStep(field, DoCommand(Move("playCard"), field, card))
+    // val updatedField = undoManager.doStep(field, DoCommand(Move("playCard"), field, card))
     updatedField
   }
 }

@@ -1,8 +1,14 @@
-package de.htwg.se.yuGiOh.model.fieldComponent
+package main.scala.de.htwg.se.yuGiOh.model.fieldComponent
 
-import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl._
+import main.scala.de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl._
 trait FieldInterface {
-  def copy(size: Int = this.getSize, round: Int = this.getRound, deck: Deck = this.getDeck, player1: PlayerInterface = this.getPlayer1, player2: PlayerInterface = this.getPlayer2): FieldInterface
+  def copy(
+      size: Int = this.getSize,
+      round: Int = this.getRound,
+      deck: Deck = this.getDeck,
+      player1: PlayerInterface = this.getPlayer1,
+      player2: PlayerInterface = this.getPlayer2
+  ): FieldInterface
   def getCurrentPlayer(): PlayerInterface
   def nextPlayer(): Unit
   def getSize: Int
@@ -13,7 +19,7 @@ trait FieldInterface {
   def outerBar(cellWidth: Int, cellNum: Int): String
   def outerOuterBar(cellWidth: Int, cellNum: Int): String
   def playerHandRow(cellWidth: Int, cellNum: Int, hand: Hand): String
-  //to do: check if outerbar etc could be made private
+  // to do: check if outerbar etc could be made private
   def toString: String
 }
 
@@ -41,7 +47,12 @@ trait DeckInterface {
 }
 
 trait PlayerInterface {
-  def copy(name: String = this.getName, hand: Hand = this.getHand, fightField: FightField = this.getFightField, lp: Int = this.getLp): PlayerInterface
+  def copy(
+      name: String = this.getName,
+      hand: Hand = this.getHand,
+      fightField: FightField = this.getFightField,
+      lp: Int = this.getLp
+  ): PlayerInterface
   def iterateHand(): Unit
   def startTurn(): Unit
   def endTurn(): Unit

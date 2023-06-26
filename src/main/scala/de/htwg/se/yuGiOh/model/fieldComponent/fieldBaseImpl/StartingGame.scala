@@ -1,12 +1,12 @@
-package de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl
+package main.scala.de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl
 
 import scala.collection.mutable.ListBuffer
 import scala.util.Random
 import com.google.inject.{Guice, Inject}
 import com.google.inject.name.Names
 import net.codingwell.scalaguice.InjectorExtensions.ScalaInjector
-import de.htwg.se.yuGiOh.Module
-import de.htwg.se.yuGiOh.model.fieldComponent.{
+import main.scala.de.htwg.se.yuGiOh.Module
+import main.scala.de.htwg.se.yuGiOh.model.fieldComponent.{
   PlayerInterface,
   StartingGameInterface
 }

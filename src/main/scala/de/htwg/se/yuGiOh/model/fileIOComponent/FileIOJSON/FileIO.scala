@@ -1,4 +1,4 @@
-package de.htwg.se.yuGiOh.model.fileIOComponent.FileIOJSON
+package main.scala.de.htwg.se.yuGiOh.model.fileIOComponent.FileIOJSON
 
 import java.io.{File, PrintWriter}
 import play.api.libs.json._
@@ -11,9 +11,9 @@ import scala.util.{Using, Try}
 import play.api.libs.json._
 import net.codingwell.scalaguice.InjectorExtensions._
 
-import de.htwg.se.yuGiOh.model.fileIOComponent._
-import de.htwg.se.yuGiOh.model.fieldComponent._
-import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl._
+import main.scala.de.htwg.se.yuGiOh.model.fileIOComponent._
+import main.scala.de.htwg.se.yuGiOh.model.fieldComponent._
+import main.scala.de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl._
 
 class FileIO extends FileIOInterface {
 

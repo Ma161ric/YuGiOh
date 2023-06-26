@@ -1,14 +1,16 @@
-package de.htwg.se.yuGiOh.model.fileIOComponent.FileIOXML
+package main.scala.de.htwg.se.yuGiOh.model.fileIOComponent.FileIOXML
 
 import java.io.{File, FileWriter, PrintWriter}
 
 import scala.util.{Using, Try}
 import scala.xml.{Elem, XML, Node, NodeSeq, PrettyPrinter}
 
-import de.htwg.se.yuGiOh.model.fileIOComponent._
-import de.htwg.se.yuGiOh.model.fieldComponent.{FieldInterface, PlayerInterface}
-import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl._
-import de.htwg.se.yuGiOh.model.playerComponent._
+import main.scala.de.htwg.se.yuGiOh.model.fileIOComponent._
+import main.scala.de.htwg.se.yuGiOh.model.fieldComponent.{
+  FieldInterface,
+  PlayerInterface
+}
+import main.scala.de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl._
 
 class FileIO extends FileIOInterface {
 
@@ -19,7 +21,6 @@ class FileIO extends FileIOInterface {
     }
 
   override def save(field: FieldInterface): Boolean =
-    import java.io._
     createDirectory("XML")
     val pw = new PrintWriter(new File("XML/game_data.xml"))
     val prettyPrinter = new PrettyPrinter(120, 4)
@@ -51,7 +52,7 @@ class FileIO extends FileIOInterface {
     </game>
   }
 
-  def deckToXml(deck: Deck): Node = {
+  private def deckToXml(deck: Deck): Node = {
     <deck>
         {
       deck.getDeck.map { card =>

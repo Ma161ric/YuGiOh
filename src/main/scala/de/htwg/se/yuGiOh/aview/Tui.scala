@@ -1,9 +1,8 @@
-package de.htwg.se.yuGiOh
-package aview
+package main.scala.de.htwg.se.yuGiOh.aview
 
-import de.htwg.se.yuGiOh.controller.controllerComponent.ControllerInterface
-import de.htwg.se.yuGiOh.controller.controllerComponent.*
-import de.htwg.se.yuGiOh.util.{Event, Observer}
+import main.scala.de.htwg.se.yuGiOh.controller.controllerComponent.ControllerInterface
+import main.scala.de.htwg.se.yuGiOh.controller.controllerComponent.*
+import main.scala.de.htwg.se.yuGiOh.util.{Event, Observer}
 
 import scala.swing.Swing
 import scala.annotation.tailrec
@@ -40,7 +39,7 @@ class Tui(controller: ControllerInterface) extends Observer:
   private def inputLoop(): Unit =
     val inputQueue = new LinkedBlockingQueue[String]()
 
-    //for gui docker
+    // for gui docker
     /*Future {
       while (true) {
         val input = readLine()
@@ -70,18 +69,21 @@ class Tui(controller: ControllerInterface) extends Observer:
         System.exit(0)
       case SUCCESS => print("\n\n")
     }
-    //remember: comment out processInputLine if using docker gui!"
+    // remember: comment out processInputLine if using docker gui!"
     inputLoop()
 
   def readLineTry(): Try[String] = Try(readLine())
 
-  def stringLength(input: Try[String]): Option[Int] = input.toOption.map(_.length)
+  def stringLength(input: Try[String]): Option[Int] =
+    input.toOption.map(_.length)
 
   def processInputLine(input: Try[String]): Int =
     val inputString = input.getOrElse("")
     val inputStrings: Try[Array[String]] = input.map(_.split(" "))
-    val inputStringIndex0Option: Option[String] = inputStrings.toOption.flatMap(_.headOption)
-    val inputIndex1Option: Option[String] = inputStrings.toOption.flatMap(_.lift(1))
+    val inputStringIndex0Option: Option[String] =
+      inputStrings.toOption.flatMap(_.headOption)
+    val inputIndex1Option: Option[String] =
+      inputStrings.toOption.flatMap(_.lift(1))
     val inputIndex2Option: Option[String] =
       inputStrings.toOption.flatMap(_.lift(2))
     val inputStringIndex0: String = inputStringIndex0Option.getOrElse("")
@@ -106,7 +108,7 @@ class Tui(controller: ControllerInterface) extends Observer:
         if (!controller.drawCard()) {
           println("already drew a card")
           return ERROR
-         }
+        }
         // to do: state updaten welcher spieler dran ist
         // und dann einfach nur sagen das der spieler zieht also ist dann klar wer ziehen muss
         SUCCESS
@@ -118,7 +120,7 @@ class Tui(controller: ControllerInterface) extends Observer:
           val opponentsCard = inputIndex1String
           val playersCard = inputIndex2String
           println(s"Attack with $playersCard on $opponentsCard")
-          if (controller.attack(1, 2)) { //to do: only index is given
+          if (controller.attack(1, 2)) { // to do: only index is given
             println("attack successful")
             SUCCESS
           } else {
@@ -157,4 +159,3 @@ class Tui(controller: ControllerInterface) extends Observer:
         print("input error!\n")
         ERROR
     }
-

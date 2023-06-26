@@ -1,10 +1,13 @@
-package de.htwg.se.yuGiOh.aview.gui
+package main.scala.de.htwg.se.yuGiOh.aview.gui
 
-import de.htwg.se.yuGiOh.controller.controllerComponent.ControllerInterface
-import de.htwg.se.yuGiOh.controller.controllerComponent.controllerBaseImpl._
-import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl._
-import de.htwg.se.yuGiOh.model.fieldComponent.{FieldInterface, PlayerInterface}
-import de.htwg.se.yuGiOh.util.{Event, Observer}
+import main.scala.de.htwg.se.yuGiOh.controller.controllerComponent.ControllerInterface
+import main.scala.de.htwg.se.yuGiOh.controller.controllerComponent.controllerBaseImpl._
+import main.scala.de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl._
+import main.scala.de.htwg.se.yuGiOh.model.fieldComponent.{
+  FieldInterface,
+  PlayerInterface
+}
+import main.scala.de.htwg.se.yuGiOh.util.{Event, Observer}
 
 import javax.swing.ImageIcon
 import javax.swing.BorderFactory

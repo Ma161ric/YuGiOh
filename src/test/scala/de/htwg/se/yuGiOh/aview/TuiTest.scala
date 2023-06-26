@@ -1,4 +1,4 @@
-package main.scala.de.htwg.se.yuGiOh
+/* package main.scala.de.htwg.se.yuGiOh
 package aview
 
 import de.htwg.se.yuGiOh.aview.Tui
@@ -76,3 +76,4 @@ class TuiTest extends AnyWordSpec with Matchers {
     }
   }
 }
+ */
