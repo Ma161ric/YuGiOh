@@ -101,6 +101,7 @@ class Controller @Inject() (var field: FieldInterface)
   def drawCard(): Boolean =
     actStrategy = DrawStrategy // to do: hardgecodede strategy
     if (actStrategy == DrawStrategy) {
+      val cardIndex = 0
       field = undoManager.doStep(field, DrawCommand(field))
       //field = actStrategy.performAction(field)
       notifyObservers(
@@ -134,12 +135,13 @@ class Controller @Inject() (var field: FieldInterface)
     field = StartingGame.prepare(stringPlayer1, stringPlayer2)
     notifyObservers(Event.NewGame)
 
-  def playCard(): Boolean =
+  def playCard(cardIndex: Int): Boolean =
     // to do: hier nachher karte index übergeben
     actStrategy = PlayStrategy // to do: hardcoded strategy
     if (actStrategy == PlayStrategy) {
-      field =
-        actStrategy.performAction(field) // to do: chosen card index übergeben
+      //field = actStrategy.performAction(field) // to do: chosen card index übergeben
+      println("cardindex in controller: " + cardIndex)
+      field = undoManager.doStep(field, PlayCardCommand(field, cardIndex))
       notifyObservers(
         Event.PlayCard
       ) // Notify the observers about the state change in the field

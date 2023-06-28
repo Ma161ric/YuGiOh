@@ -29,7 +29,7 @@ object PlayStrategy extends ActionStrategy {
     // to do: hier müsste als parameter noch reinkommen die card die gelegt wird
     // Implementiere die Logik für das Legen einer Karte
     println("Karte legen...")
-    val updatedField = undoManager.doStep(field, PlayCardCommand(field))
+    val updatedField = undoManager.doStep(field, PlayCardCommand(field, 0)) // to do:
     // val updatedField = undoManager.doStep(field, DoCommand(Move("playCard"), field, card))
     updatedField
   }

@@ -16,7 +16,7 @@ trait ControllerInterface extends Observable {
       optionStringPlayer1: Option[String],
       optionStringPlayer2: Option[String]
   ): Unit
-  def playCard(): Boolean
+  def playCard(cardIndex: Int): Boolean
   def printHelp(): Unit
   def quit(): Unit
   def redo: Unit

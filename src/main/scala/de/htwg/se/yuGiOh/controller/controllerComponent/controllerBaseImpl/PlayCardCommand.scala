@@ -12,52 +12,59 @@ import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl.{
 }
 
 class PlayCardCommand(
-    var field: FieldInterface,
-    chosenCard: Card = Card(CardName.Weisser, CardLastName.Drache, 2000, 3000)
+    field: FieldInterface,
+    cardIndex: Int
 ) extends Command[FieldInterface]:
   override def doStep(field: FieldInterface): FieldInterface =
-    var player1: PlayerInterface = field.getPlayer1
-    var player2: PlayerInterface = field.getPlayer2
-
-    if (field.getRound % 2 == 0) {
-      var fightField = player2.getFightField
-      val updatedFightField = fightField.copy(fightField = {
-        var replacementDone = false
-        fightField.fightField.map { card =>
-          if (!replacementDone && card.getFirstName == " ") {
-            replacementDone = true
-            chosenCard
-          } else {
-            card
-          }
-        }
-      })
-      print("updatedFightField" + updatedFightField)
-      player2 = player2.copy(fightField = updatedFightField)
-    } else {
-      player1 = field.getPlayer1
-      var fightField = player1.getFightField
-      val updatedFightField = fightField.copy(fightField = {
-        var replacementDone = false
-        fightField.fightField.map { card =>
-          if (!replacementDone && card.getFirstName == " ") {
-            replacementDone = true
-            chosenCard
-          } else {
-            card
-          }
-        }
-      })
-      player1 = player1.copy(fightField = updatedFightField)
+    val player = {
+      if (field.getRound % 2 == 0) {
+        val player2 = field.getPlayer2
+        player2
+      } else {
+        val player1 = field.getPlayer1
+        player1
+      }
     }
-    field.copy(player1 = player1, player2 = player2)
+    val chosenCard = player.getHand.getCards(cardIndex)
+
+    val updatedFightField = {
+      val fightField = player.getFightField
+      val fightFieldCards = fightField.fightField
+      val firstCardIndex = fightFieldCards.indexWhere(_.getFirstName == " ")
+      if (firstCardIndex >= 0)
+        fightField.copy(fightField = fightFieldCards.updated(firstCardIndex, chosenCard))
+      else
+        fightField
+    }
+    val updatedHand = {
+      val hand = player.getHand
+      val handCards = hand.hand
+      val firstCardIndex = handCards.indexWhere(_.getFirstName == chosenCard.getFirstName)
+      if (firstCardIndex >= 0)
+        hand.copy(hand = handCards.updated(firstCardIndex, chosenCard.createEmptyCard()))
+      else
+        hand
+    }
+    val updatedPlayer = player.copy(fightField = updatedFightField, hand = updatedHand)
+    val updatedField = {
+      if (field.getRound % 2 == 0) {
+        field.copy(
+          player2 = updatedPlayer,
+        )
+      } else {
+        field.copy(
+          player1 = updatedPlayer,
+        )
+      }
+    }
+    updatedField
 
   override def undoStep(field: FieldInterface): FieldInterface =
     val temp = this.field // to do
-    this.field = field
+    //this.field = field
     temp
 
   override def redoStep(field: FieldInterface): FieldInterface =
     val temp = this.field
-    this.field = field
+    //this.field = field
     temp

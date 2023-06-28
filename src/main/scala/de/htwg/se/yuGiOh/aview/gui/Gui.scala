@@ -269,10 +269,20 @@ class Gui(controller: ControllerInterface) extends Frame with Observer {
 
       val cardList: List[Card] = player.getHand.getCards
 
-      cardList.foreach({ card =>
+      cardList.zipWithIndex.foreach({ case (card, index) =>
         if (highlightHandCardsEnabled && !card.isEmpty(card)) {
-          val highlightedCardPanel =
-            cardPanel(card)
+          val highlightedCardPanel = cardPanel(card)
+          val playButton: Button = new Button("Play")
+          playButton.action = Action("Play") {
+            playButton.reactions += {
+              case ButtonClicked(_) =>
+                selectedCardIndex = Some(index)
+                println("button success, index: " + selectedCardIndex)
+                highlightHandCardsEnabled = false
+                controller.playCard(index)
+            }
+          }
+          highlightedCardPanel.contents += playButton
           highlightedCardPanel.border = new CompoundBorder(
             highlightBorder,
             Swing.EmptyBorder(5, 5, 5, 5)
@@ -372,7 +382,7 @@ class Gui(controller: ControllerInterface) extends Frame with Observer {
       contents += playerStats(player1)
     }
   }
-
+  private var selectedCardIndex: Option[Int] = None
   private def actionsBar: GridPanel =
     new GridPanel(1, 4):
       background = barBrown
@@ -388,15 +398,8 @@ class Gui(controller: ControllerInterface) extends Frame with Observer {
       }
       contents += Button("Play Card") {
         highlightHandCardsEnabled = true
-        // to do: player should be able to click on the cards he wants to play
-        // choose card to play and pass chosen card as argument for playCard function
-        // momentan nur default card playable als bsp um zu prüfung obs geht
-        // val defaultCard: Card = Card(CardName.weisser, CardLastName.Drache, 2000, 3000)
-
-        controller.playCard()
-
+        update(Event.Draw)
         deckLabel.text = s"Deck: ${controller.getField.getDeck.getDeckCount}"
-        // newRound()
       }
       contents += Button("Draw") {
         controller.drawCard()
