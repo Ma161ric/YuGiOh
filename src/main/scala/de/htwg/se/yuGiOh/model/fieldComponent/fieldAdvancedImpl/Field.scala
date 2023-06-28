@@ -1,14 +1,14 @@
-package main.scala.de.htwg.se.yuGiOh.model.fieldComponent.fieldAdvancedImpl
+package de.htwg.se.yuGiOh.model.fieldComponent.fieldAdvancedImpl
 
 import com.google.inject.Inject
 import com.google.inject.name.Named
 
-import main.scala.de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl.{
+import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl.{
   Player,
   Deck,
   Field as BaseField
 }
-import main.scala.de.htwg.se.yuGiOh.model.fieldComponent.FieldInterface
+import de.htwg.se.yuGiOh.model.fieldComponent.FieldInterface
 
 class Field @Inject() (
     @Named("DefaultSize") size: Int,

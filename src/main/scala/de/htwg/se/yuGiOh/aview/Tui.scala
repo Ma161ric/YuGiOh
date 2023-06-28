@@ -1,8 +1,8 @@
-package main.scala.de.htwg.se.yuGiOh.aview
+package de.htwg.se.yuGiOh.aview
 
-import main.scala.de.htwg.se.yuGiOh.controller.controllerComponent.ControllerInterface
-import main.scala.de.htwg.se.yuGiOh.controller.controllerComponent.*
-import main.scala.de.htwg.se.yuGiOh.util.{Event, Observer}
+import de.htwg.se.yuGiOh.controller.controllerComponent.ControllerInterface
+import de.htwg.se.yuGiOh.controller.controllerComponent.*
+import de.htwg.se.yuGiOh.util.{Event, Observer}
 
 import scala.swing.Swing
 import scala.annotation.tailrec

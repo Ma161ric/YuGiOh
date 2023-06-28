@@ -1,6 +1,6 @@
-package test.scala.de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl
+package de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl
 
-import main.scala.de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl.*
+import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl.*
 
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers.*

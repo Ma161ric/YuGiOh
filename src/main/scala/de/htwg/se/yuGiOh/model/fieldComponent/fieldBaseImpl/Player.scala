@@ -1,8 +1,8 @@
-package main.scala.de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl
+package de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl
 
 import com.google.inject.Inject
 
-import main.scala.de.htwg.se.yuGiOh.model.fieldComponent.PlayerInterface
+import de.htwg.se.yuGiOh.model.fieldComponent.PlayerInterface
 
 case class Player @Inject() (
     name: String,

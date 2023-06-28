@@ -1,6 +1,6 @@
-package main.scala.de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl
+package de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl
 
-import main.scala.de.htwg.se.yuGiOh.model.fieldComponent.CardInterface
+import de.htwg.se.yuGiOh.model.fieldComponent.CardInterface
 
 import scala.util.{Random, Try}
 import scala.collection.mutable.ListBuffer
@@ -97,6 +97,9 @@ case class Card @Inject() (
   def getAtk: Int = atk
   def getDefe: Int = defe
   def getPosition: String = position
+  
+  def createEmptyCard(): Card =
+    Card(CardName.EmptyName, CardLastName.EmptyLastName, 0, 0, "")
 
   def isEmpty(card: Card): Boolean =
     Try(card.firstName.toString).toOption.exists(firstName =>

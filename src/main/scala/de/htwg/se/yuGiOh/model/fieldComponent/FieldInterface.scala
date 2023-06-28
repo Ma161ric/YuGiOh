@@ -1,6 +1,6 @@
-package main.scala.de.htwg.se.yuGiOh.model.fieldComponent
+package de.htwg.se.yuGiOh.model.fieldComponent
 
-import main.scala.de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl._
+import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl._
 trait FieldInterface {
   def copy(
       size: Int = this.getSize,
@@ -31,6 +31,7 @@ trait CardInterface {
   def getAtk: Int
   def getDefe: Int
   def getPosition: String
+  def createEmptyCard(): Card
   def isEmpty(card: Card): Boolean
   def toXml(): scala.xml.Elem
 }

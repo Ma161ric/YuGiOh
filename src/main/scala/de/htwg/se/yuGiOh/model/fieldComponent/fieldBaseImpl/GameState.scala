@@ -1,4 +1,4 @@
-package main.scala.de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl
+package de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl
 
 trait GameState {
   def startTurn(): Unit

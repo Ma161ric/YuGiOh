@@ -1,6 +1,6 @@
-package main.scala.de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl
+package de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl
 
-import main.scala.de.htwg.se.yuGiOh.model.fieldComponent.DeckInterface
+import de.htwg.se.yuGiOh.model.fieldComponent.DeckInterface
 
 import scala.util.Random
 import scala.collection.Iterator

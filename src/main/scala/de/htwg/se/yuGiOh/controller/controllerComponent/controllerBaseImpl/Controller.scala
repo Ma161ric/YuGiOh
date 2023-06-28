@@ -1,21 +1,16 @@
-package main.scala.de.htwg.se.yuGiOh.controller.controllerComponent.controllerBaseImpl
+package de.htwg.se.yuGiOh.controller.controllerComponent.controllerBaseImpl
 
 import scala.collection.mutable.ListBuffer
 import scala.util.Random
-import net.codingwell.scalaguice.InjectorExtensions._
+import net.codingwell.scalaguice.InjectorExtensions.*
 import net.codingwell.scalaguice.InjectorExtensions.ScalaInjector
 import com.google.inject.{AbstractModule, Guice, Inject}
-
-import main.scala.de.htwg.se.yuGiOh.util.*
-import main.scala.de.htwg.se.yuGiOh.controller.controllerComponent.ControllerInterface
-import main.scala.de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl.StartingGame
-import main.scala.de.htwg.se.yuGiOh.model.fieldComponent.{
-  FieldInterface,
-  CardInterface,
-  StartingGameInterface
-}
-import main.scala.de.htwg.se.yuGiOh.model.fileIOComponent._
-import main.scala.de.htwg.se.yuGiOh.Module
+import de.htwg.se.yuGiOh.util.*
+import de.htwg.se.yuGiOh.controller.controllerComponent.ControllerInterface
+import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl.StartingGame
+import de.htwg.se.yuGiOh.model.fieldComponent.{CardInterface, FieldInterface, StartingGameInterface}
+import de.htwg.se.yuGiOh.model.fileIOComponent.*
+import de.htwg.se.yuGiOh.Module
 
 object Controller {
   private var instance: Controller = _
@@ -106,7 +101,8 @@ class Controller @Inject() (var field: FieldInterface)
   def drawCard(): Boolean =
     actStrategy = DrawStrategy // to do: hardgecodede strategy
     if (actStrategy == DrawStrategy) {
-      field = actStrategy.performAction(field)
+      field = undoManager.doStep(field, DrawCommand(field))
+      //field = actStrategy.performAction(field)
       notifyObservers(
         Event.Draw
       ) // to do: also notify the observers about the state change in the field
@@ -171,6 +167,7 @@ class Controller @Inject() (var field: FieldInterface)
 
   def redo: Unit =
     field = undoManager.redoStep(field)
+    notifyObservers(Event.Move)
 
   def undo: Unit =
     field = undoManager.undoStep(field)

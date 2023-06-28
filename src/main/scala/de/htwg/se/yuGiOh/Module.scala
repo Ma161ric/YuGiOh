@@ -1,21 +1,20 @@
-package main.scala.de.htwg.se.yuGiOh
+package de.htwg.se.yuGiOh
 
 import com.google.inject.name.Names
 import com.google.inject.{AbstractModule, PrivateModule}
 import net.codingwell.scalaguice.{ScalaModule, ScalaPrivateModule}
-
-import main.scala.de.htwg.se.yuGiOh.model.fieldComponent.{
+import de.htwg.se.yuGiOh.model.fieldComponent.{
   FieldInterface,
   PlayerInterface
 }
-import main.scala.de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl.{
+import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl.{
   Field,
   Player
 }
-import main.scala.de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl.StartingGame
-import main.scala.de.htwg.se.yuGiOh.controller.controllerComponent.controllerBaseImpl.Controller
-import main.scala.de.htwg.se.yuGiOh.controller.controllerComponent.ControllerInterface
-import main.scala.de.htwg.se.yuGiOh.model.fileIOComponent._
+import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl.StartingGame
+import de.htwg.se.yuGiOh.controller.controllerComponent.controllerBaseImpl.Controller
+import de.htwg.se.yuGiOh.controller.controllerComponent.ControllerInterface
+import de.htwg.se.yuGiOh.model.fileIOComponent._
 
 class Module extends AbstractModule with ScalaModule {
   private val defaultName: String = "Default"

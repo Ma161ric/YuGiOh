@@ -1,11 +1,11 @@
-package main.scala.de.htwg.se.yuGiOh
+package de.htwg.se.yuGiOh
 
-import main.scala.de.htwg.se.yuGiOh.aview.Tui
-import main.scala.de.htwg.se.yuGiOh.aview.gui.Gui
+import de.htwg.se.yuGiOh.aview.Tui
+import de.htwg.se.yuGiOh.aview.gui.Gui
 
-import main.scala.de.htwg.se.yuGiOh.controller.controllerComponent.ControllerInterface
-import main.scala.de.htwg.se.yuGiOh.controller.controllerComponent.controllerBaseImpl._
-import main.scala.de.htwg.se.yuGiOh.model.fieldComponent.FieldInterface
+import de.htwg.se.yuGiOh.controller.controllerComponent.ControllerInterface
+import de.htwg.se.yuGiOh.controller.controllerComponent.controllerBaseImpl._
+import de.htwg.se.yuGiOh.model.fieldComponent.FieldInterface
 
 import scala.io.StdIn.readLine
 import scala.collection.mutable.ListBuffer

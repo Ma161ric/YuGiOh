@@ -3,10 +3,10 @@ package test.scala.de.htwg.se.yuGiOh.model.fileIOComponent.FileIOJSON
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers.*
 
-import main.scala.de.htwg.se.yuGiOh.model.fileIOComponent.FileIOJSON.FileIO
-import main.scala.de.htwg.se.yuGiOh.model.fieldComponent._
-import main.scala.de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl._
-import main.scala.de.htwg.se.yuGiOh.model.fileIOComponent.FileIOJSON.FileIO
+import de.htwg.se.yuGiOh.model.fileIOComponent.FileIOJSON.FileIO
+import de.htwg.se.yuGiOh.model.fieldComponent._
+import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl._
+import de.htwg.se.yuGiOh.model.fileIOComponent.FileIOJSON.FileIO
 
 class FileIOSpec extends AnyWordSpec {
   "A FileIO" when {

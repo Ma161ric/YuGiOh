@@ -1,7 +1,7 @@
-package main.scala.de.htwg.se.yuGiOh.model.fileIOComponent
+package de.htwg.se.yuGiOh.model.fileIOComponent
 
-import main.scala.de.htwg.se.yuGiOh.model.fieldComponent
-import main.scala.de.htwg.se.yuGiOh.model.fieldComponent.{
+import de.htwg.se.yuGiOh.model.fieldComponent
+import de.htwg.se.yuGiOh.model.fieldComponent.{
   FieldInterface,
   PlayerInterface
 }

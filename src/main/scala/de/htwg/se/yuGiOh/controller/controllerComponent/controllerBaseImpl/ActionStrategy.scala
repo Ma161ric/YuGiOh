@@ -1,7 +1,7 @@
-package main.scala.de.htwg.se.yuGiOh.controller.controllerComponent.controllerBaseImpl
+package de.htwg.se.yuGiOh.controller.controllerComponent.controllerBaseImpl
 
-import main.scala.de.htwg.se.yuGiOh.model.fieldComponent.FieldInterface
-import main.scala.de.htwg.se.yuGiOh.util._
+import de.htwg.se.yuGiOh.model.fieldComponent.FieldInterface
+import de.htwg.se.yuGiOh.util._
 
 trait ActionStrategy {
   val undoManager = new UndoManager[FieldInterface]

@@ -1,8 +1,8 @@
-package test.scala.de.htwg.se.yuGiOh.model.fileIOComponent.FileIOXML
+package de.htwg.se.yuGiOh.model.fileIOComponent.FileIOXML
 
-import main.scala.de.htwg.se.yuGiOh.model.fileIOComponent.FileIOXML.FileIO
-import main.scala.de.htwg.se.yuGiOh.model.fieldComponent._
-import main.scala.de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl._
+import de.htwg.se.yuGiOh.model.fileIOComponent.FileIOXML.FileIO
+import de.htwg.se.yuGiOh.model.fieldComponent._
+import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl._
 
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers.*

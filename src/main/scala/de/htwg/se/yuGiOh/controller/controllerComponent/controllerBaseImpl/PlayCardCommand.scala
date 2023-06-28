@@ -1,11 +1,11 @@
-package main.scala.de.htwg.se.yuGiOh.controller.controllerComponent.controllerBaseImpl
+package de.htwg.se.yuGiOh.controller.controllerComponent.controllerBaseImpl
 
-import main.scala.de.htwg.se.yuGiOh.util._
-import main.scala.de.htwg.se.yuGiOh.model.fieldComponent.{
+import de.htwg.se.yuGiOh.util._
+import de.htwg.se.yuGiOh.model.fieldComponent.{
   FieldInterface,
   PlayerInterface
 }
-import main.scala.de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl.{
+import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl.{
   Card,
   CardName,
   CardLastName
