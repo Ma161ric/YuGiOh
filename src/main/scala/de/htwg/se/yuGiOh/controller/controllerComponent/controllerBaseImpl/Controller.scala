@@ -5,7 +5,7 @@ import scala.util.Random
 import net.codingwell.scalaguice.InjectorExtensions.*
 import net.codingwell.scalaguice.InjectorExtensions.ScalaInjector
 import com.google.inject.{AbstractModule, Guice, Inject}
-import de.htwg.se.yuGiOh.util.*
+import de.htwg.se.yuGiOh.util.{UndoManager, *}
 import de.htwg.se.yuGiOh.controller.controllerComponent.ControllerInterface
 import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl.StartingGame
 import de.htwg.se.yuGiOh.model.fieldComponent.{CardInterface, FieldInterface, StartingGameInterface}
@@ -75,9 +75,9 @@ class Controller @Inject() (var field: FieldInterface)
     this.actStrategy = strategy
   }
 
-  def attack(opponentsCard: Int, playersCard: Int): Boolean =
+  def attack(playersCardIndex: Int, opponentsCardIndex: Int): Boolean =
     if (
-      opponentsCard < 0 || opponentsCard > 4 || playersCard < 0 || playersCard > 4
+      opponentsCardIndex < 0 || opponentsCardIndex > 4 || playersCardIndex < 0 || playersCardIndex > 4
     ) {
       println("Invalid card index for opponents card.")
       return false
@@ -86,7 +86,8 @@ class Controller @Inject() (var field: FieldInterface)
     if (actStrategy == AttStrategy) {
       actStrategy = NextStrategy
       attStrategy = AttackStrategyAttDef
-      attStrategy.attack(field, playersCard, opponentsCard)
+      //attStrategy.attack(field, playersCardIndex, opponentsCardIndex)
+      field = undoManager.doStep(field, AttackCommand(field, playersCardIndex, opponentsCardIndex))
       notifyObservers(
         Event.Attack
       ) // to do: also notify the observers about the state change in the field
@@ -101,7 +102,6 @@ class Controller @Inject() (var field: FieldInterface)
   def drawCard(): Boolean =
     actStrategy = DrawStrategy // to do: hardgecodede strategy
     if (actStrategy == DrawStrategy) {
-      val cardIndex = 0
       field = undoManager.doStep(field, DrawCommand(field))
       //field = actStrategy.performAction(field)
       notifyObservers(
@@ -136,11 +136,9 @@ class Controller @Inject() (var field: FieldInterface)
     notifyObservers(Event.NewGame)
 
   def playCard(cardIndex: Int): Boolean =
-    // to do: hier nachher karte index übergeben
     actStrategy = PlayStrategy // to do: hardcoded strategy
     if (actStrategy == PlayStrategy) {
-      //field = actStrategy.performAction(field) // to do: chosen card index übergeben
-      println("cardindex in controller: " + cardIndex)
+      //field = actStrategy.performAction(field) // to do
       field = undoManager.doStep(field, PlayCardCommand(field, cardIndex))
       notifyObservers(
         Event.PlayCard
