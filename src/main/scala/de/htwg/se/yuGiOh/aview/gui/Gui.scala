@@ -30,9 +30,9 @@ class Gui(controller: ControllerInterface) extends Frame with Observer {
   controller.add(this)
 
   title = "Yu-Gi-Oh"
-  preferredSize = new Dimension(770, 580)
-  minimumSize = new Dimension(770, 580)
-  maximumSize = new Dimension(770, 580)
+  preferredSize = new Dimension(770, 561)
+  minimumSize = new Dimension(770, 561)
+  maximumSize = new Dimension(770, 561)
   resizable = false
 
   private val actionsBarSize = new Dimension(770, 45)
@@ -41,11 +41,11 @@ class Gui(controller: ControllerInterface) extends Frame with Observer {
   private val cardSize = new Dimension(92, 122)
   private val labelSize = new Dimension(130,25)
   private val deckAndRoundSize = new Dimension(130, 52)
-  private val emptySideBarSize = new Dimension(34, 405)
+  private val emptySideBarSize = new Dimension(25, 405)
   private val emptyPanelSize = new Dimension(130, 124)
   private val fieldSize = new Dimension(600, 135)
-  private val sideBarSize = new Dimension(130, 405)
-  private val statsSize = new Dimension(770, 30)
+  private val sideBarSize = new Dimension(132, 405)
+  private val statsSize = new Dimension(770, 20)
 
   private val nameLabel = new Label("Welcome to Yu-Gi-Oh!")
 
@@ -57,14 +57,17 @@ class Gui(controller: ControllerInterface) extends Frame with Observer {
   private val cardImage: ImageIcon = new ImageIcon(
     "src/main/resources/Card.png"
   )
+  private val backgroundImage = ImageIcon("src/main/resources/SandstoneBackground3.png")
 
+  private val backgroundBrown = new Color(166, 140, 106)
   private val barBrown = new Color(147, 123, 97)
-  private val borderColor = new Color(66, 44, 23)
-  private val darkBrown = new Color(93, 72, 50)
+  private val borderColor = new Color(72, 47, 24)
+  private val cardBrown = new Color(175, 144, 106)
+  private val darkBrown = new Color(105, 82, 59)
   private val darkerBrown = new Color(73, 58, 42)
-  private val highlightColor = new Color(221, 209, 193)
+  private val highlightColor = new Color(215, 199, 178)
   private val lightBrown = new Color(196, 171, 137)
-  private val mediumBrown = new Color(177, 151, 116)
+  private val mediumBrown = new Color(187, 161, 124)
 
   private val brownBorder = Swing.LineBorder(borderColor)
   private val highlightBorder = Swing.LineBorder(highlightColor)
@@ -173,65 +176,73 @@ class Gui(controller: ControllerInterface) extends Frame with Observer {
   private def playerLabel(player: PlayerInterface) = new Label {
     text = s"Player: ${player.toString}"
     background = lightBrown
-    border = BorderFactory.createEmptyBorder(4, 0, 4, 0)
+    foreground = borderColor
+    border = BorderFactory.createEmptyBorder(4, 5, 4, 0)
     preferredSize = labelSize
     minimumSize = labelSize
     maximumSize = labelSize
+    horizontalAlignment = Alignment.Left
   }
   private def playerLpLabel(player: PlayerInterface) = new Label {
     text = s"LP: ${player.getLp}"
-    border = new EmptyBorder(0, 0, 4, 0)
+    border = new EmptyBorder(0, 5, 0, 0)
     background = lightBrown
+    foreground = borderColor
     opaque = true
     preferredSize = labelSize
     minimumSize = labelSize
     maximumSize = labelSize
+    horizontalAlignment = Alignment.Left
   }
   private val roundLabel = new Label {
     text = s"Round: ${controller.getField.getRound}"
-    border = new EmptyBorder(4, 0, 4, 0)
+    border = new EmptyBorder(4, 5, 4, 0)
     background = lightBrown
+    foreground = borderColor
     opaque = true
     preferredSize = labelSize
     minimumSize = labelSize
     maximumSize = labelSize
+    horizontalAlignment = Alignment.Left
+
   }
   private val deckLabel = new Label {
     text = s"Deck: ${controller.getField.getDeck.getDeckCount}"
-    border = new EmptyBorder(0, 0, 4, 0)
+    border = new EmptyBorder(0, 5, 0, 0)
     background = lightBrown
+    foreground = borderColor
     opaque = true
     preferredSize = labelSize
     minimumSize = labelSize
     maximumSize = labelSize
+    horizontalAlignment = Alignment.Left
   }
 
   private def sideBar(player: PlayerInterface, opponent: PlayerInterface): BoxPanel = new BoxPanel(Orientation.Vertical) {
-    background = mediumBrown
-    opaque = true
+    //background = backgroundBrown
+    //opaque = true
     preferredSize = sideBarSize
     minimumSize = sideBarSize
     maximumSize = sideBarSize
     border = new EmptyBorder(0, 15, 0, 15)
     contents += new BoxPanel(Orientation.Vertical) {
-      //background = mediumBrown
       preferredSize = deckAndRoundSize
       minimumSize = deckAndRoundSize
       maximumSize = deckAndRoundSize
       background = lightBrown
+      opaque = true
       border = brownBorder
       contents += playerLabel(opponent)
       contents += playerLpLabel(opponent)
     }
     contents += new BoxPanel(Orientation.Vertical) {
-      background = mediumBrown
-      opaque = true
+      //background = backgroundBrown
+      //opaque = true
       preferredSize = emptyPanelSize
       minimumSize = emptyPanelSize
       maximumSize = emptyPanelSize
     }
     contents += new BoxPanel(Orientation.Vertical) {
-      background = mediumBrown
       preferredSize = deckAndRoundSize
       minimumSize = deckAndRoundSize
       maximumSize = deckAndRoundSize
@@ -240,14 +251,15 @@ class Gui(controller: ControllerInterface) extends Frame with Observer {
       contents += deckLabel
     }
     contents += new BoxPanel(Orientation.Vertical) {
-      background = mediumBrown
-      opaque = true
+      //background = backgroundBrown
+      //opaque = true
       preferredSize = emptyPanelSize
       minimumSize = emptyPanelSize
       maximumSize = emptyPanelSize
     }
     contents += new BoxPanel(Orientation.Vertical) {
       background = lightBrown
+      opaque = true
       preferredSize = deckAndRoundSize
       minimumSize = deckAndRoundSize
       maximumSize = deckAndRoundSize
@@ -258,12 +270,11 @@ class Gui(controller: ControllerInterface) extends Frame with Observer {
   }
 
   private val emptySideBar: BoxPanel = new BoxPanel(Orientation.Vertical) {
-    background = mediumBrown
-    opaque = true
+    //background = backgroundBrown
+    //opaque = true
     preferredSize = emptySideBarSize
     minimumSize = emptySideBarSize
     maximumSize = emptySideBarSize
-    //border = new EmptyBorder(205, 8, 205, 0)
   }
 
   private def cardPanel(card: Card): BoxPanel = new BoxPanel(
@@ -285,9 +296,9 @@ class Gui(controller: ControllerInterface) extends Frame with Observer {
       background = darkerBrown
       contents += backgroundLabel
     } else {
-      background = mediumBrown
+      background = cardBrown
       contents += new BoxPanel(Orientation.Vertical) {
-        background = lightBrown
+        background = mediumBrown
         border = new CompoundBorder(
           brownBorder,
           Swing.EmptyBorder(0, 3, 0, 0)
@@ -296,14 +307,16 @@ class Gui(controller: ControllerInterface) extends Frame with Observer {
         preferredSize = new Dimension(80, 35)
         maximumSize = new Dimension(80, 35)
         minimumSize = new Dimension(80, 35)
-        contents += new Label(card.getFirstName)
-        contents += new Label(card.getLastName)
+        contents += new Label(card.getFirstName) {foreground = borderColor}
+        contents += new Label(card.getLastName) {foreground = borderColor}
       }
       contents += new Label("ATK: " + card.atkToString) {
         border = Swing.EmptyBorder(6, 3, 0, 0)
+        foreground = borderColor
       }
       contents += new Label("DEF: " + card.defeToString) {
         border = Swing.EmptyBorder(0, 3, 0, 0)
+        foreground = borderColor
       }
     }
   }
@@ -336,7 +349,7 @@ class Gui(controller: ControllerInterface) extends Frame with Observer {
           }
           val buttonWrapper: BoxPanel = new BoxPanel(Orientation.Vertical) {
             preferredSize = cardButtonSize
-            background = mediumBrown
+            background = cardBrown
             border = Swing.EmptyBorder(15, 0, 0, 0)
 
             contents += playButton
@@ -397,7 +410,7 @@ class Gui(controller: ControllerInterface) extends Frame with Observer {
             }
             val buttonWrapper: BoxPanel = new BoxPanel(Orientation.Vertical) {
               preferredSize = cardButtonSize
-              background = mediumBrown
+              background = cardBrown
               border = Swing.EmptyBorder(15, 0, 0, 0)
 
               contents += playButton
@@ -432,7 +445,7 @@ class Gui(controller: ControllerInterface) extends Frame with Observer {
             }
             val buttonWrapper: BoxPanel = new BoxPanel(Orientation.Vertical) {
               preferredSize = cardButtonSize
-              background = mediumBrown
+              background = cardBrown
               border = Swing.EmptyBorder(15, 0, 0, 0)
 
               contents += playButton
@@ -465,9 +478,9 @@ class Gui(controller: ControllerInterface) extends Frame with Observer {
   private def playerStats(player: PlayerInterface): BoxPanel = new BoxPanel(
     Orientation.Horizontal
   ) {
-    background = mediumBrown
-    opaque = true
-    border = new EmptyBorder(0, 20, 0, 20)
+    //background = backgroundBrown
+    //opaque = true
+    //border = new EmptyBorder(0, 20, 0, 20)
     preferredSize = statsSize
     minimumSize = statsSize
     maximumSize = statsSize
