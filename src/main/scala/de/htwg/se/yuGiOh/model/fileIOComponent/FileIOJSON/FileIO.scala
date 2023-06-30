@@ -33,25 +33,9 @@ class FileIO extends FileIOInterface {
 
   def saveField(field: FieldInterface): Unit = {
     val deckJson = Json.obj("deck" -> field.getDeck.getDeck.map(cardToJson))
-    val player1Json = Json.obj(
-      "name" -> field.getPlayer1.getName,
-      "hand" -> field.getPlayer1.getHand.getCards.map(cardToJson),
-      "fightfield" -> field.getPlayer1.getFightField.getCards.map(cardToJson),
-      "lp" -> field.getPlayer1.getLp
-    )
-    val player2Json = Json.obj(
-      "name" -> field.getPlayer2.getName,
-      "hand" -> field.getPlayer2.getHand.getCards.map(cardToJson),
-      "fightfield" -> field.getPlayer2.getFightField.getCards.map(cardToJson),
-      "lp" -> field.getPlayer2.getLp
-    )
-    val json = Json.obj(
-      "size" -> field.getSize,
-      "round" -> field.getRound,
-      "deck" -> deckJson,
-      "player1" -> player1Json,
-      "player2" -> player2Json
-    )
+    val player1Json = Json.obj("name" -> field.getPlayer1.getName, "hand" -> field.getPlayer1.getHand.getCards.map(cardToJson), "fightfield" -> field.getPlayer1.getFightField.getCards.map(cardToJson), "lp" -> field.getPlayer1.getLp)
+    val player2Json = Json.obj("name" -> field.getPlayer2.getName, "hand" -> field.getPlayer2.getHand.getCards.map(cardToJson), "fightfield" -> field.getPlayer2.getFightField.getCards.map(cardToJson), "lp" -> field.getPlayer2.getLp)
+    val json = Json.obj("size" -> field.getSize, "round" -> field.getRound, "deck" -> deckJson, "player1" -> player1Json, "player2" -> player2Json)
     saveJsonToFile(json, "JSON/game.json")
   }
 

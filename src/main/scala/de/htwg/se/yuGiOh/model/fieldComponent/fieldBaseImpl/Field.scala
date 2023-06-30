@@ -1,10 +1,11 @@
 package de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl
 
-import de.htwg.se.yuGiOh.model.fieldComponent.{
-  FieldInterface,
-  PlayerInterface
-}
-case class Field(
+import com.google.inject.name.Names
+import com.google.inject.{Guice, Inject}
+import net.codingwell.scalaguice.InjectorExtensions.ScalaInjector
+import de.htwg.se.yuGiOh.Module
+import de.htwg.se.yuGiOh.model.fieldComponent.{FieldInterface, PlayerInterface}
+case class Field @Inject() (
     size: Int,
     round: Int,
     deck: Deck,

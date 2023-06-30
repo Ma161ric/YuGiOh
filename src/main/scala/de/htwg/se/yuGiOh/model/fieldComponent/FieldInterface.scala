@@ -32,12 +32,12 @@ trait CardInterface {
   def getDefe: Int
   def getPosition: String
   def createEmptyCard(): Card
-  def isEmpty(card: Card): Boolean
+  def isEmpty(card: CardInterface): Boolean
   def toXml(): scala.xml.Elem
 }
 
 trait StartingGameInterface {
-  def prepare(player1Name: String, player2Name: String): Field
+  def prepare(player1Name: String, player2Name: String): FieldInterface
 }
 
 trait DeckInterface {

@@ -5,7 +5,8 @@ import de.htwg.se.yuGiOh.controller.controllerComponent.controllerBaseImpl._
 import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl._
 import de.htwg.se.yuGiOh.model.fieldComponent.{
   FieldInterface,
-  PlayerInterface
+  PlayerInterface,
+  CardInterface
 }
 import de.htwg.se.yuGiOh.util.{Event, Observer}
 
@@ -57,6 +58,7 @@ class Gui(controller: ControllerInterface) extends Frame with Observer {
   private val cardImage: ImageIcon = new ImageIcon(
     "src/main/resources/Card.png"
   )
+  private val pyramidIcon = ImageIcon("src/main/resources/Pyramid.png")
   private val backgroundImage = ImageIcon("src/main/resources/SandstoneBackground3.png")
 
   private val backgroundBrown = new Color(166, 140, 106)
@@ -219,8 +221,8 @@ class Gui(controller: ControllerInterface) extends Frame with Observer {
   }
 
   private def sideBar(player: PlayerInterface, opponent: PlayerInterface): BoxPanel = new BoxPanel(Orientation.Vertical) {
-    //background = backgroundBrown
-    //opaque = true
+    background = backgroundBrown
+    opaque = true
     preferredSize = sideBarSize
     minimumSize = sideBarSize
     maximumSize = sideBarSize
@@ -236,8 +238,8 @@ class Gui(controller: ControllerInterface) extends Frame with Observer {
       contents += playerLpLabel(opponent)
     }
     contents += new BoxPanel(Orientation.Vertical) {
-      //background = backgroundBrown
-      //opaque = true
+      background = backgroundBrown
+      opaque = true
       preferredSize = emptyPanelSize
       minimumSize = emptyPanelSize
       maximumSize = emptyPanelSize
@@ -251,8 +253,8 @@ class Gui(controller: ControllerInterface) extends Frame with Observer {
       contents += deckLabel
     }
     contents += new BoxPanel(Orientation.Vertical) {
-      //background = backgroundBrown
-      //opaque = true
+      background = backgroundBrown
+      opaque = true
       preferredSize = emptyPanelSize
       minimumSize = emptyPanelSize
       maximumSize = emptyPanelSize
@@ -270,24 +272,20 @@ class Gui(controller: ControllerInterface) extends Frame with Observer {
   }
 
   private val emptySideBar: BoxPanel = new BoxPanel(Orientation.Vertical) {
-    //background = backgroundBrown
-    //opaque = true
+    background = backgroundBrown
     preferredSize = emptySideBarSize
     minimumSize = emptySideBarSize
     maximumSize = emptySideBarSize
   }
 
-  private def cardPanel(card: Card): BoxPanel = new BoxPanel(
+  private def cardPanel(card: CardInterface): BoxPanel = new BoxPanel(
     Orientation.Vertical
   ) {
     opaque = true
     preferredSize = cardSize
     minimumSize = cardSize
     maximumSize = cardSize
-    border = new CompoundBorder(
-      brownBorder,
-      Swing.EmptyBorder(5, 5, 5, 5)
-    )
+    border = new CompoundBorder(brownBorder, Swing.EmptyBorder(5, 5, 5, 5))
     if (card.isEmpty(card)) {
       val backgroundLabel: Label = new Label() {
         icon = cardImage
@@ -299,10 +297,7 @@ class Gui(controller: ControllerInterface) extends Frame with Observer {
       background = cardBrown
       contents += new BoxPanel(Orientation.Vertical) {
         background = mediumBrown
-        border = new CompoundBorder(
-          brownBorder,
-          Swing.EmptyBorder(0, 3, 0, 0)
-        )
+        border = new CompoundBorder(brownBorder, Swing.EmptyBorder(0, 3, 0, 0))
         opaque = true
         preferredSize = new Dimension(80, 35)
         maximumSize = new Dimension(80, 35)
@@ -478,47 +473,49 @@ class Gui(controller: ControllerInterface) extends Frame with Observer {
   private def playerStats(player: PlayerInterface): BoxPanel = new BoxPanel(
     Orientation.Horizontal
   ) {
-    //background = backgroundBrown
-    //opaque = true
-    //border = new EmptyBorder(0, 20, 0, 20)
+    background = backgroundBrown
+    opaque = true
     preferredSize = statsSize
     minimumSize = statsSize
     maximumSize = statsSize
   }
 
-  private def playField: BoxPanel = new BoxPanel(Orientation.Vertical) {
+  private def playField: BorderPanel = new BorderPanel {
     val currentRound: Int = controller.getField.getRound
     val player1: PlayerInterface = controller.getField.getPlayer1
     val player2: PlayerInterface = controller.getField.getPlayer2
-
+    opaque = true
+    background = backgroundBrown
+    //preferredSize = new Dimension(backgroundImage.getWidth, backgroundImage.getHeight)
     border = brownBorder
 
     if (currentRound % 2 == 0) {
-      contents += playerStats(player1)
-      contents += new BoxPanel(Orientation.Horizontal) {
-        contents += sideBar(player2, player1)
-        contents += new BoxPanel(Orientation.Vertical) {
+      layout(playerStats(player1)) = BorderPanel.Position.North
+      layout(new BorderPanel {
+        layout(sideBar(player2, player1)) = BorderPanel.Position.West
+        layout(new BoxPanel(Orientation.Vertical) {
           contents += playerFightField(player1, true)
           contents += playerFightField(player2, false)
           contents += playerHandField(player2)
-        }
-        contents += emptySideBar
-      }
-      contents += playerStats(player2)
+        }) = BorderPanel.Position.Center
+        layout(emptySideBar) = BorderPanel.Position.East
+      }) = BorderPanel.Position.Center
+      layout(playerStats(player2)) = BorderPanel.Position.South
     } else {
-      contents += playerStats(player2)
-      contents += new BoxPanel(Orientation.Horizontal) {
-        contents += sideBar(player1, player2)
-        contents += new BoxPanel(Orientation.Vertical) {
+      layout(playerStats(player2)) = BorderPanel.Position.North
+      layout(new BorderPanel {
+        layout(sideBar(player1, player2)) = BorderPanel.Position.West
+        layout(new BoxPanel(Orientation.Vertical) {
           contents += playerFightField(player2, true)
           contents += playerFightField(player1, false)
           contents += playerHandField(player1)
-        }
-        contents += emptySideBar
-      }
-      contents += playerStats(player1)
+        }) = BorderPanel.Position.Center
+        layout(emptySideBar) = BorderPanel.Position.East
+      }) = BorderPanel.Position.Center
+      layout(playerStats(player1)) = BorderPanel.Position.South
     }
   }
+
   private def actionsBar: GridPanel =
     new GridPanel(1, 4):
       background = barBrown
@@ -531,11 +528,9 @@ class Gui(controller: ControllerInterface) extends Frame with Observer {
       contents += Button("Play Card") {
         highlightHandCardsEnabled = true
         update(Event.PlayCard)
-        deckLabel.text = s"Deck: ${controller.getField.getDeck.getDeckCount}"
       }
       contents += Button("Draw") {
         controller.drawCard()
-        deckLabel.text = s"Deck: ${controller.getField.getDeck.getDeckCount}"
       }
       contents += Button("Next") {
         newRound()
@@ -560,7 +555,7 @@ class Gui(controller: ControllerInterface) extends Frame with Observer {
       "Enter Name Player 1",
       "Input Dialog",
       Dialog.Message.Question,
-      null,
+      pyramidIcon,
       Seq.empty[String],
       "Default"
     )
@@ -569,7 +564,7 @@ class Gui(controller: ControllerInterface) extends Frame with Observer {
       "Enter Name Player 2",
       "Input Dialog",
       Dialog.Message.Question,
-      null,
+      pyramidIcon,
       Seq.empty[String],
       "Default"
     )

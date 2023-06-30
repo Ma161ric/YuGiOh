@@ -11,7 +11,8 @@ import de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl.{
 import de.htwg.se.yuGiOh.model.fieldComponent.FieldInterface
 
 class Field @Inject() (
-    @Named("DefaultSize") size: Int,
+    @Named("DefaultField")
+    size: Int,
     round: Int,
     deck: Deck,
     player1: Player,

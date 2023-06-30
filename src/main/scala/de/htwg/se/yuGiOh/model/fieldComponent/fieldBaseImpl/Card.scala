@@ -101,8 +101,8 @@ case class Card @Inject() (
   def createEmptyCard(): Card =
     Card(CardName.EmptyName, CardLastName.EmptyLastName, 0, 0, "")
 
-  def isEmpty(card: Card): Boolean =
-    Try(card.firstName.toString).toOption.exists(firstName =>
+  def isEmpty(card: CardInterface): Boolean =
+    Try(card.getFirstName).toOption.exists(firstName =>
       firstName.trim.isEmpty
     )
 

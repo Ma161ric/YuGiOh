@@ -2,25 +2,22 @@ package de.htwg.se.yuGiOh.model.fieldComponent.fieldBaseImpl
 
 import scala.collection.mutable.ListBuffer
 import scala.util.Random
-import com.google.inject.{Guice, Inject}
+import com.google.inject.{Guice, Inject, Injector}
 import com.google.inject.name.Names
 import net.codingwell.scalaguice.InjectorExtensions.ScalaInjector
 import de.htwg.se.yuGiOh.Module
-import de.htwg.se.yuGiOh.model.fieldComponent.{
-  PlayerInterface,
-  StartingGameInterface
-}
+import de.htwg.se.yuGiOh.model.fieldComponent.{FieldInterface, PlayerInterface, StartingGameInterface}
 
 object StartingGame extends StartingGameInterface {
 
   @Inject
-  val injector = Guice.createInjector(new Module)
-  var player1 =
-    injector.instance[PlayerInterface](Names.named("DefaultPlayer1"))
-  var player2 =
-    injector.instance[PlayerInterface](Names.named("DefaultPlayer2"))
+  val injector: Injector = Guice.createInjector(new Module)
 
-  def prepare(player1Name: String = " ", player2Name: String = " "): Field =
+  var player1: PlayerInterface = injector.instance[PlayerInterface](Names.named("DefaultPlayer1"))
+  var player2: PlayerInterface = injector.instance[PlayerInterface](Names.named("DefaultPlayer2"))
+
+
+  def prepare(player1Name: String = " ", player2Name: String = " "): FieldInterface =
     val emptyCard: Card =
       Card(CardName.EmptyName, CardLastName.EmptyLastName, 0, 0, "")
     val emptyFightField = FightField(List.fill(6)(emptyCard))

@@ -16,12 +16,10 @@ import net.codingwell.scalaguice.InjectorExtensions._
 
 @main def run: Unit =
 
-  println("Welcome to my game!")
+  println("Welcome to YuGiOh!")
 
   val injector = Guice.createInjector(new Module)
-  val controller: ControllerInterface =
-    injector.getInstance(classOf[ControllerInterface])
-
+  val controller: ControllerInterface = injector.getInstance(classOf[ControllerInterface])
   val gui = Gui(controller)
   val tui = new Tui(controller)
 

@@ -9,7 +9,7 @@ trait ControllerInterface extends Observable {
   def getField: FieldInterface
   def setAttackStrategy(strategy: AttackStrategy): Unit
   def setActionStrategy(strategy: ActionStrategy): Unit
-  def attack(opponentsCard: Int, playersCard: Int): Boolean
+  def attack(playersCardIndex: Int, opponentsCardIndex: Int): Boolean
   def drawCard(): Boolean
   def newGame(): Unit
   def newStartingGame(

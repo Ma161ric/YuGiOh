@@ -37,31 +37,6 @@ class Tui(controller: ControllerInterface) extends Observer:
     inputLoop()
 
   private def inputLoop(): Unit =
-    val inputQueue = new LinkedBlockingQueue[String]()
-
-    // for gui docker
-    /*Future {
-      while (true) {
-        val input = readLine()
-        inputQueue.put(input)
-      }
-    }
-
-    Swing.onEDT {
-      while (true) {
-        val input = inputQueue.take()
-        processInputLine(Try(input)) match {
-          case ERROR =>
-            controller.printHelp()
-          case EXIT =>
-            print("bye\n")
-            System.exit(0)
-          case SUCCESS =>
-            print("\n\n")
-        }
-      }
-    }*/
-
     processInputLine(readLineTry()) match {
       case ERROR => controller.printHelp()
       case EXIT =>
@@ -69,15 +44,14 @@ class Tui(controller: ControllerInterface) extends Observer:
         System.exit(0)
       case SUCCESS => print("\n\n")
     }
-    // remember: comment out processInputLine if using docker gui!"
     inputLoop()
 
-  def readLineTry(): Try[String] = Try(readLine())
+  private def readLineTry(): Try[String] = Try(readLine())
 
-  def stringLength(input: Try[String]): Option[Int] =
+  private def stringLength(input: Try[String]): Option[Int] =
     input.toOption.map(_.length)
 
-  def processInputLine(input: Try[String]): Int =
+  private def processInputLine(input: Try[String]): Int =
     val inputString = input.getOrElse("")
     val inputStrings: Try[Array[String]] = input.map(_.split(" "))
     val inputStringIndex0Option: Option[String] =
@@ -120,7 +94,7 @@ class Tui(controller: ControllerInterface) extends Observer:
           val opponentsCard = inputIndex1String
           val playersCard = inputIndex2String
           println(s"Attack with $playersCard on $opponentsCard")
-          if (controller.attack(1, 2)) { // to do: only index is given
+          if (controller.attack(playersCard.toInt, opponentsCard.toInt)) {
             println("attack successful")
             SUCCESS
           } else {

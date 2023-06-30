@@ -24,36 +24,13 @@ class Module extends AbstractModule with ScalaModule {
     val defaultPlayer1 = defaultStartingGame.getPlayer1
     val defaultPlayer2 = defaultStartingGame.getPlayer2
 
-    bind[PlayerInterface]
-      .annotatedWith(Names.named("DefaultPlayer1"))
-      .toInstance(
-        Player(
-          defaultPlayer1.getName,
-          defaultPlayer1.getHand,
-          defaultPlayer1.getFightField,
-          defaultPlayer1.getLp
-        )
-      )
-    bind[PlayerInterface]
-      .annotatedWith(Names.named("DefaultPlayer2"))
-      .toInstance(
-        Player(
-          defaultPlayer2.getName,
-          defaultPlayer2.getHand,
-          defaultPlayer2.getFightField,
-          defaultPlayer2.getLp
-        )
-      )
-
-    bind[FieldInterface].toInstance(
-      Field(
-        defaultStartingGame.getSize,
-        defaultStartingGame.getRound,
-        defaultStartingGame.getDeck,
-        defaultStartingGame.getPlayer1,
-        defaultStartingGame.getPlayer2
-      )
-    )
+    bind[PlayerInterface].annotatedWith(Names.named("DefaultPlayer1")).toInstance(Player(
+      defaultPlayer1.getName, defaultPlayer1.getHand, defaultPlayer1.getFightField, defaultPlayer1.getLp))
+    bind[PlayerInterface].annotatedWith(Names.named("DefaultPlayer2")).toInstance(Player(
+      defaultPlayer2.getName, defaultPlayer2.getHand, defaultPlayer2.getFightField, defaultPlayer2.getLp))
+    bind[FieldInterface].toInstance(Field(defaultStartingGame.getSize,
+      defaultStartingGame.getRound, defaultStartingGame.getDeck, defaultStartingGame.getPlayer1,
+      defaultStartingGame.getPlayer2))
 
     bind[ControllerInterface].to[Controller]
 

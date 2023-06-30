@@ -31,6 +31,8 @@ class Controller @Inject() (var field: FieldInterface)
     extends ControllerInterface
     with Observable {
 
+  val injector = Guice.createInjector(new Module)
+
   field = StartingGame.prepare(
     field.getPlayer2.getName,
     field.getPlayer2.getName
@@ -47,14 +49,12 @@ class Controller @Inject() (var field: FieldInterface)
   def getField: FieldInterface = field
 
   def save(): Boolean = {
-    val injector = Guice.createInjector(new Module)
     val fileIo: FileIOInterface = injector.getInstance(classOf[FileIOInterface])
     val res = fileIo.save(field)
     res
   }
 
   def load(): Boolean = {
-    val injector = Guice.createInjector(new Module)
     val fileIo: FileIOInterface = injector.getInstance(classOf[FileIOInterface])
     val newField = fileIo.load
 
